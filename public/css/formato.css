@@ -1,0 +1,114 @@
+@page{
+  margin: 0cm 0cm;
+}
+#fondo{
+  position: fixed;
+  top:   0cm;
+  left:     0cm;
+  z-index:  -1000;
+}
+body{
+  margin-top: 3cm;
+  margin-left: 70px;
+  margin-right: 70px;
+  margin-bottom: 2cm;
+  background-color: white;
+}
+header{
+  position: fixed;
+  top: 25px;
+  left: 70px;
+  right:70px;
+  height: 2cm;
+}
+footer {
+  position: fixed; 
+  bottom: 0px; 
+  left: 70px; 
+  right: 70px;
+  height: 2cm;
+}
+#dep{
+  text-align: right;
+  font-size: 8;
+  color: #7D7C7C;
+  font-weight: bold;
+}
+#encabezado{
+  text-align: center;
+  font-size: 8;
+  color: #9C9A9A;
+  line-height: 9pt;
+}
+#titulo{
+  text-align: center;
+  font-size: 12;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+#fecha{
+  text-align: right;
+  font-size: 11;
+  line-height: 10pt;
+}
+#destinatario{
+  text-align: left;
+  font-size: 12;
+  text-transform: uppercase;
+  font-weight: bold;
+  line-height: 14pt;
+}
+#asunto{
+  text-align: right;
+  font-size: 12;
+  font-weight: bold;
+}
+.cuerpo{
+  text-align: justify;
+  font-size: 12;
+  line-height: 10pt;
+}
+#firma{
+  text-align: center;
+  font-size: 12;
+  font-weight: bold;
+}
+#firmarec{
+  text-align: left;
+  font-size: 12;
+  line-height: 12pt;
+}
+#firmadic{
+  text-align: center;
+  font-size: 12;
+  line-height: 12pt;
+}
+span.nota{
+  font-size: 10;
+  font-style: italic;
+}
+span.mayuscula{
+  text-transform: uppercase;
+}
+span.minuscula{
+  text-transform: lowercase;
+}
+#cel{
+  text-align: left;
+  font-size: 8;
+  font-weight: bold;
+}
+#ccp{
+  text-align: left;
+  font-size: 8;
+  line-height: 8pt;
+}
+#dir{
+  text-align: center;
+  font-size: 8;
+  line-height: 9pt;
+}
+table{
+  width: 100%;
+  table-layout: fixed;
+}

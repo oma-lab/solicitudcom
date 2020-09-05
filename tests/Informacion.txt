@@ -1,0 +1,14 @@
+.-Para ejecutar las pruebas, se uso sqlite, para configurarlo 
+se edito el archivo phpunit.xml, de esta manera se evitamos
+tener conflictos con la base de datos original.
+
+.-Para ejecutar las pruebas, se ejecutar el siguiente comando en la consola:
+vendor/bin/phpunit
+o
+vendor\bin\phpunit
+
+
+.-Para ejecutar una prueba individual:
+vendor/bin/phpunit --filter NombreTest
+o
+vendor\bin\phpunit --filter NombreTest

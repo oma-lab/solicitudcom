@@ -116,22 +116,6 @@ class UsuariosController extends Controller{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //acceso a la funcion para usuarios autenticados, validado en el constructor
     //funcion para que el usuario vea una notificacion
     public function verNotificacion($id){

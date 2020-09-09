@@ -21,21 +21,21 @@
 	   <img style="float:right; height:80px;" src="{{asset('storage/'.$datospdf->head2)}}">
    </header>
    <footer>
-    @if( ($datospdf->pie1 || $datospdf->pie6) && ($datospdf->pie2 || $datospdf->pie5) && ($datospdf->pie3 || $datospdf->pie4) )
-        <img style="float:left; height:35px;" src="{{asset('storage/'.$datospdf->pie1)}}">
-        <img style="float:left; height:35px;" src="{{asset('storage/'.$datospdf->pie2)}}">
-        <img style="float:left; height:35px;" src="{{asset('storage/'.$datospdf->pie3)}}">
-        <img style="float:right; height:35px;" src="{{asset('storage/'.$datospdf->pie6)}}">
-        <img style="float:right; height:35px;" src="{{asset('storage/'.$datospdf->pie5)}}">
-        <img style="float:right; height:35px;" src="{{asset('storage/'.$datospdf->pie4)}}">
+     @if( ($datospdf->pie1 || $datospdf->pie6) && ($datospdf->pie2 || $datospdf->pie5) && ($datospdf->pie3 || $datospdf->pie4) )
+        @if($datospdf->pie1)<img style="float:left; height:35px;" src="{{asset('storage/'.$datospdf->pie1)}}">@else<img style="float:left; height:35px;" src="{{asset('storage/formato/white.png')}}">@endif
+        @if($datospdf->pie2)<img style="float:left; height:35px;" src="{{asset('storage/'.$datospdf->pie2)}}">@else<img style="float:left; height:35px;" src="{{asset('storage/formato/white.png')}}">@endif
+        @if($datospdf->pie3)<img style="float:left; height:35px;" src="{{asset('storage/'.$datospdf->pie3)}}">@else<img style="float:left; height:35px;" src="{{asset('storage/formato/white.png')}}">@endif
+        @if($datospdf->pie6)<img style="float:right; height:35px;" src="{{asset('storage/'.$datospdf->pie6)}}">@else<img style="float:left; height:35px;" src="{{asset('storage/formato/white.png')}}">@endif
+        @if($datospdf->pie5)<img style="float:right; height:35px;" src="{{asset('storage/'.$datospdf->pie5)}}">@else<img style="float:left; height:35px;" src="{{asset('storage/formato/white.png')}}">@endif
+        @if($datospdf->pie4)<img style="float:right; height:35px;" src="{{asset('storage/'.$datospdf->pie4)}}">@else<img style="float:left; height:35px;" src="{{asset('storage/formato/white.png')}}">@endif
      @elseif( ($datospdf->pie1 || $datospdf->pie6) && ($datospdf->pie2 || $datospdf->pie5) )
-        <img style="float:left; height:50px;" src="{{asset('storage/'.$datospdf->pie1)}}">
-        <img style="float:left; height:50px;" src="{{asset('storage/'.$datospdf->pie2)}}">
-        <img style="float:right; height:50px;" src="{{asset('storage/'.$datospdf->pie6)}}">
-        <img style="float:right; height:50px;" src="{{asset('storage/'.$datospdf->pie5)}}">
+        @if($datospdf->pie1)<img style="float:left; height:50px;" src="{{asset('storage/'.$datospdf->pie1)}}">@else<img style="float:left; height:50px;" src="{{asset('storage/formato/white.png')}}">@endif
+        @if($datospdf->pie2)<img style="float:left; height:50px;" src="{{asset('storage/'.$datospdf->pie2)}}">@else<img style="float:left; height:50px;" src="{{asset('storage/formato/white.png')}}">@endif
+        @if($datospdf->pie6)<img style="float:right; height:50px;" src="{{asset('storage/'.$datospdf->pie6)}}">@else<img style="float:left; height:50px;" src="{{asset('storage/formato/white.png')}}">@endif
+        @if($datospdf->pie5)<img style="float:right; height:50px;" src="{{asset('storage/'.$datospdf->pie5)}}">@else<img style="float:left; height:50px;" src="{{asset('storage/formato/white.png')}}">@endif
      @else
-        <img style="float:left; height:60px;" src="{{asset('storage/'.$datospdf->pie1)}}">
-        <img style="float:right; height:60px;" src="{{asset('storage/'.$datospdf->pie6)}}">
+        @if($datospdf->pie1)<img style="float:left; height:60px;" src="{{asset('storage/'.$datospdf->pie1)}}">@else<img style="float:left; height:60px;" src="{{asset('storage/formato/white.png')}}">@endif
+        @if($datospdf->pie6)<img style="float:right; height:60px;" src="{{asset('storage/'.$datospdf->pie6)}}">@else<img style="float:left; height:60px;" src="{{asset('storage/formato/white.png')}}">@endif
      @endif 
      <p id="dir">
 	   Av. Ing. Víctor Bravo Ahuja # 125 esq. Clz. Tecnológico. C.P. 68030. Oaxaca, Oax.<br>

@@ -75,24 +75,20 @@
                  </div>
                  <div class="modal-body">
                  <input name="solicitud_firmada" type="hidden" value="">
-                 <b id="labelinfo" style="color:red"></b>
                  <div id="camposo">
-                        <div id="div1">
-                         <div class="input-group">
-                          <div class="input-group-prepend">
-                           <button class="btn btn-outline-danger" type="button" onclick="borrarimg(1)"><i class="fa fa-trash"></i></button>
-                          </div>
-                          <div class="custom-file mr-sm-2">
-                           <input id="files" type="file" class="file custom-file-input" name="filesol[]" required accept=".jpg, .jpeg, .png" onchange="editarfile(this,1)"/>
-                           <label id="labelfileo1" class="custom-file-label">Elegir imagen</label>
-                           <div class="invalid-feedback">Archivo invalido</div>
-                          </div>
-                         </div>
-                         <div id="uploadFormo1">
-                         <!--<img src="{{asset('imagenes/imagen1.png') }}" class="img-thumbnail" id="imgg1" width="180"/>-->
-                         </div>
-                        </div>
-                       </div>
+                    <div id="div1">
+                    <b id="info1" style="color:red"></b>
+                     <div id="imagen1" class="input-group">
+                      <div class="input-group-prepend">
+                       <button class="btn btn-outline-danger" type="button" onclick="borrarimg(1)"><i class="fa fa-trash"></i></button>
+                      </div>
+                      <div class="custom-file mr-sm-2">
+                       <input id="files" type="file" class="file custom-file-input" name="filesol[]" required accept=".jpg, .jpeg, .png" onchange="editarfile(this,1)"/>
+                       <label id="labelfileo1" class="custom-file-label">Elegir imagen</label>
+                       <div class="invalid-feedback">Archivo invalido</div>
+                      </div>
+                     </div>
+                    </div>
                  </div>
                  <div class="modal-footer">
                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

@@ -4,6 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use App\UserCarrera;
+use App\UserAdscripcion;
+use App\Role;
+use App\Carrera;
+use App\Adscripcion;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -44,15 +49,6 @@ class RegisterController extends Controller{
             'sexo' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],           
-        ],$messages = [
-            'required' => 'Este campo es requerido',
-            'identificador.min' => 'El identificador debe tener minimo 12 caracteres',
-            'identificador.unique' => 'Ya existente,no es posible volver a registrar',
-            'apellido_paterno.min' => 'El apellido debe tener mas de 3 letras',
-            'apellido_materno.min' => 'El apellido debe tener mas de 3 letras',
-            'email.email' => 'Este no es un correo valido',
-            'confirmed' => 'Las contraseñas no coinciden',
-            'password.min' => 'La contraseña debe tener minimo 6 caracteres'
         ]);        
     }
 
@@ -62,6 +58,8 @@ class RegisterController extends Controller{
      * @param  array  $data
      * @return \App\User
      */
+
+     //funcion que es llamada para crear un nuevo usuario
     protected function create(array $data){
         $nombre = ucwords(mb_strtolower($data['nombre']));
         $apellidop = ucwords(mb_strtolower($data['apellido_paterno']));
@@ -93,13 +91,13 @@ class RegisterController extends Controller{
         if($request->carrs){
             $carreras = $request->carrs;
             foreach($carreras as $cr){
-            \App\UserCarrera::create(['identificador' => $request['identificador'],'carrera_id' => $cr,]);
+            UserCarrera::create(['identificador' => $request['identificador'],'carrera_id' => $cr,]);
             }
         }
         if($request->adscs){
             $adscripciones = $request->adscs;
             foreach($adscripciones as $ad){
-            \App\UserAdscripcion::create(['identificador' => $request['identificador'],'adscripcion_id' => $ad,]);
+            UserAdscripcion::create(['identificador' => $request['identificador'],'adscripcion_id' => $ad,]);
             }
         }
         return back()->with('Mensaje','Usuario agregado correctamente');
@@ -110,9 +108,16 @@ class RegisterController extends Controller{
     public function crear(){
         $datosadscripcion = \App\Adscripcion::all();
         //funcion para que el secretario registre ,jefes,subdirector,coordinador y director
-        $roles = \App\Role::whereNotIn('id',[3,4,7,9,10])->get();
-        $carreras = \App\Carrera::all();
-        $adscripciones= \App\Adscripcion::where('tipo','carrera')->get();
+        $roles = Role::whereNotIn('id',[3,4,7,9,10])->get();
+        $carreras = Carrera::all();
+        $adscripciones= Adscripcion::where('tipo','carrera')->get();
         return view('Administrador.crear_usuarios',compact('datosadscripcion','roles','carreras','adscripciones'));
+    }
+
+    public function showRegistrationForm($role){
+        $rol = $role == 'estudiante' ? 3 : 4;
+        $carreras = Carrera::all();
+        $adscripciones = Adscripcion::where('tipo','=','carrera')->get();
+        return view('auth.register',compact('carreras','adscripciones','rol'));
     }
 }

@@ -72,7 +72,7 @@
   <b id="labelinfo" style="color:red"></b>   
   <div class="row" id="camposo">
     <div id="div1">
-      <div class="input-group">
+      <div id="imagen1" class="input-group">
         <div class="input-group-prepend">
           <button class="btn btn-outline-danger" type="button" onclick="borrarimg(1)"><i class="fa fa-trash"></i></button>
         </div>
@@ -81,8 +81,6 @@
           <label id="labelfileo1" class="custom-file-label">Elegir imagen</label>
           <div class="invalid-feedback">Archivo invalido</div>
         </div>
-      </div>
-      <div id="uploadFormo1">
       </div>
     </div>
   </div><br>

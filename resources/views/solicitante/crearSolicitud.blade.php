@@ -82,10 +82,11 @@
  <label><b>Evidencias obligatorias:</b></label><br>
  <b style="color:blue">Sube tus evidencias en formato de imagen(.png ,.jpeg, .jpg)</b><br>
  <b style="color:blue">Asegúrate que tus evidencias sean claras, que no tengan un fondo muy obscuro y tu hoja debe estar de manera vertical, cualquier omisión de estas indicaciones anulará tu solicitud.</b><br>
- <b id="labelinfo" style="color:red"></b>
+ 
  <div class="row" id="camposo">
    <div id="div1" >
-     <div class="input-group">
+   <b id="info1" style="color:red"></b>
+     <div id="imagen1" class="input-group">
        <div class="input-group-prepend">
          <button class="btn btn-outline-danger" type="button" onclick="borrarimg(1)"><i class="fa fa-trash"></i></button>
        </div>
@@ -94,8 +95,6 @@
          <label id="labelfileo1" class="custom-file-label">Elegir imagen</label>
          <div class="invalid-feedback">Archivo invalido</div>
        </div>
-     </div>
-     <div id="uploadFormo1">
      </div>
    </div>
  </div>

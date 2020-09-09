@@ -1,0 +1,207 @@
+*{
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body, html {
+    font-family: Arial, Helvetica, sans-serif;
+    height: 100%;
+    background-color: #ffffff;
+  }
+  /*HEADER*/
+  header{
+    background-color: #1B396A;
+    color: #ffffff;
+    width: 100%;
+    /*height: 100px;*/
+  }
+  /*NAV*/
+  nav{
+    background: #f8f9fa;
+    height: 65px;
+    width: 100%;
+  }
+  /*MENU*/
+  nav > ul.menu > li {
+    display: inline-block;
+    line-height: 65px;
+  }
+  nav > ul.menu > li > a{
+    color: black;
+    font-size: 17px;
+    padding: 7px;
+    border-radius: 3px;
+    text-decoration: none;
+  }
+  li:hover{
+    background: #d2e4f1;
+  }
+  .menu > li:hover > ul {
+    display:block;
+  }
+  li.cerrar{
+    float: right;
+    margin-right: 10px;
+  }
+  /*SUBMENU*/
+  .submenu li a {
+    background-color:#fff;
+    color:#000;
+    text-decoration:none;
+    line-height: 10px;
+    padding:6px 18px;
+    display:block;
+  }
+  
+  .submenu a:hover {
+    background-color:#e0e0e0;
+  }
+  ul.notifi li a{
+  line-height: 20px;
+  }
+  ul.notifi li a:hover {
+  background-color:#72B3E9;
+  }
+  
+  ul.submenu {
+    display:none;
+    position:absolute;
+    min-width:140px;
+    border:#dedede 1px solid;
+    z-index: 100;
+    margin:0px;
+    padding:0px;
+    list-style: none;
+  }
+  
+  /*---*/
+  .checkbtn{
+    font-size: 30px;
+    color: #1B396A;
+    float: right;
+    line-height: 65px;
+    margin-right: 40px;
+    cursor: pointer;
+    display: none;
+  }
+  #check{
+    display: none;
+  }
+  .puntos{
+    width:200px;
+    text-overflow:ellipsis;
+    white-space:nowrap; 
+    overflow:hidden; 
+  }
+  .botont {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+  }
+  
+  
+  /*CARD*/
+  .card {
+    margin: 0 auto 25px;
+    padding: 20px 25px 30px;
+    margin-top: 25px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  }
+  .contenedor{
+    clear: both;
+  }
+  
+  
+  
+  /*RESPONSIVO*/
+  
+  @media (max-width: 1250px){
+    .checkbtn{
+      display: block;
+    }
+    ul.menu{
+      position: fixed;
+      width: 100%;
+      height: 100vh;
+      background: #1B396A;
+      top:160px;
+      left: -100%;
+      text-align: center;
+      transition: all .5s;
+      z-index: 100;
+    }
+    nav ul.menu > li{
+      display: block;
+      width: 200px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 30px;
+    }
+    nav ul.menu li a{
+      font-size: 15px;
+      color: white;
+    }
+    ul.menu ul.submenu a{
+      color: black;
+      text-align: left;
+    }
+    nav ul.menu li a:hover{
+      color: black;
+    }
+    .botont{
+      color: white;
+    }
+    nav ul.menu li .botont:hover{
+      color: black;
+    }    
+    #check:checked ~ ul{
+      left: 0;
+    }
+    li.cerrar{
+      float: none;
+    }
+  }
+  
+  @media (max-width: 850px){
+    /*header,header img{
+      height: 80px;
+    }*/
+    ul.menu{
+      top:145px;
+    }
+  }
+  @media (max-width: 700px){
+    /*header,header img{
+      height: 80px;
+    }*/
+    ul.menu{
+      top:130px;
+    }
+  }
+  @media (max-width: 590px){
+    ul.menu{
+      top:110px;
+    }
+    /*header,header img{
+      height: 50px;
+    }*/
+  }
+  @media (max-width: 400px){
+    ul.menu{
+      top:100px;
+    }
+    /*header,header img{
+      height: 50px;
+    }*/
+  }
+  @media (max-width: 300px){
+    ul.menu{
+      top:90px;
+    }
+    /*header,header img{
+      height: 50px;
+    }*/
+  }
+  

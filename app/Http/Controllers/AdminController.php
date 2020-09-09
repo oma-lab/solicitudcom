@@ -236,7 +236,7 @@ class AdminController extends Controller{
     //funcion para eliminar una imagen del formato de la hoja membretada
     public function eliminarFormato(Request $request){
         $datoFormato=request()->except(['_token','_method','img']);
-        $datoFormato[$request->img] = "formato/white.png";        
+        $datoFormato[$request->img] = null;        
         Formato::where('id',1)->update($datoFormato);
         return back();
     }

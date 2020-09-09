@@ -46,13 +46,25 @@
 
  <div class="row">
   <div class="form-group col-md-1">
+    @if($datospdf->pie1)
     <img style="height:60px;" src="{{asset('storage/'.$datospdf->pie1)}}" onclick="cambiar('pie1')">
+    @else
+    <img style="height:60px;" src="{{asset('storage/formato/white.png')}}" onclick="cambiar('pie1')">
+    @endif
   </div>
   <div class="form-group col-md-1">
+    @if($datospdf->pie2)
     <img style="height:60px;" src="{{asset('storage/'.$datospdf->pie2)}}" onclick="cambiar('pie2')">
+    @else
+    <img style="height:60px;" src="{{asset('storage/formato/white.png')}}" onclick="cambiar('pie2')">
+    @endif
   </div>
   <div class="form-group col-md-1">
+    @if($datospdf->pie3)
     <img style="height:60px;" src="{{asset('storage/'.$datospdf->pie3)}}" onclick="cambiar('pie3')">
+    @else
+    <img style="height:60px;" src="{{asset('storage/formato/white.png')}}" onclick="cambiar('pie3')">
+    @endif
   </div>
   <div class="form-group col-md-4">
   <textarea class="form-control form-control-sm centrado" id="leyendapie" rows="5" name="pietext" disabled>
@@ -62,13 +74,25 @@
   </textarea>
   </div>
   <div class="form-group col-md-1">
+    @if($datospdf->pie4) 
     <img style="height:60px;" src="{{asset('storage/'.$datospdf->pie4)}}" onclick="cambiar('pie4')">
+    @else
+    <img style="height:60px;" src="{{asset('storage/formato/white.png')}}" onclick="cambiar('pie4')">
+    @endif
   </div>
   <div class="form-group col-md-1">
+    @if($datospdf->pie5)
     <img style="height:60px;" src="{{asset('storage/'.$datospdf->pie5)}}" onclick="cambiar('pie5')">
+    @else
+    <img style="height:60px;" src="{{asset('storage/formato/white.png')}}" onclick="cambiar('pie5')">
+    @endif
   </div>
   <div class="form-group col-md-1">
+    @if($datospdf->pie6)
     <img style="height:60px;" src="{{asset('storage/'.$datospdf->pie6)}}" onclick="cambiar('pie6')">
+    @else
+    <img style="height:60px;" src="{{asset('storage/formato/white.png')}}" onclick="cambiar('pie6')">
+    @endif
   </div>
  </div>
 

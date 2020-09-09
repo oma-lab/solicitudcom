@@ -40,9 +40,7 @@ class Solicitud extends Model{
             return false;
         }
     }
-    /*public function observacion(){
-        return $this->hasOne('App\Observaciones');
-    }*/
+    
     
     public function calendario(){
         return $this->belongsTo('App\Calendario');
@@ -66,43 +64,4 @@ class Solicitud extends Model{
         return ($this->otros_motivos) ? $this->otros_motivos : "ninguno";
     }
 
-
-    /*public function scopeNombre($query, $nombre){
-        if($nombre){
-            return $query->where('users.nombre','LIKE',"%$nombre%")
-                         ->orWhere('users.apellido_paterno','LIKE',"%$nombre%")
-                         ->orWhere('users.apellido_materno','LIKE',"%$nombre%");
-        }    
-    }*/
-    /*public function scopeIdentificador($query, $identificador){
-        if($identificador){
-            return $query->where('users.identificador','LIKE',"%$identificador%");
-        }    
-    }
-    public function scopeRole($query, $roleid){
-        if($roleid){
-            return $query->where('users.role_id','LIKE',"%$roleid%");
-        }
-
-    }*/
-
-
-
-    /*public function usuariocarrera(){
-        return $this->belongsTo('App\User','identificador','identificador')
-                    ->where();
-
-    }*/
-
-    /*
-    public function books(){
-        return $this->hasMany(Book::class)
-                    ->whereMonth('books.created_at', date('m'));
-    }
-    public function booksThisMonth(){
-        return $this->hasMany(Book::class)
-                    ->whereMonth('books.created_at', date('m'));
-    }
-    
-    */
 }

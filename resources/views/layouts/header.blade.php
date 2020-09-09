@@ -1,6 +1,20 @@
-<link rel="stylesheet" href="{{ asset('css/header.css') }}">
+<link href="{{ asset('css/navba.css') }}" rel="stylesheet">
 <script>
    var url_global='{{url("/")}}';
+   $(function(){
+      $( document ).on( 'click', '#check', function(){
+         let val = $(this).val();
+         if( $( this ).is( ':checked' ) ){
+            //$("body").addClass("no_scroll");
+            $("body").css("overflow","hidden");
+            //alert( 'Guardando información de '+ val +'...' );
+         }else{
+            //$("body").removeClass("no_scroll");
+            $("body").css("overflow","auto");//
+            //alert( 'Desguardando información de ' + val + '...' );
+         }
+      });
+   });
 </script>
 
 <header>

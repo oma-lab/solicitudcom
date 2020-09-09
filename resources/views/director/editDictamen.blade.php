@@ -74,7 +74,7 @@
  <div class="form-row">            
    <div class="form-group col-md-12">
      <label for="anotaciones">Anotaciones:</label>
-     <textarea id="anotaciones" class="form-control form-control-sm" rows="2" name="anotaciones">@if(old('anotaciones')){{old('anotaciones')}} @else @if(!$dictamen->anotaciones){{$dictamen->recomendacion->condicion}} @else {{$dictamen->anotaciones}} @endif @endif</textarea>
+     <textarea id="anotaciones" class="form-control form-control-sm" rows="2" name="anotaciones" placeholder="Ejemplo:{{($dictamen->recomendacion->condicion) ? $dictamen->recomendacion->condicion : 'condicionado a..'}}">{{(old('anotaciones')) ? old('anotaciones') : $dictamen->anotaciones}}</textarea>
    </div>
  </div>
 

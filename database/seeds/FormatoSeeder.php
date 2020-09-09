@@ -17,10 +17,6 @@ class FormatoSeeder extends Seeder{
                          'headtext' => '"2020,Año de Leona Vicario, Benemérita Madre de la Patria"',
                          'body' => 'formato/body.png',
                          'pie1' => 'formato/pie1.png',
-                         'pie2' => 'formato/white.png',
-                         'pie3' => 'formato/white.png',
-                         'pie4' => 'formato/white.png',
-                         'pie5' => 'formato/white.png',
                          'pie6' => 'formato/pie6.png',
                         ]);
         //

@@ -1,4 +1,4 @@
-@extends('layouts.encabezadojefe')
+@extends(Auth::user()->esSub() ? 'layouts.encabezadosub' : 'layouts.encabezadojefe')
 @section('contenido')
 
 

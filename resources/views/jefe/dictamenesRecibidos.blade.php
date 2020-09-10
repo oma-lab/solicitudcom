@@ -29,7 +29,7 @@
              <th scope="col">Solicitud</th>
              <th scope="col">Ver Solicitud</th>
              <th scope="col">Ver Dictamen</th>
-             <th scope="col">Entregado</th>
+             <th scope="col">Entregar</th>
             </tr>
            </thead>  
            <tbody>

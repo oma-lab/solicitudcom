@@ -7,7 +7,7 @@
 @include('layouts.filtrado.mensaje')
  
 <div class="card mt-1 pt-1">
- <form method="POST" action="{{('/usuarios/'.$usuario->id)}}" enctype="multipart/form-data">
+ <form method="POST" action="{{url('/usuarios/'.$usuario->id)}}" enctype="multipart/form-data">
  {{ csrf_field()}}
  {{method_field('PATCH')}}
  <h5 style="text-align:center"><b><i class="fa fa-user solid"></i> ACTUALIZAR DATOS</b></h5>

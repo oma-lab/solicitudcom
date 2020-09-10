@@ -48,7 +48,7 @@
          <a href="{{url('acta/descargar/'.$acta->id)}}" target= "_blank">
           <button class="btn btn-outline-success" type="submit"><i class="fa fa-download"></i> Descargar</button>
          </a>
-         <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#modalsubir" onclick="document.getElementById('formsubir').action = '/acta/{{$acta->id}}'">Subir</button>
+         <button class="btn btn-outline-success" type="button" data-toggle="modal" data-target="#modalsubir" onclick="document.getElementById('formsubir').action = '/acta/{{$acta->id}}';document.getElementById('subirfile').value = '';document.getElementById('labelpdf').innerHTML = 'Elegir Archivo';">Subir</button>
          <a href="{{ url('storage/'.$acta->acta_file)}}" target= "_blank">
           <button class="btn btn-outline-success" type="button"></i> Ver subido</button>
          </a>

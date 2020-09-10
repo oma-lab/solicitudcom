@@ -45,7 +45,7 @@ public function solicitudesRecibidas(Request $request,$filtro){
     }
     
     $id_carreras=UserCarrera::where('identificador',usuario()->identificador)->pluck('carrera_id');
-    $carreras = Carrera::where('id',$id_carreras)->get();
+    $carreras = Carrera::whereIn('id',$id_carreras)->get();
     //toma los id de carreras de las cuales tiene permiso
     if(!$id_carrera){
       $id_carrera = $id_carreras;

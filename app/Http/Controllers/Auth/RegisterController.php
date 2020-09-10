@@ -106,7 +106,7 @@ class RegisterController extends Controller{
 
     /*acceso solo para el administrador, validado en el constructor*/
     public function crear(){
-        $datosadscripcion = \App\Adscripcion::all();
+        $datosadscripcion = Adscripcion::all();
         //funcion para que el secretario registre ,jefes,subdirector,coordinador y director
         $roles = Role::whereNotIn('id',[3,4,7,9,10])->get();
         $carreras = Carrera::all();
@@ -114,10 +114,18 @@ class RegisterController extends Controller{
         return view('Administrador.crear_usuarios',compact('datosadscripcion','roles','carreras','adscripciones'));
     }
 
-    public function showRegistrationForm($role){
-        $rol = $role == 'estudiante' ? 3 : 4;
+    //Registro de estudiante
+    public function showRegistrationForm(){
+        $rol = 3;
         $carreras = Carrera::all();
-        $adscripciones = Adscripcion::where('tipo','=','carrera')->get();
-        return view('auth.register',compact('carreras','adscripciones','rol'));
+        return view('auth.register',compact('carreras','rol'));
     }
+
+    //Registro de docente
+    public function registrarDocente(){
+        $rol = 4;
+        $adscripciones = Adscripcion::where('tipo','=','carrera')->get();
+        return view('auth.register',compact('adscripciones','rol'));
+    }
+
 }

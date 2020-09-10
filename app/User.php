@@ -199,6 +199,13 @@ class User extends Authenticatable
             return ($this->sexo == "H") ? "profesor" : "profesora";
         }
     }
+    public function solicitantes(){
+        if($this->esEstudiante()){
+            return "Estudiantes";
+        }else{
+            return ($this->sexo == "H") ? "profesor" : "profesora";
+        }
+    }
     public function delSolicitante(){
         if($this->esEstudiante()){
             return "del estudiante";

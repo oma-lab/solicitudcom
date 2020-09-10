@@ -124,7 +124,7 @@ class SubdirectorController extends Controller{
         $recomendacion = Recomendacion::findOrFail($id);
         //se toma la fecha actual, para mostrar cuando se realizo la recomendacion
         $fecha = date('d')."/".strftime("%B")."/".date('Y');//14/enero/2020
-        $fechasreuniones = Calendario::whereDate('start','<=',hoy())->take(4)->orderBy('start','desc')->get();
+        $fechasreuniones = Calendario::whereDate('start','<=',hoy())->take(5)->orderBy('start','desc')->get();
         return view('subdirector.editarRecomendacion',compact('recomendacion','fecha','fechasreuniones'));
     }
 
@@ -139,8 +139,10 @@ class SubdirectorController extends Controller{
         if($request->hasFile('doc_firmado')){
             $datosRec['archivo']=$request->file('doc_firmado')->store('subidas','public');
         }else{
-        $request->validate(['num_oficio' => 'nullable|unique:recomendacions,num_oficio,'.$id,
-                           'num_recomendacion' => 'nullable|unique:recomendacions,num_recomendacion,'.$id]);
+            $request->validate(['num_oficio' => 'nullable|unique:recomendacions,num_oficio,'.$id,
+                                'num_recomendacion' => 'nullable|unique:recomendacions,num_recomendacion,'.$id]);
+            $rec = Recomendacion::find($id);
+            Solicitud::where('id',$rec->id_solicitud)->update(['calendario_id' => $request['calendario_id']]);
         }
         Recomendacion::where('id',$id)->update($datosRec);
         return redirect()->route('recomendaciones')->with('Mensaje','Cambios realizados correctamente');

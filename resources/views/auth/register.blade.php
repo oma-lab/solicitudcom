@@ -6,14 +6,14 @@
   <div class="card-header">
    <nav>
     <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-     <a class="nav-item nav-link {{$rol == 3 ? 'active' : ''}}" href="{{route('register','estudiante')}}">ESTUDIANTE</a>
-	   <a class="nav-item nav-link {{$rol == 4 ? 'active' : ''}}" href="{{route('register','docente')}}">DOCENTE</a>
+     <a class="nav-item nav-link {{$rol == 3 ? 'active' : ''}}" href="{{route('register')}}">ESTUDIANTE</a>
+	   <a class="nav-item nav-link {{$rol == 4 ? 'active' : ''}}" href="{{route('register.docente')}}">DOCENTE</a>
     </div>
    </nav>
   </div>
  </div>
  <div class="card mt-0 pt-1">
-  <form method="POST" action="{{ route('registrar') }}">
+  <form method="POST" action="{{ route('register') }}">
   @csrf
   <div class="form-row">
    <div class="form-group col-12 col-sm-5 col-md-5  col-lg-5 col-xl-5">

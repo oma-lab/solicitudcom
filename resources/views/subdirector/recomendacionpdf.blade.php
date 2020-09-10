@@ -4,7 +4,7 @@
 
 @section('contenido')
 
-<h6 id="titulo">RECOMENDACIÓN DEL COMITÉ ACADÉMICO PARA {{$datoss->usuario()->solicitante()}}<br> 
+<h6 id="titulo">RECOMENDACIÓN DEL COMITÉ ACADÉMICO PARA {{$datoss->usuario()->solicitantes()}}<br> 
 TECNOLÓGICO NACIONAL DE MÉXICO/INSTITUTO TECNOLÓGICO DE OAXACA
 </h6>
 <br>

@@ -10,6 +10,7 @@
 |
 */
 Auth::routes();
+Route::get('register/docente', 'Auth\RegisterController@registrarDocente')->name('register.docente');
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -122,20 +123,4 @@ Route::get('/link', function () {
     Artisan::call('storage:link');
 });
 
-
-
-
-
-
-
-
-
-
-//PRUEBASSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-Route::get('/prueba', function () {
-    return view('prueba');
-})->name('prueba');
-Route::get('/pruebapdf', function () {
-    return view('pruebapdf');
-})->name('pruebapdf');
 

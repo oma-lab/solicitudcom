@@ -72,7 +72,7 @@
             <img src="{{ asset('imagenes/ver.png') }}" style="width:35px;"></a>               
           </td>
           <td class="centrado">
-            <input type="image" data-toggle="modal" data-target="#modalsubir" src="{{ asset('imagenes/subir.png')}}" style="width:35px;" onclick="document.getElementById('formsubir').action = '/dictamen/{{$dic->id}}'"><br>
+            <input type="image" data-toggle="modal" data-target="#modalsubir" src="{{ asset('imagenes/subir.png')}}" style="width:35px;" onclick="document.getElementById('formsubir').action = '/dictamen/{{$dic->id}}'; document.getElementById('subirfile').value = '';document.getElementById('labelpdf').innerHTML = 'Elegir Archivo';"><br>
              @if(!$dic->dictamen_firmado)
              <a style="color:black;"><b>Archivo no cargado</b></a>
              @else

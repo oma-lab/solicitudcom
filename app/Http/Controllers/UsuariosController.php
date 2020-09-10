@@ -91,7 +91,7 @@ class UsuariosController extends Controller{
             ['identificador' => $iduser, 'solicitud_id' => $request['solicitud_id']],
             ['descripcion' => $request['descripcion'], 'voto' => $request['voto'], 'visto' => true]
         );
-        return back()->with('Mensaje','Solicitud enviada');
+        return back()->with('Mensaje','Cambios hechos correctamente');
     }
 
 
@@ -176,8 +176,10 @@ class UsuariosController extends Controller{
        if(!$user->esAdmin()){
            $id = $user->id;
        }
-       $request->validate(['identificador' => 'required|unique:users,identificador,'.$id,
-                           'email' => 'required|email|unique:users,email,'.$id]);
+       if($user->role_id != 9){
+           $request->validate(['identificador' => 'required|unique:users,identificador,'.$id,
+           'email' => 'required|email|unique:users,email,'.$id]);
+       }
        User::where('id','=',$id)->update($datosest);
        return back()->with('Mensaje','Datos actualizados correctamente');
    }

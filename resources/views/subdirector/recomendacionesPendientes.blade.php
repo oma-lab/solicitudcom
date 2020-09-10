@@ -70,7 +70,7 @@
                </td>
 
                <td class="centrado">
-                <input type="image" data-toggle="modal" data-target="#modalsubir" src="{{ asset('imagenes/subir.png')}}" style="width:35px;" onclick="document.getElementById('formsubir').action = '/recomendacion/{{$reco->id}}'"><br>
+                <input type="image" data-toggle="modal" data-target="#modalsubir" src="{{ asset('imagenes/subir.png')}}" style="width:35px;" onclick="document.getElementById('formsubir').action = '/recomendacion/{{$reco->id}}'; document.getElementById('subirfile').value = '';document.getElementById('labelpdf').innerHTML = 'Elegir Archivo';"><br>
                 <a style="color:{{($reco->archivo) ? 'green' : 'red'}};"><b>{{($reco->archivo) ? 'Cargado' : 'No cargado'}}</b></a>
                </td>
 

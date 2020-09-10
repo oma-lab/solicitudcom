@@ -52,9 +52,9 @@
         {{ __('¿Olvidaste tu Contraseña?') }}
         </a> 
         <br>
-        <a href="{{ route('register','estudiante') }}">
+        <a href="{{ route('register') }}">
         {{ __('Registrarme') }}
-        </a>                          
+        </a>
       </div>
       </form>
 

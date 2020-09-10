@@ -33,8 +33,8 @@
   </div>
   
   <div class="form-group col-md-3">
-    <label for="calendario_id">Fecha de reunión de comite academico</label>                    
-    <select class="form-control form-control-sm" name="calendario_id" value="">
+    <label for="calendario_id">Fecha de reunión de comité académico</label>                    
+    <select class="form-control form-control-sm" name="calendario_id" value="" required>
       <option value="">Selecciona</option>
       @foreach($fechasreuniones as $fr)
       @if($fr->id == $recomendacion->solicitud->calendario_id)

@@ -49,7 +49,7 @@
        <i class="fa fa-trash"></i> Eliminar
       </button>
       </form>
-      <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#modalsubir" onclick="document.getElementById('formsubir').action = '/listaasistencia/{{$lista->id}}'">
+      <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#modalsubir" onclick="document.getElementById('formsubir').action = '/listaasistencia/{{$lista->id}}'; document.getElementById('subirfile').value = '';document.getElementById('labelpdf').innerHTML = 'Elegir Archivo';">
        <i class="fa fa-eye"></i> Archivar
       </button>
       <a href="{{url('storage/'.$lista->lista_archivo)}}" target= "_blank">

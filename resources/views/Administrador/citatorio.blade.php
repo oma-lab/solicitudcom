@@ -89,7 +89,7 @@
               </form>
             </td>
             <td>
-              <input type="image" data-toggle="modal" data-target="#modalsubir" src="{{ asset('imagenes/subir.png')}}" style="width:25px;" onclick="document.getElementById('formsubir').action = '/citatorio/{{$citatorio->id}}'">
+              <input type="image" data-toggle="modal" data-target="#modalsubir" src="{{ asset('imagenes/subir.png')}}" style="width:25px;" onclick="document.getElementById('formsubir').action = '/citatorio/{{$citatorio->id}}'; document.getElementById('subirfile').value = ''; document.getElementById('labelpdf').innerHTML = 'Elegir Archivo';">
             </td>
             <td>
               <a href="{{url('storage/'.$citatorio->archivo)}}" target= "_blank">

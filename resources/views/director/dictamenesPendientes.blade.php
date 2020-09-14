@@ -7,7 +7,7 @@
     <nav class="nav-justified ">
      <div class="nav nav-tabs">
        <a class="nav-item nav-link active">DICTAMENES PENDIENTES</a>
-       <a class="nav-item nav-link" href="{{route('director.dictamenes','noentregado')}}">NO ENTREGADOS</a>
+       <a class="nav-item nav-link" href="{{route('dictamenes.entregados')}}">NO ENTREGADOS</a>
        <a class="nav-item nav-link" href="{{route('director.dictamenes','terminados')}}">ENTREGADOS-FINALIZADOS</a>
      </div>
     </nav>
@@ -93,7 +93,7 @@
          @endforeach
         </tbody>
        </table>
-       {{$dictamenes->links()}}
+       {{$dictamenes->appends(Request::only(['role_id','carrera_id','numc','nombre']))->links()}}
       </div>
      </div>
       

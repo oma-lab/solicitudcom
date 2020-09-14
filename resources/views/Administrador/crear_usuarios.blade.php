@@ -126,7 +126,7 @@
       <div class="input-group-prepend">
         <span class="input-group-text"><i class="fa fa-mobile-phone prefix grey-text"></i></span>
       </div>
-      <input id="celular" name="celular" type="text" class="form-control @error('celular') is-invalid @enderror" value="{{ old('celular') }}" autocomplete="off" placeholder="celular / este campo no es obligatorio">
+      <input id="celular" name="celular" type="tel" pattern="[0-9\s]{7,16}" class="form-control @error('celular') is-invalid @enderror" value="{{ old('celular') }}" autocomplete="off" placeholder="celular / este campo no es obligatorio">
       @error('celular')
       <span class="invalid-feedback" role="alert">
       <strong>{{ $message }}</strong>
@@ -140,7 +140,7 @@
       <div class="input-group-prepend">
         <span class="input-group-text"><i class="fa fa-phone-square prefix grey-text"></i></span>
       </div>
-      <input id="telefono" name="telefono" type="text" class="form-control @error('telefono') is-invalid @enderror" value="{{ old('telefono') }}" autocomplete="off" placeholder="telefono/ este campo no es obligatorio">
+      <input id="telefono" name="telefono" type="tel" pattern="[0-9\s]{5,16}" class="form-control @error('telefono') is-invalid @enderror" value="{{ old('telefono') }}" autocomplete="off" placeholder="telefono/ este campo no es obligatorio">
       @error('telefono')
       <span class="invalid-feedback" role="alert">
       <strong>{{ $message }}</strong>

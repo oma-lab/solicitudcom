@@ -38,11 +38,7 @@ public function solicitudesRecibidas(Request $request,$filtro){
     $numc = $request->get('numc');
     $roleid = $request->get('role_id');
 
-    if($filtro == 'finalizadas'){
-      $visto = true;
-    }else{
     $visto = ($request->get('visto')) ? true :null;
-    }
     
     $id_carreras=UserCarrera::where('identificador',usuario()->identificador)->pluck('carrera_id');
     $carreras = Carrera::whereIn('id',$id_carreras)->get();
@@ -75,8 +71,10 @@ public function solicitudesRecibidas(Request $request,$filtro){
                                   $query->nombre($nombre)
                                         ->identificador($numc)
                                         ->role($roleid);})
-                            ->where('observaciones.visto',$visto)
-                            ->paginate(10);
+                            ->when($filtro == 'pendientes', function($query) use ($visto){
+                              $query->where('observaciones.visto',$visto);
+                            })
+                            ->paginate(5);
                             
       if($filtro == 'finalizadas'){
       //si se filtran las solicitudes por finalizadas(vistas en reunion) se retorna la vista
@@ -85,7 +83,7 @@ public function solicitudesRecibidas(Request $request,$filtro){
       if(!$request->get('visto')){
       //si las solicitudes se filtran por recibidas(nuevas solicitudes) y que no han sido vistas
       //se hace un conteo esas solicitudes pendientes para notificar al usuario por si quedan solicitudes pendientes por revisar
-      Notificacion::where([['identificador','=',usuario()->identificador],['tipo','=','solicitud']])->update(['num' => count($solicitudes)]);
+      Notificacion::where([['identificador','=',usuario()->identificador],['tipo','=','solicitud']])->update(['num' => $solicitudes->total()]);
       }
       return view('jefe.solicitudesRecibidas',compact('solicitudes','carreras'));
       }
@@ -140,7 +138,7 @@ public function solicitudesRecibidas(Request $request,$filtro){
                         ->where('users.identificador','LIKE',"%$ide%")
                         ->where('users.role_id','LIKE',"%$roleid%")
                         ->where('dictamens.enviado','=',true)
-                        ->paginate(10);
+                        ->paginate(5);
               
       Notificacion::where([['identificador','=',$user->identificador],['tipo','=','newdictamen']])->update(['num' => 0]);
       if(!$entregado){

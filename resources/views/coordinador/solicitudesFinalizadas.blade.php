@@ -45,13 +45,13 @@
              </a>
             </td>               
             <td>
-             <textarea class="form-control rounded-0" id="exampleFormControlTextarea2" name="descripcion" rows="4" disabled>{{$sol->descripcion}}</textarea>
+             <textarea class="form-control rounded-0" id="exampleFormControlTextarea2" name="descripcion" rows="4" placeholder="Sin observaciones" disabled>{{$sol->descripcion}}</textarea>
             </td>
            </tr>
            @endforeach
           </tbody>
          </table>
-         {{$solicitudes->links()}}
+         {{$solicitudes->appends(Request::only(['visto','carrera_id','numc','nombre']))->links()}}
         </div>
        </div>
        

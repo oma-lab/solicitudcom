@@ -58,10 +58,11 @@ class AdminController extends Controller{
                                     $query->where('users.carrera_id','LIKE',"%$filtrocarrera%")
                                           ->orWhereNull('users.carrera_id');
                                 })
-                                ->select('solicituds.*','recomendacions.observaciones')->get();
+                                ->select('solicituds.*','recomendacions.observaciones')
+                                ->paginate(5);
        $carreras = Carrera::all();
        //actualiza notificacion con el numero de solicitudes pendientes
-       Notificacion::where([['identificador','=',usuario()->identificador],['tipo','=','solicitud']])->update(['num' => count($solicitudes)]);
+       Notificacion::where([['identificador','=',usuario()->identificador],['tipo','=','solicitud']])->update(['num' => $solicitudes->total()]);
        return view('Administrador.home',compact('solicitudes','pasadas','proximas','filtro','carreras'));
     }
 
@@ -100,16 +101,26 @@ class AdminController extends Controller{
     //acceso a la funcion solo para el administrador, validado en el constructor
     //funcion para eliminar una adscripcion
     public function eliminarAdscripcion($id){
-        Adscripcion::destroy($id);
-        return back()->with('Mensaje','Adscripcion eliminada');
+        $solis = User::where('adscripcion_id',$id)->first();
+        if($solis){
+            return back()->with('Error','No puedes eliminar porque hay usuarios relacionados con esta adscripción');
+        }else{
+            Adscripcion::destroy($id);
+            return back()->with('Mensaje','Adscripción eliminada');
+        }
     }
 
 
     //acceso a la funcion solo para el administrador, validado en el constructor
     //funcion para eliminar una carrera
     public function eliminarCarrera($id){
-        Carrera::destroy($id);
-        return back()->with('Mensaje','Carrera eliminada');
+        $solis = User::where('carrera_id',$id)->first();
+        if($solis){
+            return back()->with('Error','No puedes eliminar porque hay usuarios relacionados con esta carrera');
+        }else{
+            Carrera::destroy($id);
+            return back()->with('Mensaje','Carrera eliminada');
+        }
     }
 
 
@@ -255,8 +266,7 @@ class AdminController extends Controller{
         if($request->respuesta){
         Recomendacion::updateOrCreate(
             ['id_solicitud' => $id],
-            ['respuesta' => $request->respuesta, 'observaciones' => $request->observaciones,
-             'condicion' => 'condicionado a...', 'motivos' => 'Considerando las evidencias presentadas por ...']
+            ['respuesta' => $request->respuesta, 'observaciones' => $request->observaciones]
         );
         //si la solicitud obtiene respuesta se notifica al usuario
         notificarSolicitante([

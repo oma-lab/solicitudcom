@@ -101,7 +101,7 @@
              @endforeach
             </tbody>
            </table>
-           {{$recomendaciones->links()}}
+           {{$recomendaciones->appends(Request::only(['role_id','carrera_id','numc','nombre']))->links()}}
           </div>
          </div>
        

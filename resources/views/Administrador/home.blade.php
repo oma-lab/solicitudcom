@@ -109,6 +109,7 @@
                 @endforeach
                 </tbody>
               </table>
+              {{$solicitudes->appends(Request::only(['carrera_id','filtrofecha']))->links()}}
             </div>
           </div>
       </div>

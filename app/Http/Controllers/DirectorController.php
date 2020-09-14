@@ -58,15 +58,9 @@ class DirectorController extends Controller{
         $numc = $request->get('numc');
         $roleid = $request->get('role_id');
         $id_carrera = $request->get('carrera_id');
-        $enviado= false;
-        $entregado = false;
-        if($filtro == 'noentregado'){
-            $enviado= true;           
-        }
-        if($filtro == 'terminados'){
-            $enviado= true;
-            $entregado = true;            
-        }
+
+        $enviado = ($filtro == 'terminados') ? true : false;
+        $entregado = ($filtro == 'terminados') ? true : false;
 
         $dictamenes = Dictamen::where('enviado',$enviado)
                               ->where('entregadodepto',$entregado)
@@ -75,19 +69,26 @@ class DirectorController extends Controller{
                                 ->identificador($numc)
                                 ->role($roleid)
                                 ->carrera($id_carrera);})
-                               ->paginate(10);
+                                ->paginate(5);
                               
         $carreras = Carrera::all();
 
         if($filtro == 'pendientes'){
-            Notificacion::where('tipo','dictamen_pendiente')->update(['num' => count($dictamenes)]);
+            Notificacion::where('tipo','dictamen_pendiente')->update(['num' => $dictamenes->total()]);
             return view('director.dictamenesPendientes',compact('dictamenes','carreras'));
-        }elseif($filtro == 'noentregado'){
-            Notificacion::where('tipo','dictamen_entregar')->update(['num' => count($dictamenes)]);
-            return view('director.dictamenesNoEntregados',compact('dictamenes','carreras'));
         }else{
             return view('director.dictamenesTerminados',compact('dictamenes','carreras'));
         }
+    }
+
+    //funcion para mostrar al secretario los dictamenes que no han sido entregados a los departamentos
+    public function dictamenEntregado(){
+        $dictamenes = Dictamen::where('enviado',true)
+                              ->where('entregadodepto',false)
+                              ->get();
+        $carreras = Carrera::all();
+        //Notificacion::where('tipo','dictamen_entregar')->update(['num' => count($dictamenes)]);
+        return view('director.dictamenesNoEntregados',compact('dictamenes','carreras'));
     }
 
 
@@ -108,14 +109,16 @@ class DirectorController extends Controller{
         if($request->hasFile('doc_firmado')){
             //si se sube el archivo firmado se guarda
             $datosDic['dictamen_firmado']=$request->file('doc_firmado')->store('subidas','public');
+            Dictamen::where('id','=',$id)->update($datosDic);
+            return back()->with('Mensaje','Dictamen subido correctamente');
         }else{
             //valida que el numero de oficio y el numero de dictamen no se repita
             $request->validate(['num_oficio' => 'nullable|unique:dictamens,num_oficio,'.$id,
                            'num_dictamen' => 'nullable|unique:dictamens,num_dictamen,'.$id]);
+            //se actualiza dictamen
+            Dictamen::where('id','=',$id)->update($datosDic);
+            return redirect()->route('director.dictamenes','pendientes')->with('Mensaje','Cambios realizados correctamente');
         }
-        //se actualiza dictamen
-        Dictamen::where('id','=',$id)->update($datosDic);
-        return redirect()->route('director.dictamenes','pendientes')->with('Mensaje','Cambios realizados correctamente');
     }
 
     //acceso a la funcion para el director y administrador, validado en el constructor

@@ -43,7 +43,7 @@
         @endforeach
        </tbody>
       </table>
-      {{$dictamenes->links()}}
+      {{$dictamenes->appends(Request::only(['carrera_id','numc','nombre']))->links()}}
      </div>
     </div>
     

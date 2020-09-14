@@ -59,7 +59,7 @@
            @endforeach
         </tbody>
        </table>
-       {{$solicitudes->links()}}
+       {{$solicitudes->appends(Request::only(['role_id','visto','carrera_id','numc','nombre']))->links()}}
       </div>
      </div>
 

@@ -63,10 +63,10 @@ class SubdirectorController extends Controller{
                                               ->identificador($numc)
                                               ->role($roleid)
                                               ->carrera($id_carrera);})
-                                        ->paginate(10);
+                                        ->paginate(5);
         $carreras = Carrera::all();//carreras que serviran para el filtrado
         //notificacion que indica que quedan recomendaciones pendientes
-        Notificacion::where('tipo','recomendacion')->update(['num' => count($recomendaciones)]);
+        Notificacion::where('tipo','recomendacion')->update(['num' => $recomendaciones->total()]);
         return view('subdirector.recomendacionesPendientes',compact('recomendaciones','carreras'));
     }
 
@@ -87,7 +87,7 @@ class SubdirectorController extends Controller{
                                     ->identificador($numc)
                                     ->role($roleid)
                                     ->carrera($id_carrera);})
-                                  ->paginate(10);
+                                  ->paginate(5);
             return view('subdirector.recomendacionesFinalizadas',compact('recom','carreras'));
     }
 
@@ -138,14 +138,16 @@ class SubdirectorController extends Controller{
         //si el usuario sube la recomendacion firmada entonces se guarda
         if($request->hasFile('doc_firmado')){
             $datosRec['archivo']=$request->file('doc_firmado')->store('subidas','public');
+            Recomendacion::where('id',$id)->update($datosRec);
+            return back()->with('Mensaje','Recomendación subida correctamente');
         }else{
             $request->validate(['num_oficio' => 'nullable|unique:recomendacions,num_oficio,'.$id,
                                 'num_recomendacion' => 'nullable|unique:recomendacions,num_recomendacion,'.$id]);
             $rec = Recomendacion::find($id);
             Solicitud::where('id',$rec->id_solicitud)->update(['calendario_id' => $request['calendario_id']]);
+            Recomendacion::where('id',$id)->update($datosRec);
+            return redirect()->route('recomendaciones')->with('Mensaje','Cambios realizados correctamente');
         }
-        Recomendacion::where('id',$id)->update($datosRec);
-        return redirect()->route('recomendaciones')->with('Mensaje','Cambios realizados correctamente');
     }
 
 

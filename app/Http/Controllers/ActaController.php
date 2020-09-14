@@ -95,7 +95,7 @@ class ActaController extends Controller{
         }
         //actualiza el acta con los datos recibidos
         Acta::where('id',$id)->update($datosActa);  
-        return redirect()->route('acta.index');        
+        return redirect()->route('acta.index')->with('Mensaje','Cambios hechos correctamente');        
     }
 
     

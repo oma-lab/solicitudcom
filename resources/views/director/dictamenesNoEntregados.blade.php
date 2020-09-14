@@ -20,6 +20,8 @@
    <div class="col-md-12">
     <div class="card">
 
+    @include('layouts.filtrado.mensaje')
+
     
      <div class="card-body">                    
       <h5 style="text-align:center"><b>SELLECCIONE LOS DICTAMENES QUE YA FUERÓN ENTREGADOS A LOS DEPARTAMENTOS DE CARRERA</b></h5>             

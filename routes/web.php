@@ -60,6 +60,7 @@ Route::get('/dictamenes_sub','SubdirectorController@dictamen')->name('sub.dictam
 //----RUTAS DIRECTOR-----------------------------------------------------------------
 Route::get('/recomendaciones_director','DirectorController@recomendaciones')->name('director.recomendaciones');
 Route::get('/dictamenes/{filtro}','DirectorController@dictamenes')->name('director.dictamenes');
+Route::get('/dictamen_entregado','DirectorController@dictamenEntregado')->name('dictamenes.entregados');
 Route::patch('/dictamen/{id}','DirectorController@guardarDictamen')->name('guardar.dictamen');
 Route::get('/dictamen_pdf/{id}','DirectorController@verDictamenpdf')->name('dictamen.pdf');
 Route::get('/enviar_dictamen{id}','DirectorController@enviarDictamen')->name('enviar.dictamen');

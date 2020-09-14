@@ -30,11 +30,7 @@ class CoordinadorController extends Controller{
         $nombre = $request->get('nombre');
         $id = $request->get('carrera_id');
         $ide = usuario()->identificador;
-        if($filtro == 'finalizadas'){
-            $visto= true;
-        }else{
-            $visto = ($request->get('visto')) ? true : false;
-        }
+        $visto = ($request->get('visto')) ? true : false;
         //toma los id de carreras de las cuales tiene permiso
         $permiso = UserCarrera::where('identificador','=',$ide)->pluck('carrera_id');
         $respuesta = ($filtro == 'pendientes') ? '=' : '!=';
@@ -52,14 +48,16 @@ class CoordinadorController extends Controller{
                                 ->where('users.nombre','LIKE',"%$nombre%")
                                 ->where('users.carrera_id','LIKE',"%$id%")
                                 ->where('users.identificador','LIKE',"%$numc%")
-                                ->where('solicituds.enviadocoor',$visto)
-                                ->paginate(10);
+                                ->when($filtro == 'pendientes', function($query) use ($visto){
+                                    $query->where('solicituds.enviadocoor',$visto);
+                                  })
+                                ->paginate(5);
 
         if($filtro == 'finalizadas'){
             return view('coordinador.solicitudesFinalizadas',compact('solicitudes','carreras')); 
         }else{
         if(!$request->get('visto')){
-        Notificacion::where([['identificador','=',usuario()->identificador],['tipo','=','solicitud']])->update(['num' => count($solicitudes)]);    
+            Notificacion::where([['identificador','=',usuario()->identificador],['tipo','=','solicitud']])->update(['num' => $solicitudes->total()]);    
         }
         return view('coordinador.solicitudesRecibidas',compact('solicitudes','carreras'));
         }
@@ -80,7 +78,8 @@ class CoordinadorController extends Controller{
     //funcion para mostrar los dictamenes recibidos
     public function dictamenes(Request $request){
         $nombre= $request->get('nombre');//filtrado por nombre
-        $carreraid= $request->get('carrera_id');//filtrado por carrera                
+        $carreraid= $request->get('carrera_id');//filtrado por carrera
+        $numc = $request->get('numc');//filtrado número de control               
         if(!$carreraid){
             //en caso de no filtrar por carrera se muestran de todas
             $carreras_id = UserCarrera::where('identificador','=',usuario()->identificador)->pluck('carrera_id');
@@ -88,17 +87,15 @@ class CoordinadorController extends Controller{
             //si manda un filtro de carrera
             $carreras_id =[$carreraid];
         }
-        //variable que guarda las carreras por las cuales puede filtrar.dependiendo de los permisos que tenga el usuario
+        //variable que guarda las carreras por las cuales puede filtrar dependiendo de los permisos que tenga el usuario
         $carreras = Carrera::whereIn('id',$carreras_id)->get();
         //se hace el filtrado de los dictamenes recibidos
-        $dictamenes = Dictamen::join('recomendacions','dictamens.recomendacion_id','=','recomendacions.id')
-                          ->join('solicituds','recomendacions.id_solicitud','=','solicituds.id')
-                          ->join('users','solicituds.identificador','=','users.identificador')
-                          ->join('carreras','users.carrera_id','=','carreras.id')
-                          ->select('dictamens.*')
-                          ->whereIn('carreras.id',$carreras_id)
-                          ->where([['users.nombre','LIKE',"%$nombre%"],['dictamens.enviado','=',true]])
-                          ->paginate(10);
+        $dictamenes = Dictamen::where('dictamens.enviado','=',true)
+                              ->whereHas('recomendacion.solicitud.user', function($query) use ($nombre,$carreras_id,$numc){
+                                  $query->nombre($nombre)
+                                        ->identificador($numc)
+                                        ->carreras($carreras_id);})
+                              ->paginate(5);
         //Notificacion::where([['identificador','=',usuario()->identificador],['tipo','=','newdictamen']])->update(['num' => 0]);
         return view('coordinador.dictamenes',compact('dictamenes','carreras'));
     }

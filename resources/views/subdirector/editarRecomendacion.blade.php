@@ -75,8 +75,13 @@
   <div class="form-group col-md-3">
     <label for="respuesta">{{ __('¿Se recomienda?') }}</label>                    
     <select class="form-control form-control-sm" name="respuesta" value="">
+      @if(old('respuesta'))
+      <option value="SI" {{old('respuesta') == "SI" ? 'selected' : '' }}>SI</option>
+      <option value="NO" {{old('respuesta') == "NO" ? 'selected' : '' }}>NO</option>      
+      @else
       <option value="SI" {{$recomendacion['respuesta'] == "SI" ? 'selected' : '' }}>SI</option>
-      <option value="NO" {{$recomendacion['respuesta'] == "NO" ? 'selected' : '' }}>NO</option> 
+      <option value="NO" {{$recomendacion['respuesta'] == "NO" ? 'selected' : '' }}>NO</option>
+      @endif
     </select>
   </div> 
  </div>
@@ -87,12 +92,12 @@
  <b>Observaciones hechas en reunión:</b> @if($recomendacion->observaciones){{$recomendacion->observaciones}} @else Ninguna @endif
           
  <div class="form-row">
-   <label for="condicion">Condicionado a:</label>
+   <label for="condicion">Anotaciones:</label>
    <div class="input-group mb-3">
     <div class="input-group-prepend">
       <button class="btn btn-outline-danger" type="button" onclick="document.getElementById('condicion').value = '';"><i class="fa fa-trash"></i></button>
     </div>
-    <input id="condicion" type="text" name="condicion" value="{{$recomendacion->condicion}}" placeholder="ninguno" class="form-control" aria-label="" aria-describedby="basic-addon1">
+    <input id="condicion" type="text" name="condicion" value="{{old('condicion') ? old('condicion') : $recomendacion->condicion}}" placeholder="Ejemplo: condicionado a ..." class="form-control" aria-label="" aria-describedby="basic-addon1">
    </div>
  </div>
 
@@ -102,7 +107,7 @@
     <div class="input-group-prepend">
       <button class="btn btn-outline-danger" type="button" onclick="document.getElementById('motivos').value = '';"><i class="fa fa-trash"></i></button>
     </div>
-    <input id="motivos" type="text" name="motivos" value="{{$recomendacion->motivos}}" placeholder="ninguno" class="form-control" aria-label="" aria-describedby="basic-addon1">
+    <input id="motivos" type="text" name="motivos" value="{{old('motivos') ? old('motivos') : $recomendacion->motivos}}" placeholder="Ejemplo: Considerando las evidencias presentadas por el estudiante y su avance académico en el programa educativo de ingeniería industrial" class="form-control" aria-label="" aria-describedby="basic-addon1">
    </div>
  </div>
 

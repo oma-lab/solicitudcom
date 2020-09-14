@@ -78,7 +78,7 @@
         @endforeach
        </tbody>
       </table>
-      {{$solicitudes->links()}}
+      {{$solicitudes->appends(Request::only(['role_id','visto','carrera_id','numc','nombre']))->links()}}
       </div>
      </div>
 
@@ -93,5 +93,12 @@
 
 
 @include('layouts.modals')
+@endsection
 
+@section('script')
+<script>
+window.addEventListener("load", function(){
+    document.getElementById('filtro').style.display = "block";
+});
+</script>
 @endsection

@@ -1,5 +1,19 @@
 //permite que al seleccionar un elemento de un <select> se haga el filtrado
 $('.filtro').change(function(){
+    if(this.getAttribute('name') == 'carrera_id'){
+      if(!(this.value == 0 || this.value == "")){
+        if(document.getElementById('role')){
+        document.getElementById('role').value = 3;
+        }
+      }
+    }
+    if(this.getAttribute('name') == 'role_id'){
+      if(this.value == 0 || this.value == ""){
+        if(document.getElementById('carreraid')){
+          document.getElementById('carreraid').value = 0;
+        }
+      }
+    }
     $('#form').submit();
     //document.getElementById('form').submit();
 });
@@ -32,7 +46,7 @@ $(function() {
       if(this.tipo == 'dictamen_pendiente')
       var notifi = '<li><a href="/dictamenes/pendientes"><i class="fa fa-envelope-square" style="color:#1B396A;"></i><b>'+" "+this.mensaje+'</b><br><p class="puntos">'+this.descripcion+'</p></a></li>';
       if(this.tipo == 'dictamen_entregar')
-      var notifi = '<li><a href="/dictamenes/noentregado"><i class="fa fa-envelope-square" style="color:#1B396A;"></i><b>'+" "+this.mensaje+'</b><br><p class="puntos">'+this.descripcion+'</p></a></li>';
+      var notifi = '<li><a href="/dictamen_entregado"><i class="fa fa-envelope-square" style="color:#1B396A;"></i><b>'+" "+this.mensaje+'</b><br><p class="puntos">'+this.descripcion+'</p></a></li>';
       if(this.tipo == 'citatorio')
       var notifi = '<li><a href="/mostrar/citatorio/'+this.citatorio_id+'"><i class="fa fa-envelope-square" style="color:#1B396A;"></i><b>'+this.mensaje+'</b><br><p class="puntos">'+this.descripcion+'</p></a></li>';
       $('#notifica').append(notifi);

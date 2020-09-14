@@ -22,7 +22,8 @@
         </form>
 
         <div class="card-body">                    
-         <div class="table-responsive">        
+         <div class="table-responsive">
+         @include('layouts.filtrado.mensaje')
           <table class="table">
            <thead class="thead-dark">
             <tr>
@@ -65,7 +66,7 @@
             @endforeach            
            </tbody>
           </table>
-          {{$dictamenes->links()}}
+          {{$dictamenes->appends(Request::only(['role_id','carrera_id','numc','nombre']))->links()}}
          </div>
         </div>
 

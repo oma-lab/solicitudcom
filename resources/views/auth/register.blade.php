@@ -98,7 +98,7 @@
     <div class="input-group-prepend">
      <span class="input-group-text"><i class="fa fa-phone-square prefix grey-text"></i></span>
     </div>
-    <input id="telefono" name="telefono" type="text" class="form-control @error('telefono') is-invalid @enderror" value="{{ old('telefono') }}"  autocomplete="telefono" autofocus placeholder="telefono/ este campo no es obligatorio">
+    <input id="telefono" name="telefono" type="tel" pattern="[0-9\s]{5,16}" class="form-control @error('telefono') is-invalid @enderror" value="{{ old('telefono') }}"  autocomplete="telefono" autofocus placeholder="telefono/ este campo no es obligatorio">
      @error('telefono')
      <span class="invalid-feedback" role="alert">
      <strong>{{ $message }}</strong>

@@ -40,7 +40,7 @@
             {{ csrf_field()}}
             <tr>
              <td scope="row" width="40%" style="text-align:left">
-               {{$sol->user->nombre_completo()}}<br>
+             {{$sol->user->identificador}} - {{$sol->user->nombre_completo()}}<br>
                {{$sol->user->carrera->nombre}}<br>
                <p style="text-align:justify"><b>{{$sol->asunto}}</b></p>
              </td>             
@@ -70,7 +70,7 @@
            @endforeach             
           </tbody>
         </table>
-        {{$solicitudes->links()}}
+        {{$solicitudes->appends(Request::only(['visto','carrera_id','numc','nombre']))->links()}}
        </div>
       </div>
 
@@ -135,6 +135,9 @@
 
 @section('script')
 <script>
+window.addEventListener("load", function(){
+    document.getElementById('filtro').style.display = "block";
+});
 
 function cancel(solid){
   $("#id_sol").val(solid);

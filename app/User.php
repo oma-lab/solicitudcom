@@ -251,12 +251,15 @@ class User extends Authenticatable
         if($roleid){
             return $query->where('role_id','LIKE',"%$roleid%");
         }
-
-    }
-   
+    }   
     public function scopeCarrera($query, $id){
         if($id){
             return $query->where('carrera_id','=',$id);
+        }    
+    }
+    public function scopeCarreras($query, $ids){
+        if($ids){
+            return $query->whereIn('carrera_id',$ids);
         }    
     }
     public function scopeAdscripcion($query, $id){

@@ -1,6 +1,6 @@
 @extends(Auth::user()->esAdmin() ? 'layouts.encabezadoAdmin' : 'layouts.encabezadoDirector')
 @section('contenido')
-<section class=" ">
+<section>
  <div class="container-fluid">
   
   <div class="row">
@@ -8,7 +8,7 @@
     <nav class="nav-justified ">
      <div class="nav nav-tabs">
        <a class="nav-item nav-link" href="{{route('director.dictamenes','pendientes')}}">DICTAMENES PENDIENTES</a>
-       <a class="nav-item nav-link" href="{{route('director.dictamenes','noentregado')}}">NO ENTREGADOS</a>
+       <a class="nav-item nav-link" href="{{route('dictamenes.entregados')}}">NO ENTREGADOS</a>
        <a class="nav-item nav-link active">ENTREGADOS-FINALIZADOS</a>
      </div>
     </nav>
@@ -61,7 +61,7 @@
           @endforeach  
         </tbody>
        </table>
-       {{$dictamenes->links()}}
+       {{$dictamenes->appends(Request::only(['role_id','carrera_id','numc','nombre']))->links()}}
       </div>
      </div>
     

@@ -25,6 +25,7 @@
 @endsection
 @section('contenido')
 <div class="container-fluid">
+@include('layouts.filtrado.mensaje')
  <div class="row">
 
   @forelse($ds as $dictamen)

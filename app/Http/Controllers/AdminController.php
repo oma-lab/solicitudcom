@@ -434,5 +434,37 @@ class AdminController extends Controller{
             return redirect()->route('director.dictamenes','pendientes')->with('Mensaje','Nuevo dictamen registrado');;
         }
     }
+
+    //funcion por si se requiere posponer la fecha de reunion de las solicitudes no evaluadas a otra reunión
+    public function vistaPosponer(Request $request){
+        //se calcula la reunion mas proxima a la fecha actual
+        $proxima = Calendario::whereDate('start','>=',hoy())->orderBy('start','asc')->first();
+        //si no hay proxima reunión entonces manda un mensaje 
+        if(!$proxima){
+            return back()->with('Error','No hay reuniones próximas');
+        }
+        $reunion = $request['reunion'] ? $request['reunion'] : $proxima->id;
+        //Se toman las solicitudes de la reunion mas proxima a la fecha actual que no han sido revisadas en reunión
+        $solicitudes = Solicitud::leftJoin('recomendacions','solicituds.id','=','recomendacions.id_solicitud')
+                                ->where('solicituds.calendario_id',$reunion)                        
+                                ->whereNull('recomendacions.respuesta')
+                                ->where('solicituds.enviado',true)
+                                ->select('solicituds.*')
+                                ->get();
+        $pasadas = Calendario::whereDate('start','<=',hoy())->orderBy('start','desc')->take(3)->get();
+        $proximas = Calendario::whereDate('start','>',hoy())->orderBy('start','asc')->take(3)->get()->reverse();
+        return view('Administrador.vistaPosponer',compact('reunion','solicitudes','pasadas','proximas'));
+    }
+
+    public function posponer(Request $request){
+        //si hay solicitudes seleccionadas entonces continua con el proceso
+        if($request->solicitudes){
+        Solicitud::whereIn('id',$request->solicitudes)
+                 ->update(['calendario_id' => $request->nueva_reunion]);
+        return back()->with('Mensaje','Solicitudes pospuestas');
+        }else{
+            return back()->with('Error','No ha seleccionado ninguna solicitud');
+        }
+    }
    
 }

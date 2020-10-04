@@ -64,7 +64,8 @@
       <table class="table table-sm">
        <thead>
         <tr>
-         <th scope="col">Adscripcion</th>
+         <th scope="col">Adscripción</th>
+         <th scope="col">Eliminar</th>
         </tr>
        </thead>
        <tbody>

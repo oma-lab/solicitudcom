@@ -89,7 +89,7 @@ function fechaLetraAnio($fecha){
     return Carbon::parse($fecha)->formatLocalized('%d de %B del %Y');
 }
 function hoyMesLetra(){
-    setlocale(LC_TIME, "spanish"); 
+    setlocale(LC_TIME, "es_MX.UTF-8");
     //formato 03/enero/2020
     return Carbon::now()->formatLocalized('%d/%B/%Y');
 }

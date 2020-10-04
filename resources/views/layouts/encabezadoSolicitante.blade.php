@@ -22,7 +22,7 @@
   @include('layouts.header')
 
   <body>
-    <nav>
+    <nav class="nav-menu">
       <input type="checkbox" id="check">
       <label for="check" class="checkbtn">
         <i class="fa fa-bars"></i>

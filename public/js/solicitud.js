@@ -36,6 +36,8 @@ function editarfile(input,num){
         }else{
           $('#info'+num).text("Error, la imagen debe ser en orientación vertical");
           input.value = "";
+          $('#labelfileo'+num).text("Elegir imagen");
+          $('#img'+num).remove();
         }
      }
      reader.src = URL.createObjectURL(input.files[0]);

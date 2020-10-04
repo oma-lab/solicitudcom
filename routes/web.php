@@ -109,6 +109,8 @@ Route::post('/registrar/usuario','Auth\RegisterController@registrar')->name('reg
 Route::get('/registrar/usuario','Auth\RegisterController@crear')->name('crear.usuario');
 Route::get('/registrar/documento','AdminController@registrarDocumento')->name('registrar.documento');
 Route::post('/generar/documento','AdminController@generarDocumento')->name('generar.documento');
+Route::get('/posponer','AdminController@vistaPosponer')->name('vista.posponer');
+Route::post('/posponer','AdminController@posponer')->name('posponer');
 
 
 

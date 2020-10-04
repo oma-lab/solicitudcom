@@ -16,6 +16,7 @@
         <div class="card-header">
         SOLICITUDES PENDIENTES
              <a class="btn btn-outline-success" href="{{route('registrar.documento')}}" role="button" title="Generar Solicitud">+Recomendación/Dictamen</a>
+             <a class="btn btn-outline-primary" href="{{route('vista.posponer')}}" role="button" title="Posponer solicitudes">Posponer</a>
              <div class="form-inline float-right">
              CARRERA:
              <form method="GET" action="{{ route('solicitudes') }}" class="form-inline my-2 my-lg-0" id="form">  

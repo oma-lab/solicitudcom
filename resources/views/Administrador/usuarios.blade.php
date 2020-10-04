@@ -54,7 +54,7 @@
 
 
 <br>
-<div class="container">
+<div class="container-fluid">
 @include('layouts.filtrado.mensaje')
 <table class="table table-light table-hover">
   <thead class="thead-light">

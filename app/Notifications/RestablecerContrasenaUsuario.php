@@ -46,11 +46,11 @@ class RestablecerContrasenaUsuario extends Notification
         return (new MailMessage)
                     ->subject('Restablecer Contraseña')
                     ->greeting('HOLA')
-                    ->line('Ha recibido este correo electrónico para restablecer su contraseña para su cuenta de Comité Académico.')
-                    ->action('Restablecer contraseña', url('/password/reset/'.$this->token))
+                    ->line('Ha recibido este correo electrónico por que has solicitado cambiar la contraseña para su cuenta de Comité Académico.')
+                    ->action('Cambiar contraseña', url('/password/reset/'.$this->token))
                     ->line('Este enlace para el restablecimiento de su contraseña caducará en 60 minutos.')
-                    ->line('Si no ha solicitado restablecer su contraseña, haz caso omiso a este correo.')
-                    ->salutation('Gracias');
+                    ->line('Si no ha solicitado el cambio de contraseña, haz caso omiso a este correo.')
+                    ->salutation('Saludos, Comité Académico');
     }
 
     /**

@@ -87,7 +87,7 @@ class DirectorController extends Controller{
                               ->where('entregadodepto',false)
                               ->get();
         $carreras = Carrera::all();
-        //Notificacion::where('tipo','dictamen_entregar')->update(['num' => count($dictamenes)]);
+        Notificacion::where('tipo','dictamen_entregar')->update(['num' => count($dictamenes)]);
         return view('director.dictamenesNoEntregados',compact('dictamenes','carreras'));
     }
 

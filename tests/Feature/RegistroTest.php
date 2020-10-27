@@ -19,7 +19,7 @@ class RegistroTest extends TestCase{
 
     //prueba que la vista de registro se muestre
     public function test_vista_de_registro(){
-        $response = $this->get('/register/estudiante');
+        $response = $this->get('/register');
         //corrobora que los datos se pasen correctamente
         $response->assertViewHas('carreras');
         //corrobora que no ha ocurrio ningun problema
@@ -29,7 +29,7 @@ class RegistroTest extends TestCase{
     //registrar usuario
     public function test_registrar_usuario(){
         //se registra el usuario con los datos de prueba
-        $response = $this->post(route('registrar'), $this->usuario_correcto);
+        $response = $this->post(route('register'), $this->usuario_correcto);
         //comprueba que el usaurio se ha creado
         $this->assertDatabaseHas('users', [
             'identificador' => $this->usuario_correcto['identificador']
@@ -44,7 +44,7 @@ class RegistroTest extends TestCase{
     //registrar usuario con datos incorrectos
     public function test_registrar_usuario_incorrecto(){
         //se registra un usuario con datos incorrectos
-        $response = $this->post(route('registrar'), $this->usuario_incorrecto);
+        $response = $this->post(route('register'), $this->usuario_incorrecto);
         //assert que indica que hay errores, no se ingresa apellido_paterno y la confirmacion de carrera es incorrecto
         $response->assertSessionHasErrors('apellido_paterno','password');
         //usuario no autenticado

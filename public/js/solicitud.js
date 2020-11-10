@@ -18,6 +18,13 @@ function mot(seleccionado,asuntos){
 
 function editarfile(input,num){
   if (input.files && input.files[0] ){
+    var uploadFile = input.files[0];
+    if (!(/\.(jpg|png|jpeg)$/i).test(uploadFile.name)) {
+      alert('El archivo debe ser una imagen en formato jpg,png o jpeg');
+      input.value = "";
+      $('#labelfileo'+num).text("Elegir imagen");
+      $('#img'+num).remove();
+    }else{
      $('#info'+num).text('');
      var reader = new Image();
      reader.onload = function () {
@@ -41,6 +48,7 @@ function editarfile(input,num){
         }
      }
      reader.src = URL.createObjectURL(input.files[0]);
+    }
   }
 }
 

@@ -1,6 +1,5 @@
 <html>
 <head>
-<link type="text/css" href="{{ asset('css/app.css')}}" rel="stylesheet">
 <style>
 @page {
   margin: 0cm 0cm;
@@ -11,6 +10,7 @@ body {
   margin-right: 1.5cm;
   margin-bottom: 0.5cm;
   background-color: white;
+  font-family: "Nunito", sans-serif;
 }
 header {
   position: fixed;
@@ -45,15 +45,19 @@ table {
 }
 td {
   padding:10px;
+  text-align: inherit;
 }
 th {
   padding:10px;
+  text-align: inherit;
 }
 span.izquierda {
   float: left;
+  font-size: 10;
 }
 span.derecha {
   float: right;
+  font-size: 10;
 }
 span.texto {
   text-transform: uppercase;
@@ -63,10 +67,10 @@ span.texto {
 </head>
 <body>
   <header>
-    <img style="float:left; height:80px;" src="{{asset('storage/'.$datospdf->head1)}}">
-    <img style="float:right; height:80px;" src="{{asset('storage/'.$datospdf->head2)}}">
-    <br><br><br><br>
-    <div id="paginacion">
+    <img style="float:left; height:80px;" src="{{public_path('storage/'.$datospdf->head1)}}">
+    <img style="float:right; height:80px;" src="{{url('storage/'.$datospdf->head2)}}">
+    <br><br><br><br><br>
+    <div>
       <span class="izquierda">REUNIÓN DE COMITÉ ACADÉMICO</span>
       <span class="derecha">{{$fecha}}</span>
     </div>

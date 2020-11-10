@@ -71,7 +71,12 @@ class SolicitanteController extends Controller{
     public function guardarSolicitud(Request $request){
         //las evidencias se suben en formato de imagen, las imagenes se unen en un archivo pdf
         $imgs= $request->file;
-        $pdf = PDF::loadView('solicitante.pdf',compact('imgs'))->setPaper('carta','portrait');
+        $nombres=[];
+        foreach($imgs as $img){
+            $nombre=$img->store('subidas','public');
+            array_push($nombres,$nombre);
+        }
+        $pdf = PDF::loadView('solicitante.pdf',compact('nombres'))->setPaper('carta','portrait');
         $nombrearchivo='subidas/evidencia'.Auth::user()->id.Carbon::now()->format('Y-m-d').'.pdf';
         $pdf->save(storage_path('app/public/'.$nombrearchivo));
         //se crea la solicitud con los datos recibidos
@@ -80,6 +85,9 @@ class SolicitanteController extends Controller{
         $datosSolicitud['identificador']=usuario()->identificador;
         $datosSolicitud['calendario_id']=proximaReunion()->id;  
         Solicitud::create($datosSolicitud);
+        foreach($nombres as $nom){
+            Storage::delete('public/'.$nom);
+        }
         return redirect()->route('home');
     }
 
@@ -108,19 +116,35 @@ class SolicitanteController extends Controller{
             //si se sube la solicitud firmada se convierte en formato pdf
             Storage::delete('public/'.$solicitud->solicitud_firmada);
             $imgs= $request->filesol;
-            $pdf = PDF::loadView('solicitante.pdf',compact('imgs'))->setPaper('carta','portrait');
+            $nombres=[];
+            foreach($imgs as $img){
+                $nombre=$img->store('subidas','public');
+                array_push($nombres,$nombre);
+            }
+            $pdf = PDF::loadView('solicitante.pdf',compact('nombres'))->setPaper('carta','portrait');
             $nombrearchivo='subidas/solicitud'.Auth::user()->id.Carbon::now()->format('Y-m-d').'.pdf';
             $pdf->save(storage_path('app/public/'.$nombrearchivo));
             $datosSol['solicitud_firmada'] = $nombrearchivo;
+            foreach($nombres as $nom){
+                Storage::delete('public/'.$nom);
+            }
         }
         if($request->file){
             //si el usuario cambia sus evidencias, entonces elimina las anteriores y guarda las nuevas
             Storage::delete('public/'.$solicitud->evidencias);
             $imgs= $request->file;
-            $pdf = PDF::loadView('solicitante.pdf',compact('imgs'))->setPaper('carta','portrait');
+            $nombres=[];
+            foreach($imgs as $img){
+                $nombre=$img->store('subidas','public');
+                array_push($nombres,$nombre);
+            }
+            $pdf = PDF::loadView('solicitante.pdf',compact('nombres'))->setPaper('carta','portrait');
             $nombreevidencia='subidas/evidencia'.Auth::user()->id.Carbon::now()->format('Y-m-d').'.pdf';
             $pdf->save(storage_path('app/public/'.$nombreevidencia));
             $datosSol['evidencias'] = $nombreevidencia;
+            foreach($nombres as $nom){
+                Storage::delete('public/'.$nom);
+            }
         }
         //se actualiza la solicitud con los datos recibidos
         Solicitud::where('id','=',$solicitud->id)->update($datosSol);

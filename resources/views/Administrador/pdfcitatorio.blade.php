@@ -31,11 +31,11 @@
    <p id="firmarec">
    <b>A T E N T A M E N T E</b><br>
    <span class="nota">
-   Excelencia en Educación Tecnológica<br>
+   Excelencia en Educación Tecnológica®<br>
    "Tecnología Propia e Independencia Económica"
    </span>  
    </p>
-   <br><br>
+   <br><br><br>
    <table>
     <tr>
 	 <td>
@@ -47,7 +47,7 @@
 	   {{secretario()->puesto()}}</span></p>
 	 </td>
 	</tr>
-   </table>
+   </table><br>
 
 
 

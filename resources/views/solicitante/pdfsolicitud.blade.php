@@ -4,20 +4,19 @@
 
 @section('contenido')
 
-<h6 id="titulo">"Solicitud {{$usuario->delSolicitante()}} para el análisis del Comité Académico"<br> 
+<p id="titulo">"Solicitud {{$usuario->delSolicitante()}} para el análisis del Comité Académico"<br> 
 INSTITUTO TECNOLÓGICO DE OAXACA
-</h6>
+</p>
 <br>
 
 <p id="fecha">Oaxaca de Juárez Oax, a {{fecha($solicitud->fecha)}}</p><br>
-<h6 id="destinatario">
+<p id="destinatario">
 {{jefeDivision()->nombre_completo()}}<br>
 {{jefeDivision()->puesto()}}<br>
 P R E S E N TE
-</h6>
-<br>
+</p>
 
-<h6 id="asunto"><b>Asunto:</b>Solicitud al Comité Académico<br></h6>
+<p id="asunto"><b>Asunto:</b>Solicitud al Comité Académico<br></p>
   
 <p class="cuerpo">El que suscribe C. {{$usuario->nombre_completo()}}
 @if($usuario->esEstudiante())

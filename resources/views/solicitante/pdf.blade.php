@@ -42,9 +42,9 @@
 <footer>
 </footer>
 <main>
-@foreach($imgs as $img)
+@foreach($nombres as $nombre)
 <div style="page-break-after:never;">
-<img  style="height:999px;"  src="{{$img}}" >
+<img  style="height:999px;"  src="{{public_path('storage/'.$nombre)}}" >
 </div>
 @endforeach
 </main>

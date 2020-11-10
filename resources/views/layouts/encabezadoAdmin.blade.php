@@ -68,6 +68,9 @@
         </form>
       </ul>
     </nav>
+    <div class="contenedor" style="text-align:right">
+    <b>{{(usuario()->role_id == 1) ? usuario()->puesto() : 'Administrador'}} | {{usuario()->nombre_completo()}}</b>
+    </div>
     
 
     <main class="py-0 contenedor">

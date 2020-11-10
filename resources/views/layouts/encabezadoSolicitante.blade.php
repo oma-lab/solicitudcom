@@ -50,6 +50,9 @@
         </form>            
       </ul>
     </nav>
+    <div class="contenedor" style="text-align:right">
+    <b>{{usuario()->nombre_completo()}}</b>
+    </div>
      
     <main class="py-0 contenedor">
     @yield('contenido')

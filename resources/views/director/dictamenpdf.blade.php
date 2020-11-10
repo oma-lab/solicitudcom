@@ -9,11 +9,11 @@ Oaxaca de Juarez Oax., {{$dictamen->fecha}}<br>
 OFICIO: {{$dictamen->num_oficio}}<br>
 DICTAMEN No. {{$dictamen->num_dictamen}}</p>
 <br>
-<h6 id="destinatario">
+<p id="destinatario">
 {{presidente()->nombre_completo()}}<br>
 {{presidente()->puesto()}}<br>
 PRESENTE
-</h6>
+</p>
 <p class="cuerpo">
 Por este conducto y atendiendo la recomendación del Comité Académico comunico a usted, que 
 @if($dictamen->perteneceDocente())
@@ -32,10 +32,10 @@ con número de control {{$dictamen->usuario()->identificador}} de la carrera de 
 <p id="firmadic">
 <b>A T E N T A M E N T E</b><br>
 <span class="nota">
-Excelencia en Educación Tecnológica<br>
+Excelencia en Educación Tecnológica®<br>
 "Tecnología Propia e Independencia Económica"
 </span>
-<br><br><br><br>
+<br><br><br><br><br>
 <span class="mayuscula"><b>
 {{director()->nombre_completo()}}<br> 
 {{director()->puesto()}}</b>

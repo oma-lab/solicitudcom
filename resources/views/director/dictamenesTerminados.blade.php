@@ -34,6 +34,7 @@
           <th scope="col">Solicitud</th>
           <th scope="col">Recomendación</th>
           <th scope="col">Dictamen</th>
+          <th scope="col">Rehacer</th>
          </tr>
         </thead>  
         <tbody>
@@ -57,6 +58,13 @@
              <a class="navbar-brand" href="{{ url('storage/'.$dic->dictamen_firmado)}}" target= "_blank">
              <img src="{{ asset('imagenes/ver.png') }}" style="width:35px;"></a>                    
             </td>                                        
+            <td>
+             <a href="{{route('rehacer',$dic->id)}}">
+               <button type="button" class="btn btn-outline-success btn-sm">
+                 <i class="fa fa-undo"></i> Rehacer
+               </button>
+             </a>
+            </td>
           </tr>
           @endforeach  
         </tbody>

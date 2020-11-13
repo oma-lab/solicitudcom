@@ -151,6 +151,9 @@ class User extends Authenticatable
             }
         }
     }
+    public function puesto_secretario_comite(){
+        return ($this->sexo == 'H') ? "secretario del comité académico" : "secretaria del comité académico";
+    }
     public function grado_nombre_puesto(){
         return $this->grado." ".$this->nombre_completo().", ".$this->puesto();
     }

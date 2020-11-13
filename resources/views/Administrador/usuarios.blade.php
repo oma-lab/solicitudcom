@@ -59,7 +59,7 @@
 <table class="table table-light table-hover">
   <thead class="thead-light">
     <tr>
-      <th>{{$rol == 'estudiante' ? 'Número de Control' : 'RFC'}}</th>
+      <th>{{$rol == 'estudiante' ? 'Número de Control' : 'Usuario'}}</th>
       <th>Nombre</th>
       <th>{{$rol == 'estudiante' ? 'Carrera' : 'Adscripción'}}</th>
       <th>Acción</th>

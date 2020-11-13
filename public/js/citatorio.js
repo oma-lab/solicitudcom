@@ -14,3 +14,8 @@ function vercita(id){
   }
   $("#modalvisto").modal("show");
 }
+
+function addOrden(){
+  campo = '<div class="form-group"><input class="form-control" name="ordens[]" type="text" placeholder=""></div>';
+  $("#orden").append(campo);
+}

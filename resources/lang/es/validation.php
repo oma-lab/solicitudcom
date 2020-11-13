@@ -15,6 +15,12 @@ return [
         'password' => [
             'min' => 'La contraseña debe tener al menos :min caracteres',
         ],
+        'nombre' => [
+            'max' => 'El nombre debe tener menos de :max caracteres',
+        ],
+        'apellido_paterno' => [
+            'max' => 'El apellido debe tener menos de :max caracteres',
+        ],
         'email' => [
             'unique' => 'Correo ya existente, no es posible volver a registrar',
             'email' => 'Este no es un correo valido',

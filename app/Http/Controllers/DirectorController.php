@@ -15,6 +15,7 @@ use App\Formato;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class DirectorController extends Controller{
 
@@ -23,7 +24,7 @@ class DirectorController extends Controller{
         //middleware que valida que el director solo tenga acceso a las funciones indicadas
         $this->middleware('director', ['only' => ['recomendaciones','calendario','editarUsuario']]);
         //middleware que valida que el director y administrador tengan acceso a las funciones indicadas
-        $this->middleware('adminDirector', ['only' => ['dictamenes','editarDictamen','guardarDictamen','verDictamenpdf','enviarDictamen','entregarDictamen']]);
+        $this->middleware('adminDirector', ['only' => ['dictamenes','editarDictamen','guardarDictamen','verDictamenpdf','enviarDictamen','entregarDictamen','rehacer']]);
     }
     
 
@@ -125,7 +126,9 @@ class DirectorController extends Controller{
     //funcion para eliminar un dictamen
     public function eliminarDictamen($id){
         $dic = Dictamen::find($id);
+        //Se elimina el dictamen
         Dictamen::destroy($id);
+        //al eliminarlo se elimina tambien la solicitud y la recomendacion
         Solicitud::destroy($dic->solicitud()->id);
         return back()->with('Mensaje','Dictamen eliminado con exito');
     }
@@ -204,5 +207,14 @@ class DirectorController extends Controller{
         //Se genera el dictamen   
         $pdfd = PDF::loadView('director.dictamenpdf',compact('dictamen','datospdf'))->setPaper('carta','portrait');
         return $pdfd->stream('dictamen.pdf');
+    }
+
+    public function rehacer($id){
+        $dictamen = Dictamen::find($id);
+        //Se elimina el dictamen
+        Storage::delete('public/'.$dictamen->dictamen_firmado);
+        //marcar el dictamen como no entregado y no enviado
+        Dictamen::where('id',$id)->update(['entregadodepto' => false, 'enviado' => false, 'dictamen_firmado' => null]);
+        return back()->with('Mensaje','Ya puede volver a realizar el dictamen en el apartado Dictamenes Pendientes');
     }
 }

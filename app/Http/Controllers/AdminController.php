@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Hash;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class AdminController extends Controller{
     public function __construct(){
@@ -346,11 +348,11 @@ class AdminController extends Controller{
     public function usuarios(Request $request,$rol){
         //datos para el filtrado
         $nombre = $request->get('nombre');
-        $id = $request->get('carrera_id');
-        $id = $request->get('adscripcion_id');
+        $id_c = $request->get('carrera_id');
+        $id_a = $request->get('adscripcion_id');
         //carrera por las cual puede filtrar
         $carreras = Carrera::all();
-        $adscripciones = Adscripcion::where('tipo','carrera')->get();
+        $adscripciones = Adscripcion::all();
         //roles que se muestran por si el administador quiere para cambiar el rol de un usuario
         $roles = Role::whereIn('id',[1,2,4,5,6,8])->get();
         //filtrar por el tipo de usuario
@@ -362,8 +364,8 @@ class AdminController extends Controller{
         }
         $usuarios = User::whereIn('role_id',$filtro)
             ->nombre($nombre)
-            ->carrera($id)
-            ->adscripcion($id)
+            ->carrera($id_c)
+            ->adscripcion($id_a)
             ->paginate(5);
         return view('Administrador.usuarios',compact('usuarios','carreras','rol','adscripciones','roles'));    
     }
@@ -411,7 +413,7 @@ class AdminController extends Controller{
              'adscripcion_id' => $request->adscripcion_id,'password' => Hash::make('identificador')
              ]);
         $solicitud = Solicitud::create(
-            ['asunto' => $request->asunto, 'motivos_academicos' => $request->motivos_academico, 'motivos_personales' => $request->motivos_personales, 
+            ['asunto' => $request->asunto, 'motivos_academicos' => $request->motivos_academicos, 'motivos_personales' => $request->motivos_personales, 
              'otros_motivos' => $request->otros_motivos, 'fecha' => $request->fecha, 'identificador' => $request->identificador, 'semestre' => $request->semestre, 
              'enviado' => true, 'enviadocoor' => true, 'carrera_profesor' => $request->carrera_profesor, 'calendario_id' => $request->calendario_id
              ]);
@@ -466,5 +468,30 @@ class AdminController extends Controller{
             return back()->with('Error','No ha seleccionado ninguna solicitud');
         }
     }
-   
+
+    public function subirSolicitud($id){
+        $solicitud = Solicitud::findOrFail($id);
+        return view('Administrador.subirSolicitud',compact('solicitud'));
+    }
+
+    public function solicitudGuardar(Request $request){
+        //buscar la solicitud
+        $solicitud = Solicitud::findOrFail($request->solicitud_id);
+        //las imagenenes que se suben se transforman en pdf
+        Storage::delete('public/'.$solicitud->solicitud_firmada);
+        $imgs= $request->file;
+        $nombres=[];
+        foreach($imgs as $img){
+            $nombre=$img->store('subidas','public');
+            array_push($nombres,$nombre);
+        }
+        $pdf = PDF::loadView('solicitante.pdf',compact('nombres'))->setPaper('carta','portrait');
+        $nombrearchivo='subidas/solicitud'.$solicitud->user->id.Carbon::now()->format('Y-m-d').'.pdf';
+        $pdf->save(storage_path('app/public/'.$nombrearchivo));
+        foreach($nombres as $nom){
+            Storage::delete('public/'.$nom);
+        }
+        Solicitud::where('id',$request->solicitud_id)->update(['solicitud_firmada' => $nombrearchivo]);
+        return redirect()->route('solicitudes')->with('Mensaje','Solicitud subida correctamente');
+    }
 }

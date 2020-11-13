@@ -59,6 +59,11 @@
     font-weight: bold;
     text-transform: uppercase;
   }
+  #tituloorden{
+    text-align: center;
+    font-size: 12;
+    line-height: 10pt;
+  }
   #fecha{
     text-align: right;
     font-size: 11;

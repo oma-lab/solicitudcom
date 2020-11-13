@@ -148,9 +148,10 @@ document.addEventListener('DOMContentLoaded', function() {
   calendar.refetchEvents();
   if(msg == "Error"){
     alert("No es posible eliminar, hay solicitudes registradas para esta fecha");
+    location.reload();
   }
   },
-  error:function(){alert("Hay un error");}
+  error:function(){location.reload();}
   }
   );
   }

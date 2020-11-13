@@ -36,7 +36,7 @@
       <div class="form-group row">
         <label for="lugar" class="col-sm-4 col-form-label">Lugar:</label>
         <div class="col-sm-8">
-          <textarea class="form-control" name="lugar" id="lugar" rows="2" required>la sala de juntas anexa a la dirección de este instituto</textarea>
+          <textarea class="form-control" name="lugar" id="lugar" rows="2" required>en la sala de juntas anexa a la dirección de este instituto</textarea>
         </div>
       </div>
       <div class="form-group row">
@@ -44,7 +44,16 @@
         <div class="col-sm-8">
           <input type="text" class="form-control" name="oficio" id="oficio" value="" required>
         </div>
-      </div> 
+      </div>
+      <b>ORDEN DEL DIA:</b>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" name="ordens[]" placeholder="">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button" onclick="addOrden();"><b>+</b></button>
+        </div>
+      </div>
+      <div id="orden">
+      </div>
     </div>
     <div class="modal-footer">
       <label><b style="color:red;">{{!$reunion ? 'No hay fecha de reunión proximas' : ''}}</b></label>
@@ -65,6 +74,7 @@
           <tr>
             <th scope="col">Reunión</th>
             <th scope="col">Descargar</th>
+            <th scope="col">Orden</th>
             <th scope="col">Eliminar</th>
             <th scope="col">Subir</th>
             <th scope="col">Ver</th>
@@ -79,6 +89,11 @@
             <td>
               <a href="{{url('/citatorio_pdf/'.$citatorio->id)}}" target= "_blank">
               <img src="{{asset('imagenes/eye.png')}}" style="width:25px;">
+              </a>
+            </td>
+            <td>
+              <a href="{{url('storage/subidas/orden'.$citatorio->id.'.pdf')}}" target= "_blank">
+                <img src="{{asset('imagenes/eye.png')}}" style="width:25px;">
               </a>
             </td>
             <td>

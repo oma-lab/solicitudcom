@@ -17,13 +17,13 @@ PRESENTE
 <p class="cuerpo">
 Por este conducto y atendiendo la recomendación del Comité Académico comunico a usted, que 
 @if($dictamen->perteneceDocente())
-<span class="minuscula">{{$dictamen->respuesta}} se autoriza</span> la solicitud {{$dictamen->usuario()->del_interesado()}} {{$dictamen->usuario()->nombre_completo()}}
-con referencia a {{$dictamen->asunto()}}@if($dictamen->anotaciones) ,{{$dictamen->anotaciones}}@endif.                 
+<b><span class="minuscula">{{$dictamen->respuesta}} se autoriza</span></b> la solicitud {{$dictamen->usuario()->del_interesado()}} <b><span class="mayuscula">{{$dictamen->usuario()->nombre_completo()}}</span></b>
+con referencia a <b>{{$dictamen->asunto()}}</b>@if($dictamen->anotaciones) ,{{$dictamen->anotaciones}}@endif.                 
 </p> 
 @else 
-con base al análisis realizado a la solicitud presentada por {{$dictamen->usuario()->el_interesado()}} {{$dictamen->usuario()->nombre_completo()}},
-con número de control {{$dictamen->usuario()->identificador}} de la carrera de {{$dictamen->usuario()->carrera_adscripcion()}}, en la cual solicita
-{{$dictamen->asunto()}},<span class="minuscula"> {{$dictamen->respuesta}} SE AUTORIZA</span>, {{$dictamen->asunto()}}@if($dictamen->anotaciones) ,{{$dictamen->anotaciones}}@endif.
+con base al análisis realizado a la solicitud presentada por {{$dictamen->usuario()->el_interesado()}} <b><span class="mayuscula">{{$dictamen->usuario()->nombre_completo()}}</span></b>,
+con número de control <b>{{$dictamen->usuario()->identificador}}</b> de la carrera de <b>{{$dictamen->usuario()->carrera_adscripcion()}}</b>, en la cual solicita
+<b>{{$dictamen->asunto()}}</b>,<b><span class="minuscula"> {{$dictamen->respuesta}} se autoriza</span></b>, <b>{{$dictamen->asunto()}}</b>@if($dictamen->anotaciones) ,{{$dictamen->anotaciones}}@endif.
 </p> 
 @endif
 <p class="cuerpo">Sin otro asunto que tratar reciba un cordial saludo.</p>

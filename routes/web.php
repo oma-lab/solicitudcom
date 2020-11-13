@@ -69,6 +69,7 @@ Route::get('/editar_dictamen/{id}','DirectorController@editarDictamen')->name('e
 Route::delete('/dictamen/{id}','DirectorController@eliminarDictamen')->name('eliminar.dictamen');
 Route::get('/calendariodirector','DirectorController@calendario')->name('director.calendario');
 Route::get('/editar_director','DirectorController@editarUsuario')->name('director.editar');
+Route::get('/rehacer_dictamen/{id}','DirectorController@rehacer')->name('rehacer');
 
 
 //----RUTAS TODOS LOS USUARIOS-----------------------------------------------------------------
@@ -111,7 +112,8 @@ Route::get('/registrar/documento','AdminController@registrarDocumento')->name('r
 Route::post('/generar/documento','AdminController@generarDocumento')->name('generar.documento');
 Route::get('/posponer','AdminController@vistaPosponer')->name('vista.posponer');
 Route::post('/posponer','AdminController@posponer')->name('posponer');
-
+Route::get('/subir_solicitud/{id}','AdminController@subirSolicitud')->name('subir.solicitud');
+Route::post('/guardar_solicitud','AdminController@solicitudGuardar')->name('solicitud.guardar');
 
 
 Route::resource('citatorio','CitatorioController',['except' => ['edit','create','show']]);

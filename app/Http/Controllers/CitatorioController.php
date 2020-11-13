@@ -45,7 +45,7 @@ class CitatorioController extends Controller{
             return redirect()->route('citatorio.index')->with('Error','Imposible crear citatorio, por que ya existe citatorio con la fecha indicada');
         }
         //si el citatorio no existe entonces se crea
-        Citatorio::create([
+        $citatorio = Citatorio::create([
             'fecha' => $request->fecha,
             'oficio' => $request->oficio,
             'calendario_id' => $request->calendario_id,
@@ -53,6 +53,17 @@ class CitatorioController extends Controller{
         //si cambia el lugar y la hora de reunion entonces se actualizan los datos de reunion
         Calendario::where('id',$request->calendario_id)
                   ->update(['lugar' => $request->lugar, 'hora' => $request->hora]);
+
+        $ordends = $request->ordens;
+        //fecha de reunion
+        setlocale(LC_TIME, "es_MX.UTF-8"); //miercoles 20 de enero
+        $fecha= Carbon::parse($citatorio->calendario->start)->formatLocalized('%A %d de %B');
+        //formato del documento
+        $datospdf = Formato::findOrFail(1);
+
+        $ordenpdf = PDF::loadView('Administrador.pdforden',compact('citatorio','ordends','fecha','datospdf'))->setPaper('carta','portrait');
+        $nombrearchivo='subidas/orden'.$citatorio->id.'.pdf';
+        $ordenpdf->save(storage_path('app/public/'.$nombrearchivo));
 
         return redirect()->route('citatorio.index')->with('Mensaje','Citatorio creado correctamente');
     }

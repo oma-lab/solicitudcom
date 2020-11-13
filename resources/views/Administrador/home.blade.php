@@ -77,8 +77,12 @@
                       <p style="text-align:justify;text-transform: lowercase;">{{$sol->asunto}}</p>                    
                     </th>
                     <td class="centrado">
+                       @if($sol->solicitud_firmada)
                        <a class="navbar-brand" href="{{ url('versolicitudEvidencia/'.$sol->id)}}" target= "_blank">
                        <img src="{{ asset('imagenes/ver.png') }}" style="width:35px;"></a>
+                       @else
+                       <a href="{{route('subir.solicitud',$sol->id)}}">Subir solicitud</a>
+                       @endif
                     </td>                 
                     <td width="10%">
                       <button type="button" class="btn btn-default" onclick="verobs({{$sol->id}})">

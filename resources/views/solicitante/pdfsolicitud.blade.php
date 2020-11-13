@@ -18,20 +18,20 @@ P R E S E N TE
 
 <p id="asunto"><b>Asunto:</b>Solicitud al Comité Académico<br></p>
   
-<p class="cuerpo">El que suscribe C. {{$usuario->nombre_completo()}}
+<p class="cuerpo">El que suscribe <b><span class="mayuscula">C. {{$usuario->nombre_completo()}}</span></b>
 @if($usuario->esEstudiante())
-estudiante del {{$solicitud->semestre}} semestre, de la carrera de <span class="minuscula">{{ $solicitud->carrera()}}</span> con número de control {{$usuario->identificador }}, 
+estudiante del <b>{{$solicitud->semestre}}</b> semestre, de la carrera de <b><span class="minuscula">{{ $solicitud->carrera()}}</span></b> con número de control <b>{{$usuario->identificador }}</b>, 
 @else
-{{$usuario->solicitante()}} de la carrera de <span class="minuscula">{{$solicitud->carrera()}}</span>, 
+{{$usuario->solicitante()}} de la carrera de <b><span class="minuscula">{{$solicitud->carrera()}}</span></b>, 
 @endif
-solicito de la manera más atenta {{$solicitud->asunto}}.
+solicito de la manera más atenta <b>{{$solicitud->asunto}}</b>.
 </p>
 
 <p class="cuerpo">
 Por los siguientes motivos:<br>
-Motivos académicos: {{$solicitud->motivos_academicos()}}<br>
-Motivos personales: {{$solicitud->motivos_personales()}}<br> 
-Otros: {{$solicitud->otros_motivos()}}
+<b>Motivos académicos:</b> <span class="minuscula">{{$solicitud->motivos_academicos()}}</span><br>
+<b>Motivos personales:</b> <span class="minuscula">{{$solicitud->motivos_personales()}}</span><br> 
+<b>Otros:</b> <span class="minuscula">{{$solicitud->otros_motivos()}}</span>
 </p>
 
 <p id="firma">

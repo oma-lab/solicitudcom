@@ -70,6 +70,8 @@ class SolicitanteController extends Controller{
     //funcion que registra una solicitud
     public function guardarSolicitud(Request $request){
         //las evidencias se suben en formato de imagen, las imagenes se unen en un archivo pdf
+        $datosSolicitud=request()->except('_token');
+        if($request->file){
         $imgs= $request->file;
         $nombres=[];
         foreach($imgs as $img){
@@ -79,15 +81,15 @@ class SolicitanteController extends Controller{
         $pdf = PDF::loadView('solicitante.pdf',compact('nombres'))->setPaper('carta','portrait');
         $nombrearchivo='subidas/evidencia'.Auth::user()->id.Carbon::now()->format('Y-m-d').'.pdf';
         $pdf->save(storage_path('app/public/'.$nombrearchivo));
-        //se crea la solicitud con los datos recibidos
-        $datosSolicitud=request()->except('_token');
         $datosSolicitud['evidencias']=$nombrearchivo;
-        $datosSolicitud['identificador']=usuario()->identificador;
-        $datosSolicitud['calendario_id']=proximaReunion()->id;  
-        Solicitud::create($datosSolicitud);
         foreach($nombres as $nom){
             Storage::delete('public/'.$nom);
         }
+        }
+        //se crea la solicitud con los datos recibidos
+        $datosSolicitud['identificador']=usuario()->identificador;
+        $datosSolicitud['calendario_id']=proximaReunion()->id;  
+        Solicitud::create($datosSolicitud);
         return redirect()->route('home');
     }
 

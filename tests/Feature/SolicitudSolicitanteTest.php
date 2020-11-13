@@ -54,8 +54,7 @@ class SolicitudSolicitanteTest extends TestCase{
                               'asunto' => 'prueba asunto',
                               'motivos_academicos' => '',
                               'motivos_personales' => '',
-                              'otros_motivos' => '', 
-                              'file' => ['asfas.jpg']]);
+                              'otros_motivos' => '']);
         //se corrobora que la solicitud se ha registrado
         $this->assertDatabaseHas('solicituds', [
             'asunto' => 'prueba asunto',            
@@ -95,8 +94,7 @@ class SolicitudSolicitanteTest extends TestCase{
                             'asunto' => 'prueba asunto cambio',
                             'motivos_academicos' => '',
                             'motivos_personales' => '',
-                            'otros_motivos' => '',
-                            'file' => ['']]);
+                            'otros_motivos' => '']);
         //comprueba que el cambio se haya echo
         $this->assertDatabaseMissing('solicituds', [
             'asunto' => $solicitud['asunto'], 

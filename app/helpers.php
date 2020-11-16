@@ -13,6 +13,7 @@ use App\Mail\RegresarSolicitud;
 use App\Mail\SolicitudVista;
 use App\Mail\DictamenTerminado;
 use App\Mail\EnviarCitatorio;
+use App\UsersDictamenes;
 
 
 function usuario(){
@@ -31,13 +32,13 @@ function director(){
     return User::where('role_id','=',2)->first();
 }
 function jefeServicios(){
-    return User::where('adscripcion_id','=',25)->first();
+    return User::where([['adscripcion_id','=',25],['role_id','=',5]])->first();
 }
 function jefeDivision(){
-    return User::where('adscripcion_id','=',11)->first();
+    return User::where([['adscripcion_id','=',11],['role_id','=',5]])->first();
 }
 function jefeDesarrollo(){
-    return User::where('adscripcion_id','=',12)->first();
+    return User::where([['adscripcion_id','=',12],['role_id','=',5]])->first();
 }
 function grado_nombre_puesto_presidente(){
     $pre = presidente();
@@ -170,7 +171,7 @@ function notificar(array $datos){
                                               ->where('user_adscripcions.adscripcion_id',$datos['adscripcion_id'])
                                               ->whereIn('users.role_id',$datos['roles'])
                                               ->pluck('user_adscripcions.identificador');
-        }                              
+        }
     }else{
         $usuarios_enviar = User::whereIn('role_id',$datos['roles'])->pluck('identificador');
     }        
@@ -180,6 +181,11 @@ function notificar(array $datos){
                ['identificador' => $usuario, 'tipo' => $datos['tipo']],
                ['mensaje' => $datos['mensaje'], 'descripcion' => $datos['descripcion'], 'citatorio_id' => $citatorio_id, 'num' => 1]
     );
+    }
+    if($datos['tipo'] == "dictamen_nuevo"){
+        foreach($usuarios_enviar as $usuario){
+            UsersDictamenes::create(['identificador' => $usuario,'dictamen_id' => $datos['dictamenid']]);
+        }
     }
     if($datos['tipo'] == "citatorio"){
         $citatorio = Citatorio::find($datos['citatorio']);

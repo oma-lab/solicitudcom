@@ -33,14 +33,8 @@
    <div class="card" style="width: 18rem;">  
     <div class="card-body">
       <h5 class="card-title">{{$dictamen->asunto()}}</h5>
-      @if($dictamen->entregado)
-      <p class="card-text">Ya has recogido tu dictamen.</p>
-      <a  href="{{ url('storage/'.$dictamen->dictamen_firmado)}}" class="btn btn-primary" target= "_blank">Ver dictamen</a>
-      @elseif($dictamen->entregadodepto)
-      <p class="card-text">Tu dictamen se ha realizado, puedes recogerlo en el departamento de tu carrera.</p>
-      @else
-      <p class="card-text">Tu dictamen se ha realizado, mantente al pendiente en esta página para saber cuando puedes recogerlo en el departamento de tu carrera.</p>
-      @endif
+      <p class="card-text">Tu dictamen se ha realizado, Para obtener una copia pulsa el siguiente boton</p>
+      <a  href="{{ url('storage/'.$dictamen->dictamen_firmado)}}" class="btn btn-primary" target= "_blank" onclick="marcarvisto({{$dictamen->id}},'{{usuario()->identificador}}')">Ver dictamen</a>
     </div>
    </div>
   </div>
@@ -64,5 +58,16 @@
 </div>
 
 
+@endsection
+
+@section('script')
+<script>
+  function marcarvisto(dic,user){
+    var token = $("meta[name='csrf-token']").attr("content");
+    $.post(url_global+"/marcar_dictamen",{'dic': dic, 'user': user, _token : token}, function(respuesta){
+      console.log(respuesta);
+    });
+  }
+</script>
 @endsection
 

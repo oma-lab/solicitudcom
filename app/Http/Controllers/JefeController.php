@@ -124,12 +124,16 @@ public function solicitudesRecibidas(Request $request,$filtro){
       $dictamenes = Dictamen::join('recomendacions','dictamens.recomendacion_id','=','recomendacions.id')
                         ->join('solicituds','recomendacions.id_solicitud','=','solicituds.id')
                         ->join('users','solicituds.identificador','=','users.identificador')
+                        ->join('users_dictamenes',function($join) use ($entregado){
+                          $join->on('users_dictamenes.dictamen_id', '=', 'dictamens.id')
+                          ->where('users_dictamenes.identificador', '=', usuario()->identificador)
+                          ->where('users_dictamenes.recibido','=',$entregado);
+                        })
                         ->select('dictamens.*')
                         ->where(function ($query) use ($carreras_id,$adscrip){
                           $query->whereIn('users.carrera_id',$carreras_id)
                                 ->orWhereIn('users.adscripcion_id',$adscrip);
                         })
-                        ->where('dictamens.entregado',$entregado)
                         ->where(function ($query) use ($nombre){
                           $query->where('users.nombre','LIKE',"%$nombre%")
                                 ->orWhere('users.apellido_paterno','LIKE',"%$nombre%")
@@ -161,11 +165,7 @@ public function solicitudesRecibidas(Request $request,$filtro){
     //funcion que retorna la vista para que el jefe pueda actualizar sus datos de usuario
     public function editarUsuario(){
         $usuario = Auth::user();
-        if($usuario->esIntegrante()){
-          $ads_carreras = Adscripcion::where('id',$usuario->adscripcion_id)->get();
-        }else{
-          $ads_carreras = Adscripcion::where('tipo','carrera')->get();
-        }
+        $ads_carreras = Adscripcion::where('id',$usuario->adscripcion_id)->get();
         return view('auth.edit_usuario',compact('usuario','ads_carreras'))->with('encabezado','layouts.encabezadojefe');
     }
 

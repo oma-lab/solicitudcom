@@ -8,8 +8,7 @@
     <nav class="nav-justified ">
      <div class="nav nav-tabs">
        <a class="nav-item nav-link" href="{{route('director.dictamenes','pendientes')}}">DICTAMENES PENDIENTES</a>
-       <a class="nav-item nav-link" href="{{route('dictamenes.entregados')}}">NO ENTREGADOS</a>
-       <a class="nav-item nav-link active">ENTREGADOS-FINALIZADOS</a>
+       <a class="nav-item nav-link active">DICTAMENES FINALIZADOS</a>
      </div>
     </nav>
    </div>
@@ -35,6 +34,7 @@
           <th scope="col">Recomendación</th>
           <th scope="col">Dictamen</th>
           <th scope="col">Rehacer</th>
+          <th scope="col">Acuse de recibido</th>
          </tr>
         </thead>  
         <tbody>
@@ -65,6 +65,11 @@
                </button>
              </a>
             </td>
+            <td>
+             <button type="button" class="btn btn-primary" onclick="veracuse({{$dic->id}})">
+              <span class="fa fa-eye"  aria-hidden="true">ver</span>
+             </button>
+            </td>
           </tr>
           @endforeach  
         </tbody>
@@ -77,7 +82,46 @@
    </div>
   </div>
 
+  <div class="modal fade" id="modalacuse" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5>Dictamen recibido por:</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">                
+          <div id="acuse" class="col-12"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>       
+        </div>
+      </div>
+    </div>
+  </div>
+
 
  </div>
 </section>
+@endsection
+
+
+@section('script')
+<script>
+ function veracuse(id){
+  $("#acuse").empty();
+  var campo = '';
+  $.get(url_global+"/acuse",{id: id}, function(vistos){
+    $.each(vistos,function(index,value){
+      let status = (value.status) ? 'checked' : '';
+      campo += '<label><input type="checkbox" '+status+'>'+value.usuario+'</label><br>';
+    });
+    campo += '<label><input type="checkbox" checked>Comité Académico</label><br>';
+    campo += '<label><input type="checkbox" checked>Archivo</label><br>';
+    $("#acuse").append(campo);
+  });
+  $("#modalacuse").modal("show");
+ }
+</script>
 @endsection

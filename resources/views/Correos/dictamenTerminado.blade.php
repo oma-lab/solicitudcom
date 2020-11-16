@@ -1,7 +1,7 @@
 @extends('Correos.correo')
 @section('contenido')
 <h2>Tu Dictamen ya tiene una respuesta </h2>
-<p>Puedes recoger tu dictamen con el jefe de departamento de tu carrera.</p>
+<p>Tu dictamen se ha realizado, Para obtener una copia lo puedes hacer ingresando al sistema de Comité Académico en la opcion de Dictamen. O si deseas una copia física pasa con tu coordinador de carrera</p>
 <p>
  Nombre: {{$solicitud->user->nombre_completo()}}<br>
  Asunto: {{$solicitud->asunto}}<br>

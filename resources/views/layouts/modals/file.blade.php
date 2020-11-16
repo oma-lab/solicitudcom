@@ -14,10 +14,10 @@
   <div class="modal-body">                                     
    <div class="form-row">               
     <div class="form-group col-md-12">
-     <label for="archivo"><b>Formato Firmado</b></label>
+     <label for="archivo"><b>Formato Firmado(Solo se admiten archivos PDF)</b></label>
      <div class="custom-file">
       <input type="file" class="custom-file-input" id="subirfile" name="doc_firmado" accept="application/pdf" required>
-      <label id="labelpdf" class="custom-file-label" for="subirfile">Elegir Archivo</label>
+      <label id="labelpdf" class="custom-file-label" for="subirfile">Elegir Archivo PDF</label>
       <div class="invalid-feedback">Archivo invalido</div>
      </div>
     </div>

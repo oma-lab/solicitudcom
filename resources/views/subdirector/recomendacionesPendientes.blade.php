@@ -70,7 +70,7 @@
                </td>
 
                <td class="centrado">
-                <input type="image" data-toggle="modal" data-target="#modalsubir" src="{{ asset('imagenes/subir.png')}}" style="width:35px;" onclick="document.getElementById('formsubir').action = '/recomendacion/{{$reco->id}}'; document.getElementById('subirfile').value = '';document.getElementById('labelpdf').innerHTML = 'Elegir Archivo';"><br>
+                <input type="image" data-toggle="modal" data-target="#modalsubir" src="{{ asset('imagenes/subir.png')}}" style="width:35px;" onclick="document.getElementById('formsubir').action = '/recomendacion/{{$reco->id}}'; document.getElementById('subirfile').value = '';document.getElementById('labelpdf').innerHTML = 'Elegir Archivo PDF';"><br>
                 <a style="color:{{($reco->archivo) ? 'green' : 'red'}};"><b>{{($reco->archivo) ? 'Cargado' : 'No cargado'}}</b></a>
                </td>
 
@@ -93,7 +93,8 @@
                 </a>
                 @else
                 <a href="{{route('enviar.recomendacion',$reco->id)}}">
-                 <button class="btn btn-success" disabled>Enviar</button>
+                 <button class="btn btn-success" disabled>Enviar</button><br>
+                 <a style="color:red;"><b>Faltan campos por completar</b></a>
                 </a>
                 @endif  
                </td>

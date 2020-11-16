@@ -19,6 +19,7 @@
          <th scope="col">Nombre/Carrera</th>
          <th scope="col">Ver Solicitud</th>
          <th scope="col">Ver Dictamen</th>
+         <th scope="col">Recibido</th>
         </tr>
        </thead>  
        <tbody>
@@ -35,9 +36,20 @@
           </a>
          </td>               
          <td class="centrado">
-          <a class="navbar-brand" href="{{ url('storage/'.$dic->dictamen_firmado)}}" target= "_blank">
+          <a class="navbar-brand" href="{{ url('storage/'.$dic->dictamen_firmado)}}" target= "_blank" onclick="marcar_recibido({{$dic->id}},'{{usuario()->identificador}}')">
             <img src="{{ asset('imagenes/ver.png') }}" style="width:35px;">
           </a>
+         </td>
+         <td>
+          @if($dic->recibido)
+          <button id="{{$dic->id}}" type="button" class="btn btn-primary btn-sm" disabled>
+          Recibido
+          </button>
+          @else
+          <button id="{{$dic->id}}" type="button" class="btn btn-primary btn-sm" onclick="marcar_recibido({{$dic->id}},'{{usuario()->identificador}}')">
+          Marcar recibido
+          </button>
+          @endif
          </td>  
         </tr>
         @endforeach
@@ -51,4 +63,16 @@
   </div>
  </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+  function marcar_recibido(dic,user){
+    $('#'+dic).prop('disabled',true);
+    var token = $("meta[name='csrf-token']").attr("content");
+    $.post(url_global+"/marcar_dictamen",{'dic': dic, 'user': user, _token : token}, function(respuesta){
+      $('#'+dic).html("Recibido");
+    });
+  }
+</script>
 @endsection

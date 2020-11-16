@@ -11,6 +11,7 @@ use App\Notificacion;
 use App\Calendario;
 use App\Citatorio;
 use App\User;
+use App\UsersDictamenes;
 use iio\libmergepdf\Merger;
 use Illuminate\Support\Facades\Hash;
 
@@ -182,6 +183,16 @@ class UsuariosController extends Controller{
        }
        User::where('id','=',$id)->update($datosest);
        return back()->with('Mensaje','Datos actualizados correctamente');
+   }
+
+   public function marcarDictamen(Request $request){
+       if($request->ajax()){
+           UsersDictamenes::where([
+               ['identificador','=',$request->user],
+               ['dictamen_id','=',$request->dic]
+           ])->update(['recibido' => true]);
+           return response()->json([],200);
+       }
    }
     
 }

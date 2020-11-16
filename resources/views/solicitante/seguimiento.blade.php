@@ -90,10 +90,9 @@
              Tu dictamen ya tiene una respuesta<br>
              @if($sol->dictamen())
              @if($sol->dictamen()->entregado)
-             Ya puedes ver tu dictamen
-             <a  href="{{ url('storage/'.$sol->dictamen()->dictamen_firmado)}}" class="btn btn-primary" target= "_blank">Ver dictamen</a>
+             Tu dictamen se ha realizado, Para obtener una copia lo puedes hacer en la opcion de Dictamen. O si deseas una copia física pasa con tu coordinador de carrera
              @elseif($sol->dictamen()->entregadodepto)
-             Ya puedes recoger tu dictamen con el jefe de departamento de tu carrera
+             Tu dictamen se ha realizado, Para obtener una copia lo puedes hacer en la opcion de Dictamen. O si deseas una copia física pasa con tu coordinador de carrera
              @else
              Mantente pendiente en esta página, te notificaremos cuando puedas recoger tu dictamen en el departamento de tu carrera<br>
              @endif

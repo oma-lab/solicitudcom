@@ -24,7 +24,7 @@ estudiante del <b>{{$solicitud->semestre}}</b> semestre, de la carrera de <b><sp
 @else
 {{$usuario->solicitante()}} de la carrera de <b><span class="minuscula">{{$solicitud->carrera()}}</span></b>, 
 @endif
-solicito de la manera más atenta <b>{{$solicitud->asunto}}</b>.
+solicito de la manera más atenta <b><span class="mayuscula">{{$solicitud->asunto}}</span></b>.
 </p>
 
 <p class="cuerpo">

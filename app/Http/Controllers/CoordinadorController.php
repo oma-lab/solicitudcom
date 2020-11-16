@@ -95,6 +95,11 @@ class CoordinadorController extends Controller{
                                   $query->nombre($nombre)
                                         ->identificador($numc)
                                         ->carreras($carreras_id);})
+                              ->join('users_dictamenes',function($join){
+                                  $join->on('users_dictamenes.dictamen_id', '=', 'dictamens.id')
+                                  ->where('users_dictamenes.identificador', '=', usuario()->identificador);
+                                })
+                              ->select('dictamens.*','users_dictamenes.recibido')
                               ->paginate(5);
         //Notificacion::where([['identificador','=',usuario()->identificador],['tipo','=','newdictamen']])->update(['num' => 0]);
         return view('coordinador.dictamenes',compact('dictamenes','carreras'));
@@ -106,7 +111,7 @@ class CoordinadorController extends Controller{
     //funcion para que el coordinador actualice sus datos
     public function editarUsuario(){
         $usuario = Auth::user();
-        $ads_carreras = Adscripcion::where('tipo','carrera')->get();
+        $ads_carreras = Adscripcion::where('id',$usuario->adscripcion_id)->get();
         return view('auth.edit_usuario',compact('usuario','ads_carreras'))->with('encabezado','layouts.encabezadocoor');
     }
 

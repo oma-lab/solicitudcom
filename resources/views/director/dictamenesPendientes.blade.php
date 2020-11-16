@@ -7,8 +7,7 @@
     <nav class="nav-justified ">
      <div class="nav nav-tabs">
        <a class="nav-item nav-link active">DICTAMENES PENDIENTES</a>
-       <a class="nav-item nav-link" href="{{route('dictamenes.entregados')}}">NO ENTREGADOS</a>
-       <a class="nav-item nav-link" href="{{route('director.dictamenes','terminados')}}">ENTREGADOS-FINALIZADOS</a>
+       <a class="nav-item nav-link" href="{{route('director.dictamenes','terminados')}}">DICTAMENES FINALIZADOS</a>
      </div>
     </nav>
    </div>
@@ -72,7 +71,7 @@
             <img src="{{ asset('imagenes/ver.png') }}" style="width:35px;"></a>               
           </td>
           <td class="centrado">
-            <input type="image" data-toggle="modal" data-target="#modalsubir" src="{{ asset('imagenes/subir.png')}}" style="width:35px;" onclick="document.getElementById('formsubir').action = '/dictamen/{{$dic->id}}'; document.getElementById('subirfile').value = '';document.getElementById('labelpdf').innerHTML = 'Elegir Archivo';"><br>
+            <input type="image" data-toggle="modal" data-target="#modalsubir" src="{{ asset('imagenes/subir.png')}}" style="width:35px;" onclick="document.getElementById('formsubir').action = '/dictamen/{{$dic->id}}'; document.getElementById('subirfile').value = '';document.getElementById('labelpdf').innerHTML = 'Elegir Archivo PDF';"><br>
              @if(!$dic->dictamen_firmado)
              <a style="color:black;"><b>Archivo no cargado</b></a>
              @else
@@ -86,7 +85,8 @@
              <button type="submit" class="btn btn-primary">Enviar</button>
              </form>
              @else
-             <button type="submit" class="btn btn-primary" disabled>Enviar</button>
+             <button type="submit" class="btn btn-primary" disabled>Enviar</button><br>
+             <a style="color:red;"><b>Faltan campos por completar</b></a>
              @endif
           </td>                    
          </tr>

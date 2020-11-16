@@ -12,6 +12,7 @@ use App\CarreraDepartamento;
 use App\Adscripcion;
 use App\User;
 use App\Formato;
+use App\UsersDictamenes;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -24,7 +25,7 @@ class DirectorController extends Controller{
         //middleware que valida que el director solo tenga acceso a las funciones indicadas
         $this->middleware('director', ['only' => ['recomendaciones','calendario','editarUsuario']]);
         //middleware que valida que el director y administrador tengan acceso a las funciones indicadas
-        $this->middleware('adminDirector', ['only' => ['dictamenes','editarDictamen','guardarDictamen','verDictamenpdf','enviarDictamen','entregarDictamen','rehacer']]);
+        $this->middleware('adminDirector', ['only' => ['dictamenes','editarDictamen','guardarDictamen','verDictamenpdf','enviarDictamen','rehacer','getAcuse']]);
     }
     
 
@@ -61,10 +62,8 @@ class DirectorController extends Controller{
         $id_carrera = $request->get('carrera_id');
 
         $enviado = ($filtro == 'terminados') ? true : false;
-        $entregado = ($filtro == 'terminados') ? true : false;
 
         $dictamenes = Dictamen::where('enviado',$enviado)
-                              ->where('entregadodepto',$entregado)
                               ->whereHas('recomendacion.solicitud.user', function($query) use ($nombre,$numc,$roleid,$id_carrera) {
                                 $query->nombre($nombre)
                                 ->identificador($numc)
@@ -82,15 +81,6 @@ class DirectorController extends Controller{
         }
     }
 
-    //funcion para mostrar al secretario los dictamenes que no han sido entregados a los departamentos
-    public function dictamenEntregado(){
-        $dictamenes = Dictamen::where('enviado',true)
-                              ->where('entregadodepto',false)
-                              ->get();
-        $carreras = Carrera::all();
-        Notificacion::where('tipo','dictamen_entregar')->update(['num' => count($dictamenes)]);
-        return view('director.dictamenesNoEntregados',compact('dictamenes','carreras'));
-    }
 
 
     //acceso a la funcion para el director y administrador, validado en el constructor
@@ -140,55 +130,32 @@ class DirectorController extends Controller{
         //acceso solo para el administrador y director, validado en el constructor
         $dic = Dictamen::findOrFail($id);
         //el dictamen se marca como enviado
-        Dictamen::where('id','=',$id)->update(['enviado' => true]);
+        $dic->enviado = true;
+        $dic->entregadodepto = true;
+        $dic->save();
         //si el dictamen pertenece a un estudiante se notifica a jefes,coordinadores y subdirector,en caso contrario se notifica a jefes y subdirector
         $roles = $dic->usuario()->esEstudiante() ? [5,6,8] : [5,8];
         notificar([
             'carrera_id' => $dic->usuario()->carrera_id,
             'adscripcion_id' => $dic->usuario()->adscripcion_id,
+            'dictamenid' => $id,
             'roles' => $roles,
             'tipo' => 'dictamen_nuevo',
             'mensaje' => 'Nuevos Dictamenes',
             'descripcion' => 'Nuevos dictamenes recibidos'
         ]);
-        //se notifica al director que tiene dictamenes pendientes por entregar
-        notificar([
-            'roles' => [1,2],
-            'tipo' => 'dictamen_entregar',
-            'mensaje' => 'Dictamenes por entregar',
-            'descripcion' => 'Dictamenes pendientes por entregar a los departamentos de carrera'
+
+        //se crean las notificaciones para indicar al usuario que pueden recoger su dictamen
+        notificarSolicitante([
+           'id_sol' => $dic->solicitud()->id,
+           'tipo' => 'dictamen_enviado',
+           'mensaje' => 'Dictamen finalizado',
+           'descripcion' => 'Tu dictamen se ha realizado, Para obtener una copia lo puedes hacer en la opción dictamen. O si deseas una copia física pasa con tu coordinador de carrera',
+           'obs_coor' => ''
         ]);
+        UsersDictamenes::create(['identificador' => $dic->usuario()->identificador,'dictamen_id' => $id]);
         return back()->with('Mensaje','Dictamen enviado');
     }
-
-
-
-    //acceso a la funcion para el director y administrador, validado en el constructor
-    //funcion que marca el dictamen como entregado en el departamento de carrera
-    public function entregarDictamen(Request $request){
-        //si se marca por lo menos un dictamen que ha sido entregado se realiza la operacion dentro del if 
-        if($request->dictams){
-        foreach($request->dictams as $dict){
-            //Se actualiza el dictamen indicando que ya han sido entregados en el departamento de carrea
-            Dictamen::where('id','=',$dict)->update(['entregadodepto' => true]);
-            $dic = Dictamen::findOrFail($dict);
-            //se crean las notificaciones para indicar al usuario que pueden recoger su dictamen
-            notificarSolicitante([
-               'id_sol' => $dic->solicitud()->id,
-               'tipo' => 'dictamen_enviado',
-               'mensaje' => 'Dictamen finalizado',
-               'descripcion' => 'Tu dictamen ya tiene respuesta, puedes recogerlo con el jefe de departamento de tu carrera',
-               'obs_coor' => ''
-            ]);
-        }
-        }
-        return back()->with('Mensaje','Dictamenes marcados como entregados');
-    }
-
-
-
-
-
 
 
     //acceso a la funcion para el director y administrador, validado en el constructor
@@ -215,6 +182,22 @@ class DirectorController extends Controller{
         Storage::delete('public/'.$dictamen->dictamen_firmado);
         //marcar el dictamen como no entregado y no enviado
         Dictamen::where('id',$id)->update(['entregadodepto' => false, 'enviado' => false, 'dictamen_firmado' => null]);
+        UsersDictamenes::where('dictamen_id', $id)->delete();
         return back()->with('Mensaje','Ya puede volver a realizar el dictamen en el apartado Dictamenes Pendientes');
+    }
+
+
+    public function getAcuse(Request $request){
+        if($request->ajax()){
+            $vistos = UsersDictamenes::where('dictamen_id',$request->id)->get();
+            $datos =[];
+            foreach($vistos as $visto){
+                if($visto->user->role_id != 8){
+                    $dato = array("usuario" => $visto->user->usuario_tipo(), "status" => $visto->recibido);
+                    array_push($datos,$dato);
+                }
+            }
+            return response()->json($datos);
+        }
     }
 }

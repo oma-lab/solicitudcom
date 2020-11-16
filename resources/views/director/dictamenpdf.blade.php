@@ -17,13 +17,13 @@ PRESENTE
 <p class="cuerpo">
 Por este conducto y atendiendo la recomendación del Comité Académico comunico a usted, que 
 @if($dictamen->perteneceDocente())
-<b><span class="minuscula">{{$dictamen->respuesta}} se autoriza</span></b> la solicitud {{$dictamen->usuario()->del_interesado()}} <b><span class="mayuscula">{{$dictamen->usuario()->nombre_completo()}}</span></b>
-con referencia a <b>{{$dictamen->asunto()}}</b>@if($dictamen->anotaciones) ,{{$dictamen->anotaciones}}@endif.                 
+<b><span class="mayuscula">{{$dictamen->respuesta}} se autoriza</span></b> la solicitud {{$dictamen->usuario()->del_interesado()}} <b><span class="mayuscula">{{$dictamen->usuario()->nombre_completo()}}</span></b>
+con referencia a <span class="mayuscula">{{$dictamen->asunto()}}@if($dictamen->anotaciones) ,{{$dictamen->anotaciones}}@endif</span>.                 
 </p> 
 @else 
 con base al análisis realizado a la solicitud presentada por {{$dictamen->usuario()->el_interesado()}} <b><span class="mayuscula">{{$dictamen->usuario()->nombre_completo()}}</span></b>,
-con número de control <b>{{$dictamen->usuario()->identificador}}</b> de la carrera de <b>{{$dictamen->usuario()->carrera_adscripcion()}}</b>, en la cual solicita
-<b>{{$dictamen->asunto()}}</b>,<b><span class="minuscula"> {{$dictamen->respuesta}} se autoriza</span></b>, <b>{{$dictamen->asunto()}}</b>@if($dictamen->anotaciones) ,{{$dictamen->anotaciones}}@endif.
+con número de control <b>{{$dictamen->usuario()->identificador}}</b> de la carrera de <b><span class="mayuscula">{{$dictamen->usuario()->carrera_adscripcion()}}</span></b>, en la cual solicita
+<span class="mayuscula">{{$dictamen->asunto()}},<b> {{$dictamen->respuesta}} se autoriza</b>, {{$dictamen->asunto()}}@if($dictamen->anotaciones) ,{{$dictamen->anotaciones}}@endif</span>.
 </p> 
 @endif
 <p class="cuerpo">Sin otro asunto que tratar reciba un cordial saludo.</p>
@@ -44,7 +44,7 @@ Excelencia en Educación Tecnológica®<br>
 
 <br>
 <p id="ccp">
-C.c.p. Departamento de servicios escolares<br>
+C.c.p. Departamento de servicios escolares. Psc. Efectos.<br>
 C.c.p. {{$dictamen->usuario()->departamento()}}<br>
 C.c.p. Comité académico<br>
 C.c.p. División de estudios profesionales<br>

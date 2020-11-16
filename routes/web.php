@@ -60,11 +60,11 @@ Route::get('/dictamenes_sub','SubdirectorController@dictamen')->name('sub.dictam
 //----RUTAS DIRECTOR-----------------------------------------------------------------
 Route::get('/recomendaciones_director','DirectorController@recomendaciones')->name('director.recomendaciones');
 Route::get('/dictamenes/{filtro}','DirectorController@dictamenes')->name('director.dictamenes');
-Route::get('/dictamen_entregado','DirectorController@dictamenEntregado')->name('dictamenes.entregados');
+//Route::get('/dictamen_entregado','DirectorController@dictamenEntregado')->name('dictamenes.entregados');
 Route::patch('/dictamen/{id}','DirectorController@guardarDictamen')->name('guardar.dictamen');
 Route::get('/dictamen_pdf/{id}','DirectorController@verDictamenpdf')->name('dictamen.pdf');
 Route::get('/enviar_dictamen{id}','DirectorController@enviarDictamen')->name('enviar.dictamen');
-Route::post('/entregar/dictamen','DirectorController@entregarDictamen')->name('entregar.dictamen');
+//Route::post('/entregar/dictamen','DirectorController@entregarDictamen')->name('entregar.dictamen');
 Route::get('/editar_dictamen/{id}','DirectorController@editarDictamen')->name('editar.dictamen');
 Route::delete('/dictamen/{id}','DirectorController@eliminarDictamen')->name('eliminar.dictamen');
 Route::get('/calendariodirector','DirectorController@calendario')->name('director.calendario');
@@ -124,6 +124,8 @@ Route::resource('listaasistencia','ListaAsistenciaController',['except' => ['cre
 Route::get('verLista/{id}','ListaAsistenciaController@verLista')->name('verLista');
 Route::resource('acta','ActaController',['except' => ['show']]);
 Route::get('acta/descargar/{id}','ActaController@descargarActa')->name('descargar.acta');
+Route::get('/acuse','DirectorController@getAcuse');
+Route::post('/marcar_dictamen','UsuariosController@marcarDictamen');
 Route::get('/link', function () {
     Artisan::call('storage:link');
 });

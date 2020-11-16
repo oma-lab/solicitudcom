@@ -7,8 +7,8 @@
    <div class="col-md-12 text-center ">
     <nav class="nav-justified ">
      <div class="nav nav-tabs " id="nav-tab" role="tablist">
-      <a class="nav-item nav-link" href="{{route('jefe.dictamenes','no_entregado')}}" aria-selected="false">DICTAMENES RECIBIDOS</a>
-      <a class="nav-item nav-link active" aria-selected="true">DICTAMENES ENTREGADOS</a>
+      <a class="nav-item nav-link" href="{{route('jefe.dictamenes','no_entregado')}}" aria-selected="false">NUEVOS DICTAMENES</a>
+      <a class="nav-item nav-link active" aria-selected="true">DICTAMENES RECIBIDOS</a>
      </div>
     </nav>
 

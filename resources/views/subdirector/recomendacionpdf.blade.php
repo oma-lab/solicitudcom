@@ -25,14 +25,14 @@ PRESENTE
 Por este conducto le informo, que en reunión del Comité Académico, celebrada el {{$fechare}},
 y en virtud de haber sido analizada la situación {{$datoss->usuario()->delSolicitante()}} <b><span class="mayuscula">{{$datoss->usuario()->nombre_completo()}}</span></b>,
 {{$datoss->usuario()->adscrito()}} al <b><span class="minuscula">{{$datoss->usuario()->carrera_adscripcion()}}</span></b>, y quien solicita
-<b>{{$datoss->asunto()}}</b>, <b><span class="minuscula">{{$datoss->respuesta}}</span> se recomienda</b>, <b>{{$datoss->asunto()}}@if($datoss->condicion),{{$datoss->condicion}}@endif</b>.
+<span class="mayuscula">{{$datoss->asunto()}}, <b>{{$datoss->respuesta}} se recomienda</b>, {{$datoss->asunto()}}@if($datoss->condicion),{{$datoss->condicion}}@endif.</span>
 </p> 
 @else 
 <p class="cuerpo">
 Por este conducto le informo, que en reunión del Comité Académico, celebrada el {{$fechare}},
 y en virtud de haber sido analizada la situación {{$datoss->usuario()->del()}} <b><span class="mayuscula">C. {{$datoss->usuario()->nombre_completo()}}</span></b>,
 que cursa la carrera de <b><span class="minuscula">{{$datoss->usuario()->carrera_adscripcion()}}</span></b>, con número de control <b>{{$datoss->usuario()->identificador}}</b> y quien solicita
-<b>{{$datoss->asunto()}}</b>, <b><span class="minuscula">{{$datoss->respuesta}}</span> se recomienda, {{$datoss->asunto()}}@if($datoss->condicion),{{$datoss->condicion}}@endif</b>.
+<span class="mayuscula">{{$datoss->asunto()}}, <b>{{$datoss->respuesta}} se recomienda</b>, {{$datoss->asunto()}}@if($datoss->condicion),{{$datoss->condicion}}@endif.</span>
 </p> 
 @endif
 

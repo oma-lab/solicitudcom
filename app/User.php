@@ -231,6 +231,18 @@ class User extends Authenticatable
         }
     }
 
+    public function usuario_tipo(){
+        if($this->esSolicitante()){
+            return "Interesado";
+        }
+        if($this->esJefe()){
+            return $this->adscripcion->nombre_adscripcion;
+        }
+        if($this->esCoor()){
+            return "Coordinación de la carrera";
+        }
+    }
+
 
 
 

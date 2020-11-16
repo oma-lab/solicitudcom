@@ -104,17 +104,4 @@ class DirectorDictamenTest extends TestCase{
     }
     
     
-    public function test_entregar_dictamen(){      
-        $this->assertDatabaseHas('dictamens', [
-            'entregadodepto' => $this->dictamen['entregadodepto'],            
-        ]);
-        $response = $this->actingAs($this->director)
-                         ->from(route('director.dictamenes','pendientes'))
-                         ->post(route('entregar.dictamen',$this->dictamen['id']),['dictams' => [1]]);//se pasa ids de dictamenes
-        //comprueba que el cambio se haya echo, 
-        $this->assertDatabaseMissing('dictamens', [
-            'entregadodepto' => $this->dictamen['entregadodepto'], 
-        ]);
-        $response->assertRedirect(route('director.dictamenes','pendientes'));
-    }
 }

@@ -126,6 +126,7 @@ Route::resource('acta','ActaController',['except' => ['show']]);
 Route::get('acta/descargar/{id}','ActaController@descargarActa')->name('descargar.acta');
 Route::get('/acuse','DirectorController@getAcuse');
 Route::post('/marcar_dictamen','UsuariosController@marcarDictamen');
+Route::get('/pruebaCorreo','UsuariosController@pruebaCorreo');
 Route::get('/link', function () {
     Artisan::call('storage:link');
 });

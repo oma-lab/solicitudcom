@@ -14,6 +14,8 @@ use App\User;
 use App\UsersDictamenes;
 use iio\libmergepdf\Merger;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NuevaSolicitud;
 
 class UsuariosController extends Controller{
 
@@ -193,6 +195,11 @@ class UsuariosController extends Controller{
            ])->update(['recibido' => true]);
            return response()->json([],200);
        }
+   }
+
+   public function pruebaCorreo(){
+       Mail::to('davidclash38563@gmail.com')->queue(new NuevaSolicitud());
+       return "success";
    }
     
 }

@@ -4,6 +4,7 @@
 
 @section('contenido')
 
+   <br><br>
    <p id="tituloorden"><u>REUNIÓN DE COMITÉ ACADÉMICO</u><br> 
    Oaxaca de Juárez, Oax., a {{fechaLetraAnio($citatorio->fecha)}}.<br>
    </p>
@@ -28,7 +29,7 @@
    </p>
    <br>
 
-   <p id="firmarec">
+   <p id="notas">
    <b>A T E N T A M E N T E</b><br>
    <span class="nota">
    Excelencia en Educación Tecnológica®<br>

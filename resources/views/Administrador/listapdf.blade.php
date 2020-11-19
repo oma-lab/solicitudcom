@@ -67,8 +67,8 @@ span.texto {
 </head>
 <body>
   <header>
-    <img style="float:left; height:80px;" src="{{public_path('storage/'.$datospdf->head1)}}">
-    <img style="float:right; height:80px;" src="{{public_path('storage/'.$datospdf->head2)}}">
+    <img style="float:left; height:63px;" src="{{public_path('storage/'.$datospdf->head1)}}">
+    <img style="float:right; height:58px;" src="{{public_path('storage/'.$datospdf->head2)}}">
     <br><br><br><br><br>
     <div>
       <span class="izquierda">REUNIÓN DE COMITÉ ACADÉMICO</span>

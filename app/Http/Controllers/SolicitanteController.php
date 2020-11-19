@@ -168,7 +168,8 @@ class SolicitanteController extends Controller{
         $datospdf = Formato::findOrFail(1);
         //datos del usuario autenticado
         $usuario=Auth::user();
-        $pdf = PDF::loadView('solicitante.pdfsolicitud',compact('solicitud','datospdf','usuario'))->setPaper('carta','portrait');
+        $suma = strlen($solicitud->asunto) + strlen($solicitud->motivos_academicos) + strlen($solicitud->motivos_personales);
+        $pdf = PDF::loadView('solicitante.pdfsolicitud',compact('solicitud','datospdf','usuario','suma'))->setPaper('carta','portrait');
         return $pdf->stream('solicitud.pdf');
         }else{
         return back()->with('Mensaje','La solicitud no se puede realizar debido a que no se tiene un jefe de división registrado.');

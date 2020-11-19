@@ -421,7 +421,8 @@ class AdminController extends Controller{
         //se genera el documento segun se especifique
         if($request->tipo_doc == 'solicitud'){
             $datospdf = Formato::findOrFail(1);
-            $pdf = PDF::loadView('solicitante.pdfsolicitud',compact('solicitud','datospdf','usuario'))->setPaper('carta','portrait');
+            $suma = strlen($solicitud->asunto) + strlen($solicitud->motivos_academicos) + strlen($solicitud->motivos_personales);
+            $pdf = PDF::loadView('solicitante.pdfsolicitud',compact('solicitud','datospdf','usuario','suma'))->setPaper('carta','portrait');
             return $pdf->download('solicitud.pdf');
         }
 

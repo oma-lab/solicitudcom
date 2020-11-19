@@ -23,9 +23,9 @@ class ActaController extends Controller{
     //acceso a la funcion solo para el administrador, validado en el constructor
     public function index(){
         //ultimas 3 reuniones pasadas 
-        $reunion=Calendario::whereDate('start','<=',hoy())->orderBy('start','desc')->take(3)->get();
+        $reunion=Calendario::whereDate('start','<=',hoy())->orderBy('start','desc')->take(5)->get();
         //actas registradas que podra ver el administrador
-        $actas = Acta::orderBy('created_at','desc')->paginate(5);
+        $actas = Acta::where('titulo','!=','ordendia')->orderBy('created_at','desc')->paginate(5);
         return view('Administrador.acta',compact('reunion','actas'));
     }
 
@@ -36,7 +36,7 @@ class ActaController extends Controller{
         //reunión 
         $reunion=Calendario::find($request->calendario_id);
         //valida que el acta no exista para no ser generada de nuevo
-        $act = Acta::where('calendario_id','=',$reunion->id)->first();
+        $act = Acta::where([['calendario_id','=',$reunion->id],['titulo','!=','ordendia']])->first();
         if($act){
         return back()->with('Error','Acta ya existente con fecha introducida, imposible crear mas de 1 acta con la misma fecha');
         }
@@ -61,8 +61,13 @@ class ActaController extends Controller{
                                   ->get();
         //invitados que asistieron a la reunion
         $invitados = Invitado::where('lista_id','=',$lista->id)->get();
+        $ordendia = Acta::where([['calendario_id','=',$reunion->id],['titulo','=','ordendia']])->first();
+        $ordensdia = [];
+        if($ordendia){
+            $ordensdia = explode("--", $ordendia->contenido);
+        }
         //retornar la vista con los datos que requiere el acta para ser creada
-        return view('Administrador.crearActa',compact('reunion','asistentes','recomendaciones','invitados','fechauno','fechados'));
+        return view('Administrador.crearActa',compact('reunion','asistentes','recomendaciones','invitados','fechauno','fechados','ordensdia'));
         }
 
   

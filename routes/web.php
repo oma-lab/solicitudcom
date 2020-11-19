@@ -79,6 +79,7 @@ Route::get('/historial','UsuariosController@getHistorial')->name('getHistorial')
 Route::get('/observaciones','UsuariosController@getObservaciones');
 Route::get('/reunion','UsuariosController@mostrarReuniones');
 Route::get('/mostrar/citatorio/{id}','UsuariosController@mostrarCitatorio');
+Route::get('/mostrar/ordendia/{id}','UsuariosController@mostrarOrden');
 Route::get('/notificaciones','UsuariosController@getNotificaciones');
 Route::get('/notificacion/{id}','UsuariosController@verNotificacion');
 Route::patch('/usuarios/{id}','UsuariosController@actualizarUsuario')->name('usuario.actualizar');
@@ -118,8 +119,10 @@ Route::post('/guardar_solicitud','AdminController@solicitudGuardar')->name('soli
 
 Route::resource('citatorio','CitatorioController',['except' => ['edit','create','show']]);
 Route::get('/citatorio/enviar/{id}','CitatorioController@enviar')->name('enviar.citatorio');
+Route::get('/ordendia/enviar/{id}','CitatorioController@enviarOrden')->name('enviar.orden');
 Route::get('/cita','CitatorioController@getCitatorio');
 Route::get('citatorio_pdf/{id}','CitatorioController@citatorioPdf')->name('citatorio_pdf');
+Route::patch('updateorden/{id}','CitatorioController@updateOrden')->name('update.orden');
 Route::resource('listaasistencia','ListaAsistenciaController',['except' => ['create','show']]);
 Route::get('verLista/{id}','ListaAsistenciaController@verLista')->name('verLista');
 Route::resource('acta','ActaController',['except' => ['show']]);

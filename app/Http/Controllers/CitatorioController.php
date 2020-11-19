@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\EnviarCitatorio;
 use Illuminate\Support\Facades\Auth;
 use App\Formato;
+use App\Acta;
 use Barryvdh\DomPDF\Facade as PDF;
 
 class CitatorioController extends Controller{
@@ -26,12 +27,18 @@ class CitatorioController extends Controller{
     para crear un citatorio*/
     public function index(){
         //citatorios registrados, ordenandolos del mas reciente al mas antiguo
-        $citatorios = Citatorio::orderBy('id','desc')->paginate(5);
+        $citatorios = Citatorio::join('actas',function($join){
+                                $join->on('actas.calendario_id', '=', 'citatorios.calendario_id')
+                                ->where('actas.titulo', '=', 'ordendia');
+                                })
+                                ->select('citatorios.*','actas.acta_file')
+                                ->orderBy('citatorios.id','desc')->paginate(5);
         //jefes de departamento a los cuales se envio el citatorio
         $usuarios = User::whereIn('role_id',[5,8])->get();
-        //reunion mas cercana, la cual sirve para generar el citatorio, no se podran realizar citatorios de los cuales la fecha de reunion ya ha pasado
-        $reunion=Calendario::whereDate('start','>=',hoy())->orderBy('start','asc')->first();
-        return view('Administrador.citatorio',compact('reunion','citatorios','usuarios'));
+        //se toman las ultimas 4 reuniones pasadas y la mas proxima
+        $pasadas = Calendario::whereDate('start','<',hoy())->orderBy('start','desc')->take(4)->get();
+        $proxima = Calendario::whereDate('start','>=',hoy())->orderBy('start','asc')->first();
+        return view('Administrador.citatorio',compact('citatorios','usuarios','pasadas','proxima'));
     }
 
 
@@ -55,6 +62,7 @@ class CitatorioController extends Controller{
                   ->update(['lugar' => $request->lugar, 'hora' => $request->hora]);
 
         $ordends = $request->ordens;
+        $orden_dia = implode("--", $ordends);
         //fecha de reunion
         setlocale(LC_TIME, "es_MX.UTF-8"); //miercoles 20 de enero
         $fecha= Carbon::parse($citatorio->calendario->start)->formatLocalized('%A %d de %B');
@@ -64,6 +72,11 @@ class CitatorioController extends Controller{
         $ordenpdf = PDF::loadView('Administrador.pdforden',compact('citatorio','ordends','fecha','datospdf'))->setPaper('carta','portrait');
         $nombrearchivo='subidas/orden'.$citatorio->id.'.pdf';
         $ordenpdf->save(storage_path('app/public/'.$nombrearchivo));
+        Acta::create([
+            'titulo' => 'ordendia',
+            'contenido' => $orden_dia,
+            'calendario_id' => $request->calendario_id,
+        ]); 
 
         return redirect()->route('citatorio.index')->with('Mensaje','Citatorio creado correctamente');
     }
@@ -90,8 +103,10 @@ class CitatorioController extends Controller{
     //acceso a la funcion solo para el administrador, validado en el constructor
     /** metodo para que el administrador pueda eliminar un citatorio*/
     public function destroy($id){
-        Citatorio::destroy($id);
-        return back()->with('Mensaje','Citatorio eliminado');
+        $cita = Citatorio::find($id);
+        Acta::where([['titulo','=','ordendia'],['calendario_id','=',$cita->calendario_id]])->delete();
+        $cita->delete();
+        return back()->with('Mensaje','Citatorio y Orden del dia eliminado');
     }
 
 
@@ -118,6 +133,26 @@ class CitatorioController extends Controller{
         return back()->with('Mensaje','Citatorio enviado');
     }
 
+    public function enviarOrden($id){
+        $orden = Acta::where([['titulo','=','ordendia'],['calendario_id','=',$id]])->first();
+        //se valida que el citatorio no ha sido enviado y que ya se ha subido el citatorio firmado
+        if(!$orden->acta_file){return back()->with('Error','No es posible enviar,Falta Orden del dia firmada');}
+        //se eliminan las notificaciones de la ultima orden del dia enviada
+        Notificacion::where('tipo','=','ordendia')->delete();
+        //se notifica a los jefes y subdirector sobre la  nueva orden del dia
+        $citatorio = Citatorio::where('calendario_id','=',$id)->first();
+        notificar([
+            'citatorio' => $citatorio->id,
+            'roles' => [5,8],
+            'tipo' => 'ordendia',
+            'mensaje' => 'Orden del dia',
+            'descripcion' => 'Tiene una nueva orden del dia de reunión'
+        ]);
+        return back()->with('Mensaje','Orden del dia enviado');
+    }
+
+
+
 
     //acceso a la funcion solo para el administrador, validado en el constructor
     /** funcion para mostrar al secretario quien ha visto el citatorio */
@@ -142,4 +177,17 @@ class CitatorioController extends Controller{
         $pdf = PDF::loadView('Administrador.pdfcitatorio',compact('citatorio','fecha','datospdf'))->setPaper('carta','portrait');  
         return $pdf->stream('citatorio.pdf');
     }
+
+    public function updateOrden(Request $request,$id){
+        //si guarda el archivo del citatorio en caso que lo suban
+        if($request->hasFile('doc_firmado')){
+            $orden=$request->file('doc_firmado')->store('subidas','public');
+            Acta::where([['calendario_id','=',$id],['titulo','=','ordendia']])->update(['acta_file' => $orden]);
+        }else{
+            return back()->with('Error','No se subio ningun archivo, vuelva a intentar');
+        }
+        return back()->with('Mensaje','Citatorio subido correctamente,ahora puede enviar');
+    }
+
+    
 }

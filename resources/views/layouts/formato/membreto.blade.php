@@ -11,7 +11,7 @@
   }
   p {
     margin-top: 0;
-    margin-bottom: 1rem;
+    margin-bottom: 10px;
   }
   #fondo{
     position: fixed;
@@ -20,10 +20,10 @@
     z-index:  -1000;
   }
   body{
-    margin-top: 3cm;
+    margin-top: 2.1cm;
     margin-left: 70px;
     margin-right: 70px;
-    margin-bottom: 2cm;
+    margin-bottom: 0.8cm;
     background-color: white;
     font-family: "Nunito", sans-serif;
   }
@@ -55,9 +55,21 @@
   }
   #titulo{
     text-align: center;
-    font-size: 12;
+    font-size: 10;
     font-weight: bold;
+    /*text-transform: uppercase;*/
+  }
+  #titulodos{
+    text-align: center;
+    font-size: 11;
     text-transform: uppercase;
+    font-weight: bold;
+  }
+  #titulotres{
+    text-align: center;
+    font-size: 10;
+    text-transform: uppercase;
+    font-weight: bold;
   }
   #tituloorden{
     text-align: center;
@@ -66,44 +78,57 @@
   }
   #fecha{
     text-align: right;
-    font-size: 11;
-    line-height: 10pt;
+    font-size: 9;
+    line-height: 7pt;
   }
   #destinatario{
     text-align: left;
-    font-size: 12;
+    font-size: 10;
     text-transform: uppercase;
     font-weight: bold;
-    line-height: 14pt;
+    line-height: 13pt;
   }
   #asunto{
     text-align: right;
-    font-size: 12;
-    font-weight: bold;
+    font-size: 10;
+    /*font-weight: bold;*/
   }
   .cuerpo{
     text-align: justify;
-    font-size: 12;
-    line-height: 10pt;
+    font-size: 10;
+    line-height: 8pt;
   }
   #firma{
     text-align: center;
-    font-size: 12;
+    font-size: 10;
     font-weight: bold;
   }
+  #notas{
+    font-size: 10;
+    line-height: 10pt;
+  }
+  #notasdic{
+    text-align: center;
+    font-size: 10;
+    line-height: 10pt;
+  }
   #firmarec{
-    text-align: left;
-    font-size: 12;
-    line-height: 12pt;
+    font-size: 10;
+    line-height: 13pt;
+    text-transform: uppercase;
+    font-weight: bold;
   }
   #firmadic{
     text-align: center;
-    font-size: 12;
+    font-size: 10;
     line-height: 12pt;
+    text-transform: uppercase;
+    font-weight: bold;
   }
   span.nota{
-    font-size: 10;
+    font-size: 8;
     font-style: italic;
+    line-height: 9pt;
   }
   span.mayuscula{
     text-transform: uppercase;
@@ -119,7 +144,7 @@
   #ccp{
     text-align: left;
     font-size: 8;
-    line-height: 8pt;
+    line-height: 7pt;
   }
   #dir{
     text-align: center;
@@ -142,8 +167,8 @@
      <img src="{{public_path('storage/'.$datospdf->body)}}">
    </div>
    <header>
-     <img style="float:left; height:80px;" src="{{public_path('storage/'.$datospdf->head1)}}">
-	   <img style="float:right; height:80px;" src="{{public_path('storage/'.$datospdf->head2)}}">
+     <img style="float:left; height:63px;" src="{{public_path('storage/'.$datospdf->head1)}}">
+	   <img style="float:right; height:58px;" src="{{public_path('storage/'.$datospdf->head2)}}">
    </header>
    <footer>
      @if( ($datospdf->pie1 || $datospdf->pie6) && ($datospdf->pie2 || $datospdf->pie5) && ($datospdf->pie3 || $datospdf->pie4) )

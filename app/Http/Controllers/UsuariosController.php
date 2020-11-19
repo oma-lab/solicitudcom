@@ -12,6 +12,7 @@ use App\Calendario;
 use App\Citatorio;
 use App\User;
 use App\UsersDictamenes;
+use App\Acta;
 use iio\libmergepdf\Merger;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -22,7 +23,7 @@ class UsuariosController extends Controller{
     public function __construct(){
         $this->middleware('auth');//middleware para validar que el usuario este autenticado
         //middleware que da acceso a los integrantes de comite(jefes,subdirector,director,secretario)
-        $this->middleware('integrante', ['only' => ['mostrarCitatorio','getHistorial','verSolicitudEvidencia','guardarObservacion','getObservaciones']]);
+        $this->middleware('integrante', ['only' => ['mostrarCitatorio','mostrarOrden','getHistorial','verSolicitudEvidencia','guardarObservacion','getObservaciones']]);
     }
     
 
@@ -40,6 +41,17 @@ class UsuariosController extends Controller{
         //notificaciones para mostrar al usuario quien ha visto el citatorio
         $citrec= Notificacion::where([['tipo','citatorio'],['citatorio_id',$id]])->get();
         return view('jefe.vercitatorio',compact('citatorio','citrec'));
+    }
+
+    public function mostrarOrden($id){
+        $citatorio = Citatorio::findOrFail($id);
+        $acta = Acta::where([['titulo','=','ordendia'],['calendario_id','=',$citatorio->calendario_id]])->first();
+        $reunion = Calendario::find($citatorio->calendario_id);
+        if($reunion->start < hoy()){
+          //al momento de que los integrantes vean la orden del dia se elimina solo cuando la reunion ya paso
+          Notificacion::where([['tipo','ordendia'],['citatorio_id',$id],['identificador',usuario()->identificador]])->delete();
+        }
+        return view('jefe.verorden',compact('acta'));
     }
 
 

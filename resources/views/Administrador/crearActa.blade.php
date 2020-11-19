@@ -14,10 +14,9 @@
 <textarea class="form-control" id="contenido" rows="40" cols="5" name="contenido" style="text-transform: uppercase;">  
 EN LA CIUDAD DE OAXACA DE JUÁREZ OAXACA, SIENDO LAS {{hora($reunion->hora)}} HORAS DEL DÍA {{fechaLetraAnio($reunion->start)}}, REUNIDOS EN LA SALA DE JUNTAS DE LA DIRECCIÓN DEL INSTITUTO TECNOLÓGICO, UBICADO EN VICTOR BRAVO AHUJA No.125, ESQUINA CALZADA TECNOLÓGICO, COLONIA CENTRO, OAXACA DE JUÁREZ, OAXACA, LOS CIUDADANOS:
 {{grado_nombre_puesto_presidente()}}; @foreach($asistentes as $asistente) {{$asistente->user->grado_nombre_puesto()}}; @endforeach TODOS INTEGRANTES DEL COMITÉ ACADÉMICO @if($invitados->count())E INVITADOS: @foreach($invitados as $invitado) {{$invitado->nombre_puesto()}} @endforeach @endif; SE REÚNEN PARA ATENDER CADA UNO DE LOS PUNTOS DEL SIGUIENTE ORDEN DEL DÍA
-1. PASE DE LISTA.
-2. LECTURA DEL ACTA ANTERIOR.
-3. REVISIÓN DE CASOS.
-4. ASUNTOS GENERALES.
+@foreach($ordensdia as $orden)
+{{$loop->iteration}}. {{$orden}}.
+@endforeach
 {{nombre_puesto_presidente()}} , DIÓ LA BIENVENIDA Y AGRADECIÓ LA ASISTENCIA DE LOS PARTICIPANTES; Y UNA VEZ INICIADA LA REUNIÓN Y EL PASE DE LISTA SE PROCEDIÓ AL ANÁLISIS DE LAS SOLICITUDES RECIBIDAS EN EL PERÍODO COMPRENDIDO DEL {{$fechauno}} AL {{$fechados}} DEL {{anio()}}, SIENDO LOS SIGUIENTES CASOS:
 @foreach($recomendaciones as $recomendacion)
 RECOMENDACIÓN NO. {{$recomendacion->num_recomendacion}}

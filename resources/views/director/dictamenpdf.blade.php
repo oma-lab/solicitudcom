@@ -3,9 +3,9 @@
 @section('departamento') DIRECCIÓN @endsection
 
 @section('contenido')
-
+<br>
 <p id="fecha">
-Oaxaca de Juarez Oax., {{$dictamen->fecha}}<br>
+Oaxaca de Juarez Oax., <span style="background-color: black; color:white">{{$dictamen->fecha}}</span><br>
 OFICIO: {{$dictamen->num_oficio}}<br>
 DICTAMEN No. {{$dictamen->num_dictamen}}</p>
 <br>
@@ -29,20 +29,20 @@ con número de control <b>{{$dictamen->usuario()->identificador}}</b> de la carr
 <p class="cuerpo">Sin otro asunto que tratar reciba un cordial saludo.</p>
 <br> 	 
 
-<p id="firmadic">
+<p id="notasdic">
 <b>A T E N T A M E N T E</b><br>
 <span class="nota">
 Excelencia en Educación Tecnológica®<br>
 "Tecnología Propia e Independencia Económica"
 </span>
-<br><br><br><br><br>
-<span class="mayuscula"><b>
+</p>
+<br><br><br>
+<p id="firmadic">
 {{director()->nombre_completo()}}<br> 
-{{director()->puesto()}}</b>
-</span>
+{{director()->puesto()}}
 </p>
 
-<br>
+<br><br>
 <p id="ccp">
 C.c.p. Departamento de servicios escolares. Psc. Efectos.<br>
 C.c.p. {{$dictamen->usuario()->departamento()}}<br>

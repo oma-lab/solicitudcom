@@ -4,17 +4,19 @@
 
 @section('contenido')
 
+   <br>
    <p id="fecha">
-   Oaxaca de Juárez Oax.,{{fecha($citatorio->fecha)}}<br>
+   Oaxaca de Juárez Oax.,<span style="background-color: black; color:white">{{fecha($citatorio->fecha)}}</span><br>
    OFICIO: {{$citatorio->oficio}}<br><br>
    <b>ASUNTO: CITATORIO</b>
    </p>
-   <br>
+   <br><br>
    <p id="destinatario">
    CC. JEFES Y JEFAS DE DEPARTAMENTO Y DIVISIÓN,<br>
    INTEGRANTES DEL COMTÉ ACADÉMICO.<br>
    PRESENTES.
    </p>
+   <br>
 
    <p class="cuerpo">
    Por este medio me permito citarlos con carácter de obligatorio, a la {{$citatorio->reunion()}}, 
@@ -28,14 +30,14 @@
    </p>
    <br>
 
-   <p id="firmarec">
+   <p id="notas">
    <b>A T E N T A M E N T E</b><br>
    <span class="nota">
    Excelencia en Educación Tecnológica®<br>
    "Tecnología Propia e Independencia Económica"
    </span>  
    </p>
-   <br><br><br>
+   <br><br><br><br>
    <table>
     <tr>
 	 <td>

@@ -19,12 +19,14 @@
       <div class="form-group row">
         <label for="calendario_id" class="col-sm-4 col-form-label">Fecha de reunión :</label>
         <div class="col-sm-8">
-          @if($reunion)
-          <input type="text" class="form-control" value="{{fecha($reunion->start)}}" required disabled>
-          <input type="hidden" name="calendario_id" id="calendario_id" value="{{$reunion->id}}">
-          @else
-          <input type="text" class="form-control" placeholder="Ninguna fecha registrada" disabled required>
-          @endif
+          <select class="form-control" name="calendario_id" required>
+            @if($proxima)
+            <option value="{{$proxima->id}}">{{fecha($proxima->start)}}</option>
+            @endif
+            @foreach($pasadas as $pasada)
+            <option value="{{$pasada->id}}">{{fecha($pasada->start)}}</option>
+            @endforeach
+          </select>
         </div>                   
       </div>
       <div class="form-group row">
@@ -47,7 +49,7 @@
       </div>
       <b>ORDEN DEL DIA:</b>
       <div class="input-group mb-3">
-        <input type="text" class="form-control" name="ordens[]" placeholder="">
+        <input type="text" class="form-control" name="ordens[]" placeholder="Ingrese primer punto, para agregar otro punto presione el boton +">
         <div class="input-group-append">
           <button class="btn btn-primary" type="button" onclick="addOrden();"><b>+</b></button>
         </div>
@@ -56,8 +58,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <label><b style="color:red;">{{!$reunion ? 'No hay fecha de reunión proximas' : ''}}</b></label>
-      <button type="submit" class="btn btn-success" {{$reunion ? '': 'disabled' }}>Generar</button>
+      <button type="submit" class="btn btn-success">Generar</button>
     </div>
     </form>
    </div>
@@ -69,16 +70,20 @@
     @include('layouts.filtrado.mensaje')
     <div class="card-header">CITATORIOS</div>
     <div class="card-body">
+     <div class="table-responsive">
       <table class="table table-sm">
         <thead>
           <tr>
             <th scope="col">Reunión</th>
-            <th scope="col">Descargar</th>
-            <th scope="col">Orden</th>
-            <th scope="col">Eliminar</th>
-            <th scope="col">Subir</th>
-            <th scope="col">Ver</th>
-            <th scope="col">Enviar</th>
+            <th scope="col">Descargar Citatorio</th>
+            <th scope="col">Descargar Orden</th>
+            <th scope="col">Borrar</th>
+            <th scope="col">Subir Citatorio</th>
+            <th scope="col">Subir Orden</th>
+            <th scope="col">Ver Citatorio</th>
+            <th scope="col">Ver Orden</th>
+            <th scope="col">Enviar Citatorio</th>
+            <th scope="col">Enviar Orden</th>
             <th scope="col">Info</th>
           </tr>
         </thead>
@@ -107,13 +112,26 @@
               <input type="image" data-toggle="modal" data-target="#modalsubir" src="{{ asset('imagenes/subir.png')}}" style="width:25px;" onclick="document.getElementById('formsubir').action = '/citatorio/{{$citatorio->id}}'; document.getElementById('subirfile').value = ''; document.getElementById('labelpdf').innerHTML = 'Elegir Archivo PDF';">
             </td>
             <td>
+              <input type="image" data-toggle="modal" data-target="#modalsubir" src="{{ asset('imagenes/subir.png')}}" style="width:25px;" onclick="document.getElementById('formsubir').action = '/updateorden/{{$citatorio->calendario_id}}'; document.getElementById('subirfile').value = ''; document.getElementById('labelpdf').innerHTML = 'Elegir Archivo PDF';">
+            </td>
+            <td>
               <a href="{{url('storage/'.$citatorio->archivo)}}" target= "_blank">
+                <img src="{{asset('imagenes/eye.png')}}" style="width:25px;">
+              </a>
+            </td>
+            <td>
+              <a href="{{url('storage/'.$citatorio->acta_file)}}" target= "_blank">
                 <img src="{{asset('imagenes/eye.png')}}" style="width:25px;">
               </a>
             </td>
             <td>
               <a href="{{url('/citatorio/enviar/'.$citatorio->id)}}">
                 <button type="button" class="btn btn-outline-success sm">{{$citatorio->enviado ? 'Enviado' : 'Enviar' }}</button>
+              </a>  
+            </td>
+            <td>
+              <a href="{{url('/ordendia/enviar/'.$citatorio->calendario_id)}}">
+                <button type="button" class="btn btn-outline-success sm">Enviar</button>
               </a>  
             </td>
             <td>
@@ -125,6 +143,7 @@
           @endforeach
         </tbody>
       </table>
+     </div>
       {{$citatorios->links()}}
     </div>
    </div>

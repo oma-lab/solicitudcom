@@ -49,6 +49,8 @@ $(function() {
       var notifi = '<li><a href="/dictamen_entregado"><i class="fa fa-envelope-square" style="color:#1B396A;"></i><b>'+" "+this.mensaje+'</b><br><p class="puntos">'+this.descripcion+'</p></a></li>';
       if(this.tipo == 'citatorio')
       var notifi = '<li><a href="/mostrar/citatorio/'+this.citatorio_id+'"><i class="fa fa-envelope-square" style="color:#1B396A;"></i><b>'+this.mensaje+'</b><br><p class="puntos">'+this.descripcion+'</p></a></li>';
+      if(this.tipo == 'ordendia')
+      var notifi = '<li><a href="/mostrar/ordendia/'+this.citatorio_id+'"><i class="fa fa-envelope-square" style="color:#1B396A;"></i><b>'+this.mensaje+'</b><br><p class="puntos">'+this.descripcion+'</p></a></li>';
       $('#notifica').append(notifi);
   });
   }else{

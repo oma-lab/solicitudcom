@@ -132,6 +132,13 @@ Route::post('/marcar_dictamen','UsuariosController@marcarDictamen');
 Route::get('/pruebaCorreo','UsuariosController@pruebaCorreo');
 Route::get('/link', function () {
     Artisan::call('storage:link');
-});
+})->middleware('auth');
+Route::get('/clear-cache', function () {
+    Artisan::call('config:clear');
+    Artisan::call('config:cache');
+    Artisan::call('cache:clear');
+    Artisan::call('route:clear');
+    return "ok";
+})->middleware('auth');
 
 

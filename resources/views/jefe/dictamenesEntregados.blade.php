@@ -51,7 +51,7 @@
              @endforeach
            </tbody>
           </table>
-          {{$dictamenes->links()}}
+          {{$dictamenes->appends(Request::only(['fechareunion','carrera_id','numc','nombre']))->links()}}
          </div>
         </div>
 
@@ -64,4 +64,12 @@
   </div>
  </div>
 </section>
+@endsection
+
+@section('script')
+<script>
+  window.addEventListener("load", function(){
+    document.getElementById('filtroreunion').style.display = "block";
+  });
+</script>
 @endsection

@@ -6,5 +6,5 @@
   Hora: {{Carbon\Carbon::parse($citatorio->calendario->hora)->format('H:i')}} horas.<br>
   Asunto: {{$citatorio->calendario->title}}
 </p>
-<a class="boton" href="{{ url('storage/'.$citatorio->archivo)}}" target="_blank">Ver Citatorio</a>
+<a class="boton" href="{{url('mostrar/citatorio/'.$citatorio->id)}}" target="_blank">Ver Citatorio</a>
 @endsection

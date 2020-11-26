@@ -60,10 +60,15 @@ class DirectorController extends Controller{
         $numc = $request->get('numc');
         $roleid = $request->get('role_id');
         $id_carrera = $request->get('carrera_id');
+        $reunion = $request->get('fechareunion');//filtrado por reunión
 
         $enviado = ($filtro == 'terminados') ? true : false;
 
         $dictamenes = Dictamen::where('enviado',$enviado)
+                              ->whereHas('recomendacion.solicitud.calendario', function($query) use ($reunion){
+                                  $query->when($reunion, function($query,$reunion){
+                                      $query->whereDate('start',$reunion);});
+                              })
                               ->whereHas('recomendacion.solicitud.user', function($query) use ($nombre,$numc,$roleid,$id_carrera) {
                                 $query->nombre($nombre)
                                 ->identificador($numc)
@@ -153,7 +158,7 @@ class DirectorController extends Controller{
            'descripcion' => 'Tu dictamen se ha realizado, Para obtener una copia lo puedes hacer en la opción dictamen. O si deseas una copia física pasa con tu coordinador de carrera',
            'obs_coor' => ''
         ]);
-        UsersDictamenes::create(['identificador' => $dic->usuario()->identificador,'dictamen_id' => $id]);
+        UsersDictamenes::updateOrCreate(['identificador' => $dic->usuario()->identificador,'dictamen_id' => $id]);
         return back()->with('Mensaje','Dictamen enviado');
     }
 

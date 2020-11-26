@@ -13,33 +13,36 @@ use App\Recomendacion;
 use App\Dictamen;
 use Tests\DatosPrueba;
 
-class JefeDictamenTest extends TestCase{
+class UsuarioDictamenTest extends TestCase{
     use RefreshDatabase;
     use DatosPrueba;
-
-
 
     public function setUp() : void{
         parent::setUp();
         $this->seed('DatabaseTestSeeder');
         $this->usuario_correcto = User::create($this->usuario_correcto);
         $this->coordinador = User::create($this->coordinador);
-        $this->jefe = User::create($this->jefe);
         $this->subdirector = User::create($this->subdirector);
         $this->solicitud_enviada_coor = Solicitud::create($this->solicitud_enviada_coor);
-        $this->observacion_coordinador = Observaciones::create($this->observacion_coordinador);
-        $this->observacion_jefe = Observaciones::create($this->observacion_jefe);
         $this->recomendacion_enviada = Recomendacion::create($this->recomendacion_enviada);
         $this->dictamen_enviado = Dictamen::create($this->dictamen_enviado);
     }
-  
+    
 
-    public function test_ver_dictamenes(){
-        $response = $this->actingAs($this->jefe)
-                         ->get(route('jefe.dictamenes','no_entregado'));
-        $response->assertViewHas('dictamenes');
+    public function test_solicitante_ver_dictamen(){
+        $response = $this->actingAs($this->usuario_correcto)
+                         ->get(route('dictamenes'));
+        $response->assertViewHas('ds');
         $this->assertAuthenticated();
         $response->assertSuccessful();
     }
 
+    public function test_subdirector_ver_dictamenes(){
+        $response = $this->actingAs($this->subdirector)
+                         ->get(route('sub.dictamenes'));
+        $response->assertViewHas('dictamenes');
+        $response->assertViewHas('carreras');
+        $this->assertAuthenticated();
+        $response->assertSuccessful();
+    }
 }

@@ -168,7 +168,7 @@ class SolicitanteController extends Controller{
         $datospdf = Formato::findOrFail(1);
         //datos del usuario autenticado
         $usuario=Auth::user();
-        $suma = strlen($solicitud->asunto) + strlen($solicitud->motivos_academicos) + strlen($solicitud->motivos_personales);
+        $suma = strlen($solicitud->asunto) + strlen($solicitud->motivos_academicos) + strlen($solicitud->motivos_personales) + strlen($solicitud->otros_motivos);
         $pdf = PDF::loadView('solicitante.pdfsolicitud',compact('solicitud','datospdf','usuario','suma'))->setPaper('carta','portrait');
         return $pdf->stream('solicitud.pdf');
         }else{
@@ -221,7 +221,7 @@ class SolicitanteController extends Controller{
         //valida que se suba la solicitud, tenga evidencias y que no hay sido enviado
         if(!$sld->solicitud_firmada){return back()->with('Error','No es posible Enviar, falta subir formato firmado');}
         if(!$sld->evidencias){return back()->with('Error','No es posible enviar, faltan evidencias');}
-        if($sld->enviado){return back()->with('Error','Imposible de enviar');}
+        if($sld->enviado){return back()->with('Error','Enviado, solo es posible enviar una vez');}
         //actualiza la solicitud como enviado
         Solicitud::where('id',$id)->update(['enviado' => true]);
         //se elimina la notificacion en caso que su solicitud haya sido cancelada

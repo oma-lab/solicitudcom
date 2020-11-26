@@ -8,6 +8,7 @@ use Tests\TestCase;
 use App\User;
 use App\Calendario;
 use App\Citatorio;
+use App\Acta;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\DatosPrueba;
@@ -21,7 +22,10 @@ class CitatorioTest extends TestCase{
         parent::setUp();
         $this->seed('DatabaseTestSeeder');
         $this->secretario = User::create($this->secretario);
+        $this->jefe = User::create($this->jefe);
         $this->citatorio = Citatorio::create($this->citatorio);
+        $this->orden = Acta::create($this->orden);
+        $this->orden_dia = Acta::create($this->orden_dia);
 
     }
     
@@ -105,4 +109,43 @@ class CitatorioTest extends TestCase{
                          ->get(route('citatorio_pdf',1));
         $response->assertSuccessful();
     }
+
+
+    public function test_subir_orden(){
+        Storage::fake('public');
+        $archivo = UploadedFile::fake()->create('orden.pdf', 1000);
+        $response = $this->actingAs($this->secretario)
+                         ->from(route('citatorio.index'))
+                         ->patch(route('update.orden',$this->orden['id']),['doc_firmado' => $archivo]);
+
+        Storage::disk('public')->assertExists('subidas/'.$archivo->hashName());
+        $response->assertRedirect(route('citatorio.index'));
+    }
+
+    public function test_enviar_orden(){
+        $response = $this->actingAs($this->secretario)
+                         ->from(route('citatorio.index'))
+                         ->get(route('enviar.orden',$this->orden_dia['calendario_id']));
+
+        $this->assertDatabaseHas('notificacions',[
+            'tipo' => 'ordendia', 
+        ]);
+        $response->assertRedirect(route('citatorio.index'));
+    }
+
+    public function test_mostrar_citatorio(){
+        $response = $this->actingAs($this->jefe)
+                         ->get(route('mostrar.citatorio',$this->citatorio['id']));
+        $response->assertViewHas('citatorio');
+        $this->assertAuthenticated();
+        $response->assertSuccessful();
+    }
+
+    public function test_mostrar_orden(){
+        $response = $this->actingAs($this->jefe)
+                         ->get(route('mostrar.orden',$this->citatorio['id']));
+        $this->assertAuthenticated();
+        $response->assertSuccessful();
+    }
+
 }

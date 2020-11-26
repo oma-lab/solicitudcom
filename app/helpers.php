@@ -124,15 +124,10 @@ function calculafecha($intervalo){
 //notificacion para solicitantes
 function notificarSolicitante(array $datos){
     $solic = Solicitud::findOrFail($datos['id_sol']);
-    Notificacion::create([
-        'identificador' => $solic->identificador,
-        'tipo' => $datos['tipo'],
-        'solicitud_id' => $datos['id_sol'],
-        'mensaje' => $datos['mensaje'],
-        'descripcion' => $datos['descripcion'],
-        'observacion' => $datos['obs_coor'],
-        'num' => 1,
-    ]);
+    Notificacion::updateOrCreate(
+     ['identificador' => $solic->identificador,'tipo' => $datos['tipo'],'solicitud_id' => $datos['id_sol']],
+     ['mensaje' => $datos['mensaje'],'descripcion' => $datos['descripcion'],'observacion' => $datos['obs_coor'],'num' => 1]
+    );
     if($datos['tipo'] == "cancelado"){
         try{
         Mail::to($solic->user->email)->queue(new RegresarSolicitud($datos['obs_coor'],$solic));
@@ -184,7 +179,7 @@ function notificar(array $datos){
     }
     if($datos['tipo'] == "dictamen_nuevo"){
         foreach($usuarios_enviar as $usuario){
-            UsersDictamenes::create(['identificador' => $usuario,'dictamen_id' => $datos['dictamenid']]);
+            UsersDictamenes::updateOrCreate(['identificador' => $usuario,'dictamen_id' => $datos['dictamenid']]);
         }
     }
     if($datos['tipo'] == "citatorio"){

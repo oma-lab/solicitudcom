@@ -60,3 +60,7 @@ function borrarimg(num){
     $('#div'+num).remove();
   }
 }
+
+function formdisable(){
+  document.getElementById('btnsg').disabled=true;
+}

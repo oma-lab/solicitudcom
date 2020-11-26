@@ -102,6 +102,35 @@ class DirectorDictamenTest extends TestCase{
         $response->assertRedirect(route('director.dictamenes','pendientes'));
 
     }
+
+    public function test_eliminar_dictamen(){
+        $this->assertDatabaseHas('dictamens', [
+            'id' => $this->dictamen['id'],
+        ]);
+
+        $response = $this->actingAs($this->director)
+                         ->from(route('director.dictamenes','pendientes'))
+                         ->delete(route('eliminar.dictamen', $this->dictamen['id']));
+        
+        $this->assertDeleted('dictamens', ['id' => $this->dictamen['id']]);
+        $response->assertRedirect(route('director.dictamenes','pendientes'));
+    }
+
+    public function test_rehacer_dictamen(){
+        $this->dictamen_enviado = Dictamen::create($this->dictamen_enviado);
+        $this->assertDatabaseHas('dictamens', [
+            'id' => $this->dictamen_enviado['id'],
+            'enviado' => true,
+        ]);
+        $response = $this->actingAs($this->director)
+                         ->from(route('director.dictamenes','terminados'))
+                         ->get(route('rehacer',$this->dictamen_enviado['id']));
+        $this->assertDatabaseMissing('dictamens', [
+            'id' => $this->dictamen_enviado['id'],
+            'enviado' => true,
+        ]);
+        $response->assertRedirect(route('director.dictamenes','terminados'));
+    }
     
     
 }

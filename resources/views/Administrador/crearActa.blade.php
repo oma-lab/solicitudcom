@@ -1,7 +1,7 @@
 @extends('layouts.encabezadoAdmin')
 @section('contenido')
 <div class="container">
-<form method="POST" action="{{route('acta.store')}}" enctype="multipart/form-data">
+<form method="POST" action="{{route('acta.store')}}" enctype="multipart/form-data" onsubmit="formdisable()">
 {{ csrf_field()}}
 <div class="row justify-content-center">
   <div class="form-group col-md-9">
@@ -34,7 +34,7 @@ SE SOLICITA A LAS PERSONAS QUE INTERVIENEN, MANIFIESTEN SI DESEAN AGREGAR ALGUNA
 
 <div class="row">
  <div class="col centrado">
-    <button type="submit" class="btn btn-primary">Registrar</button>
+    <button type="submit" class="btn btn-primary" id="btnar">Registrar</button>
  </div> 
  <div class="col centrado"> 
     <a href="{{route('acta.index')}}"><button class="btn btn-danger" type="button"> Cancelar </button></a>
@@ -43,4 +43,13 @@ SE SOLICITA A LAS PERSONAS QUE INTERVIENEN, MANIFIESTEN SI DESEAN AGREGAR ALGUNA
 
 </form>   
 </div>
+@endsection
+
+@section('script')
+<script>
+  function formdisable(){
+    document.getElementById('btnar').disabled=true;
+    document.getElementById('btnar').innerText = "Generando...";
+  }
+</script>
 @endsection

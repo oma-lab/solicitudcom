@@ -16,6 +16,7 @@ use App\UserAdscripcion;
 use App\User;
 use App\Role;
 use App\Dictamen;
+use App\Asunto;
 use Illuminate\Support\Facades\Hash;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Route;
@@ -140,7 +141,7 @@ class AdminController extends Controller{
         $datosEvento=request()->except(['_token','_method']);
         $datosEvento['color'] = $request['title'] == 'reunión de Comité Académico' ? 'green' : 'blue';
         Calendario::insert($datosEvento);
-        print_r($datosEvento);
+        //print_r($datosEvento);
     }
 
 
@@ -410,7 +411,7 @@ class AdminController extends Controller{
             ['nombre' => $request->nombre, 'apellido_paterno' => $request->apellido_paterno, 
              'apellido_materno' => $request->apellido_materno, 'sexo' => $request->sexo,
              'role_id' => $request->role_id, 'carrera_id' => $request->carrera_id, 
-             'adscripcion_id' => $request->adscripcion_id,'password' => Hash::make('identificador')
+             'adscripcion_id' => $request->adscripcion_id,'password' => Hash::make("pass-ca".$request->identificador)
              ]);
         $solicitud = Solicitud::create(
             ['asunto' => $request->asunto, 'motivos_academicos' => $request->motivos_academicos, 'motivos_personales' => $request->motivos_personales, 
@@ -494,5 +495,31 @@ class AdminController extends Controller{
         }
         Solicitud::where('id',$request->solicitud_id)->update(['solicitud_firmada' => $nombrearchivo]);
         return redirect()->route('solicitudes')->with('Mensaje','Solicitud subida correctamente');
+    }
+
+    public function asuntos(){
+        $asuntos = Asunto::all();
+        return view('Administrador.asuntos',compact('asuntos'));
+    }
+    
+    public function guardarAsunto(Request $request){
+        Asunto::updateOrCreate(
+            ['asunto' => $request->asunto],
+            ['descripcion' => $request->descripcion]
+        );
+        return back()->with('Mensaje','Nuevo asunto registrado correctamente');
+    }
+
+    public function actualizarAsunto(Request $request,$id){
+        Asunto::where('id','=',$id)->update([
+            'asunto' => $request->asunto,
+            'descripcion' => $request->descripcion,
+            ]);
+        return back()->with('Mensaje','Asunto actualizado correctamente');
+    }
+
+    public function eliminarAsunto($id){
+        Asunto::destroy($id);
+        return back()->with('Mensaje','Asunto eliminado correctamente');
     }
 }

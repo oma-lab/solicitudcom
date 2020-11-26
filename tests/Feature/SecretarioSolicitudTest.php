@@ -9,6 +9,8 @@ use App\User;
 use App\Calendario;
 use App\Solicitud;
 use App\Observaciones;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\DatosPrueba;
 
 class SecretarioSolicitudTest extends TestCase{
@@ -22,6 +24,7 @@ class SecretarioSolicitudTest extends TestCase{
         $this->usuario_correcto = User::create($this->usuario_correcto);
         $this->coordinador = User::create($this->coordinador);
         $this->solicitud_enviada_coor = Solicitud::create($this->solicitud_enviada_coor);
+        $this->solicitud_por_secretario = Solicitud::create($this->solicitud_por_secretario);
         $this->observacion_coordinador = Observaciones::create($this->observacion_coordinador);
         $this->jefe = User::create($this->jefe);
         $this->observacion_jefe = Observaciones::create($this->observacion_jefe);
@@ -50,6 +53,79 @@ class SecretarioSolicitudTest extends TestCase{
         ]);
         $response->assertRedirect(route('solicitudes'));
 
+    }
+
+    public function test_actualizar_solicitud(){
+        $response = $this->actingAs($this->secretario)
+                         ->from(route('solicitudes'))
+                         ->get(route('actualizar.solicitud',$this->solicitud_enviada_coor['id']));
+        $this->assertAuthenticated();
+        $response->assertViewHas('solicitud');      
+        $response->assertStatus(200);
+    }
+
+    public function test_guardar_solicitud(){
+        $response = $this->actingAs($this->secretario)
+                         ->from(route('actualizar.solicitud',$this->solicitud_enviada_coor['id']))
+                         ->patch(route('guardar.solicitud',$this->solicitud_enviada_coor['id']),
+                                      ['calendario_id' => $this->solicitud_enviada_coor['calendario_id'],
+                                       'usuarios' => [$this->jefe['identificador']]]);
+        $this->assertAuthenticated();
+        $this->assertDatabaseHas('observaciones', [
+            'solicitud_id' => $this->solicitud_enviada_coor['id'], 'identificador' => $this->jefe['identificador'],
+        ]);
+        $response->assertRedirect(route('solicitudes'));
+    }
+
+    public function test_subir_solicitud(){
+        $response = $this->actingAs($this->secretario)
+                         ->get(route('subir.solicitud',$this->solicitud_por_secretario['id']));
+        $this->assertAuthenticated();
+        $response->assertSuccessful();
+        $response->assertViewHas('solicitud');
+    }
+    
+    public function test_guardar_solicitudpdf(){
+        Storage::fake('public');
+        $imagen = UploadedFile::fake()->create('imagen.png', 1000);
+        $response = $this->actingAs($this->secretario)
+                         ->from(route('subir.solicitud',$this->solicitud_por_secretario['id']))
+                         ->post(route('solicitud.guardar'),['solicitud_id' => $this->solicitud_por_secretario['id'],
+                                                            'file' => [$imagen],
+                                                            ]);
+
+        $this->assertDatabaseMissing('solicituds', [
+            'solicitud_id' => $this->solicitud_por_secretario['id'], 
+            'solicitud_firmada' => null,
+        ]);
+        $response->assertRedirect(route('solicitudes'));
+    }
+
+
+    public function test_vista_posponer(){
+        $response = $this->actingAs($this->secretario)
+                         ->get(route('vista.posponer'));
+        $this->assertAuthenticated();
+        $response->assertViewHas('reunion');
+        $response->assertViewHas('solicitudes');      
+        $response->assertStatus(200);
+    }
+
+    public function test_posponer(){
+        $this->assertDatabaseHas('solicituds', [
+            'id' => $this->solicitud_enviada_coor['id'],
+            'calendario_id' => $this->solicitud_enviada_coor['calendario_id'],
+        ]);
+        $response = $this->actingAs($this->secretario)
+                         ->from(route('vista.posponer'))
+                         ->post(route('posponer'),['solicitudes' => [$this->solicitud_enviada_coor['id']],
+                                                   'nueva_reunion' => 3]);
+        $this->assertAuthenticated();
+        $this->assertDatabaseMissing('solicituds', [
+            'id' => $this->solicitud_enviada_coor['id'],
+            'calendario_id' => $this->solicitud_enviada_coor['calendario_id'], 
+        ]);
+        $response->assertRedirect(route('vista.posponer'));
     }
 
     

@@ -12,6 +12,7 @@ use App\Notificacion;
 use App\Adscripcion;
 use App\Observaciones;
 use App\Recomendacion;
+use App\Calendario;
 
 class CoordinadorController extends Controller{
 
@@ -79,7 +80,9 @@ class CoordinadorController extends Controller{
     public function dictamenes(Request $request){
         $nombre= $request->get('nombre');//filtrado por nombre
         $carreraid= $request->get('carrera_id');//filtrado por carrera
-        $numc = $request->get('numc');//filtrado número de control               
+        $numc = $request->get('numc');//filtrado número de control
+        $reunion = $request->get('fechareunion');//filtrado por reunión
+        $dic_recibido = ($request->get('dic_recibido') == 'recibidos') ? true : false;
         if(!$carreraid){
             //en caso de no filtrar por carrera se muestran de todas
             $carreras_id = UserCarrera::where('identificador','=',usuario()->identificador)->pluck('carrera_id');
@@ -95,9 +98,14 @@ class CoordinadorController extends Controller{
                                   $query->nombre($nombre)
                                         ->identificador($numc)
                                         ->carreras($carreras_id);})
-                              ->join('users_dictamenes',function($join){
+                              ->whereHas('recomendacion.solicitud.calendario', function($query) use ($reunion){
+                                  $query->when($reunion, function($query,$reunion){
+                                      $query->whereDate('start',$reunion);});
+                                    })
+                              ->join('users_dictamenes',function($join) use ($dic_recibido){
                                   $join->on('users_dictamenes.dictamen_id', '=', 'dictamens.id')
-                                  ->where('users_dictamenes.identificador', '=', usuario()->identificador);
+                                  ->where('users_dictamenes.identificador', '=', usuario()->identificador)
+                                  ->where('users_dictamenes.recibido','=',$dic_recibido);
                                 })
                               ->select('dictamens.*','users_dictamenes.recibido')
                               ->paginate(5);
@@ -124,11 +132,9 @@ class CoordinadorController extends Controller{
     observaciones para mandarlas al solicitante y pueda modificar*/
     public function cancelarSolicitud(Request $request){
         //observaciones que seran enviadas al usuario
-        Observaciones::create([
-            'identificador' => usuario()->identificador,
-            'solicitud_id' => $request->id_sol,
-            'descripcion' => $request->obs_est,
-        ]);
+        Observaciones::updateOrCreate(
+            ['identificador' => usuario()->identificador,'solicitud_id' => $request->id_sol],
+            ['descripcion' => $request->obs_est]);
         //la solicitud se marca como no enviada
         Solicitud::where('id',$request->id_sol)->update(['enviado' => false]);
         //se notifica al solicitante
@@ -150,12 +156,10 @@ class CoordinadorController extends Controller{
     da observaciones a la solicitud*/ 
     public function enviarSolicitud(Request $request,$id){
     //se guarda la observacion dada a la solicitud y se marca como visto
-        Observaciones::create([
-            'identificador' => Auth::user()->identificador,
-            'solicitud_id' => $id,
-            'descripcion' => $request['descripcion'],
-            'visto' => true
-        ]);
+        Observaciones::updateOrCreate(
+            ['identificador' => Auth::user()->identificador,'solicitud_id' => $id],
+            ['descripcion' => $request['descripcion'],'visto' => true]
+        );
         //la solicitud se marca como enviado
         Solicitud::where('id',$id)->update(['enviadocoor' => true]);
         $sol= Solicitud::find($id);

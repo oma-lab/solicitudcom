@@ -74,7 +74,7 @@
           @endforeach  
         </tbody>
        </table>
-       {{$dictamenes->appends(Request::only(['role_id','carrera_id','numc','nombre']))->links()}}
+       {{$dictamenes->appends(Request::only(['fechareunion','role_id','carrera_id','numc','nombre']))->links()}}
       </div>
      </div>
     
@@ -109,6 +109,9 @@
 
 @section('script')
 <script>
+ window.addEventListener("load", function(){
+      document.getElementById('filtroreunion').style.display = "block";
+ });
  function veracuse(id){
   $("#acuse").empty();
   var campo = '';

@@ -44,7 +44,7 @@ function verobs(solicitud_id){
      if(!$.isEmptyObject(solicitudes)){
        $('#sin').text("");
        $.each(solicitudes,function(index,value){
-         var url= "versolicitudEvidencia/"+value.id;
+         var url= url_global+"/storage/"+value.dictamen_firmado;
          var htmlTags = '<tr class="filahistorial">'+
          '<td width="70%"><p style="text-align:justify">' + value.asunto + '</p></td>'+
          '<td><center><a class="navbar-brand" href='+url+' target= "_blank"><img src='+img+' style="width:35px;"></a></center></td>'+

@@ -47,7 +47,7 @@
         <thead class="thead-light">
             <tr>
              <th scope="col">Asunto</th>
-             <th scope="col">Ver</th>
+             <th scope="col">Ver Dictamen</th>
            </tr>
         </thead>
         <tbody>   

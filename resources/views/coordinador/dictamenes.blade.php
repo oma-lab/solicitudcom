@@ -55,7 +55,7 @@
         @endforeach
        </tbody>
       </table>
-      {{$dictamenes->appends(Request::only(['carrera_id','numc','nombre']))->links()}}
+      {{$dictamenes->appends(Request::only(['dic_recibido','fechareunion','carrera_id','numc','nombre']))->links()}}
      </div>
     </div>
     
@@ -67,6 +67,10 @@
 
 @section('script')
 <script>
+  window.addEventListener("load", function(){
+      document.getElementById('filtroreunion').style.display = "block";
+      document.getElementById('filtrodictamen').style.display = "block";
+  });
   function marcar_recibido(dic,user){
     $('#'+dic).prop('disabled',true);
     var token = $("meta[name='csrf-token']").attr("content");

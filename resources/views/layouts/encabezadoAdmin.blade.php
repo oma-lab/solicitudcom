@@ -48,6 +48,7 @@
           <ul class="submenu">
             <li><a href="{{route('usuarios','estudiante')}}"><img src="{{ asset('imagenes/usuarios.png') }}" style="width:30px;">Usuarios</a></li>
             <li><a href="{{route('carrera.adscripcion')}}"><img src="{{ asset('imagenes/carrera.png') }}" style="width:30px;">Carreras</a></li>
+            <li><a href="{{route('asuntos')}}"><img src="{{ asset('imagenes/asunto.png') }}" style="width:28px;">Asuntos</a></li>
             <li><a href="{{route('formato')}}"><img src="{{ asset('imagenes/formatos.png') }}" style="width:28px;">Formatos</a></li>
           </ul>
         </li>

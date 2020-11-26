@@ -22,8 +22,15 @@ class ListaAsistenciaController extends Controller{
      //acceso a la funcion solo para el administrador, validado en el constructor
      //funcion que retorna la vista que muestra las listas registradas
     public function index(Request $request){
+        $reunion = $request->get('fechareunion');//filtrado por fecha de reunión
         //listas registradas
-        $listas = ListaAsistencia::orderBy('created_at','desc')->paginate(5);
+        $listas = ListaAsistencia::join('calendarios','lista_asistencias.calendario_id','calendarios.id')
+                                 ->select('lista_asistencias.*')
+                                 ->when($reunion,function($query) use ($reunion){
+                                     $query->whereDate('calendarios.start',$reunion);
+                                 })
+                                 ->orderBy('created_at','desc')
+                                 ->paginate(5);
         //integrantes de comite academico los cuales deben aparecer en la lista de asistencia
         // 1=> secretario , 5=> jefes , 8=> subdirector
         $integrantes=User::whereIn('role_id',[1,5,8])->get();

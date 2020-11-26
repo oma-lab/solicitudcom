@@ -100,13 +100,19 @@ class SubdirectorController extends Controller{
         $numc = $request->get('numc');
         $roleid = $request->get('role_id');
         $id_carrera = $request->get('carrera_id');
+        $reunion = $request->get('fechareunion');//filtrado por reunión
         $dictamenes =Dictamen::whereIn('respuesta',['SI','NO'])
                              ->where('enviado','=',true)
                              ->whereHas('recomendacion.solicitud.user', function($query) use ($nombre,$numc,$roleid,$id_carrera) {
                                 $query->nombre($nombre)
                                 ->identificador($numc)
                                 ->role($roleid)
-                                ->carrera($id_carrera);})
+                                ->carrera($id_carrera);
+                             })
+                             ->whereHas('recomendacion.solicitud.calendario', function($query) use ($reunion){
+                                 $query->when($reunion, function($query,$reunion){
+                                     $query->whereDate('start',$reunion);});
+                             })
                              ->paginate(10);
         $carreras = Carrera::all();
         return view('subdirector.dictamenes',compact('dictamenes','carreras'));
@@ -170,7 +176,7 @@ class SubdirectorController extends Controller{
     public function enviarRecomendacion($id){
         Recomendacion::where('id',$id)->update(['enviado' => true]);
         //al momento de enviar la recomendacion, se crea el dictamen haciendo referencia a la recomendacion
-        Dictamen::create(['recomendacion_id' => $id]);
+        Dictamen::updateOrCreate(['recomendacion_id' => $id]);
         //se crea notificacion de dictamenes pendientes para administrador y director 
         notificar([
             'roles' => [1,2],

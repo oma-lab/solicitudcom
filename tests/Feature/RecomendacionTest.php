@@ -45,6 +45,15 @@ class RecomendacionTest extends TestCase{
         $response->assertStatus(200);
     }
 
+    public function test_ver_recomendaciones_finalizadas(){
+        $response = $this->actingAs($this->subdirector)
+                         ->get(route('recomendaciones.finalizadas'));
+        $this->assertAuthenticated();
+        $response->assertViewHas('recom');
+        $response->assertViewHas('carreras');
+        $response->assertStatus(200);
+    }
+
 
     public function test_editar_recomendacion(){
         //para editar la recomendacion debe haber por lo menos una registrada

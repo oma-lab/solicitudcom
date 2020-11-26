@@ -29,7 +29,7 @@
   <input name="solicitud_id" type="hidden" value="{{$solicitud->id}}">
   <div class="row">
    <div class="col-md-12">
-     <b>Subir Solicitud y Evidencias</b><br><br>
+     <b>Subir Solicitud y Evidencias en formato de imagen(.png , .jpeg, .jpg)</b><br><br>
        <div class="row" id="camposo">
          <div id="div1" >
          <b id="info1" style="color:red"></b>

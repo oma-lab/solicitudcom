@@ -2,8 +2,8 @@
 @section('contenido')
 <h2>Tu solicitud ha sido revisada en la reunión de Comité Académico</h2>
 <p>
-Mantente al pendiente en la página web de Comité Académico, para conocer el proceso de tu solicitud
-y cuando tu dictamen tenga una respuesta.
+Mantente al pendiente en el sistema web de Comité Académico, para conocer el proceso de tu solicitud
+y saber cuando tu dictamen tenga una respuesta.
 </p>  
 <p>
  Nombre: {{$solicitud->user->nombre_completo()}}<br>

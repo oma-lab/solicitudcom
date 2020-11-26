@@ -8,5 +8,5 @@
  {{$solicitud->user->tipo_carrera_adscripcion()}}: {{$solicitud->user->carrera_adscripcion()}}<br>
  {{$solicitud->user->tipo_id()}}: {{$solicitud->user->identificador}}<br>
 </p>
-<a class="boton" href="{{url('home')}}" target="_blank">Ver</a>
+<a class="boton" href="{{url('mostrar/dictamen')}}" target="_blank">Ver</a>
 @endsection 

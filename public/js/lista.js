@@ -13,6 +13,16 @@ function documento(tipo){
   document.getElementById(tipo).style.display = 'block';
 }
 
+function esSolicitud(){
+  $('#botongenerar').prop('disabled',true);
+  if($('#check3').prop('checked')){
+    $('#botonesaccion').css('visibility', 'hidden');
+    $('#botoneshecho').css('visibility', 'visible');
+    $('#notasolicitud').text('Espere un momento, la solicitud se descargará automáticamente, una vez descargado puede continuar con el proceso en la sección de solicitudes');
+    
+  }
+}
+
 
 //funcion para agregar invitados a la lista de forma dinamica
 function addInvitado(){  

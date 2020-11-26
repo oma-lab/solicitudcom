@@ -23,7 +23,7 @@ class EditarUsuarioTest extends TestCase{
     
     public function test_vista_editar_usuario(){
         $response = $this->actingAs($this->usuario_correcto)
-                         ->get(route('solicitante.editar',1));
+                         ->get(route('solicitante.editar'));
         $response->assertViewHas('usuario');
         $this->assertAuthenticated();
         $response->assertSuccessful();

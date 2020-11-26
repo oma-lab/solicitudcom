@@ -102,7 +102,8 @@ public function solicitudesRecibidas(Request $request,$filtro){
     $roleid = $request->get('role_id');// filtrado por rol, estudiante o docente
     $ide= $request->get('numc'); //filtrado por número de control o RFC
     $nombre= $request->get('nombre'); //filtrado por nombre o apellidos
-    $carreraid= $request->get('carrera_id'); //filtrado por
+    $carreraid= $request->get('carrera_id'); //filtrado por carrera
+    $reunion = $request->get('fechareunion');//filtrado por reunión
     //valida que el usuario se jefe de divison de estudios o jefe de servicios escolares
     if($user->esIntegrante()){
       /*la validacion se realiza debido a que el jefe de division y jefe de servicios 
@@ -123,6 +124,7 @@ public function solicitudesRecibidas(Request $request,$filtro){
       //filtrado de los dictamenes
       $dictamenes = Dictamen::join('recomendacions','dictamens.recomendacion_id','=','recomendacions.id')
                         ->join('solicituds','recomendacions.id_solicitud','=','solicituds.id')
+                        ->join('calendarios','solicituds.calendario_id','=','calendarios.id')
                         ->join('users','solicituds.identificador','=','users.identificador')
                         ->join('users_dictamenes',function($join) use ($entregado){
                           $join->on('users_dictamenes.dictamen_id', '=', 'dictamens.id')
@@ -142,6 +144,9 @@ public function solicitudesRecibidas(Request $request,$filtro){
                         ->where('users.identificador','LIKE',"%$ide%")
                         ->where('users.role_id','LIKE',"%$roleid%")
                         ->where('dictamens.enviado','=',true)
+                        ->when($reunion,function($query) use ($reunion){
+                          $query->whereDate('calendarios.start',$reunion);
+                        })
                         ->paginate(5);
               
       Notificacion::where([['identificador','=',$user->identificador],['tipo','=','newdictamen']])->update(['num' => 0]);
@@ -169,11 +174,4 @@ public function solicitudesRecibidas(Request $request,$filtro){
         return view('auth.edit_usuario',compact('usuario','ads_carreras'))->with('encabezado','layouts.encabezadojefe');
     }
 
-
-    //acceso a la funcion solo para jefes, validado en el constructor
-    //funcion que marca a un dictamen como entregado cuando el jefe entrega el dictamen al solicitante
-    public function entregarDictamen($id){
-      Dictamen::where('id','=',$id)->update(['entregado' => true]);
-      return back()->with('Mensaje','El dictamen se ha marcado como entregado');
-    }
 }

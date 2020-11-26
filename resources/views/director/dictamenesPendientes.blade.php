@@ -75,7 +75,7 @@
              @if(!$dic->dictamen_firmado)
              <a style="color:black;"><b>Archivo no cargado</b></a>
              @else
-             <a style="color:red;"><b>Archivo cargado</b></a>
+             <a style="color:green;"><b>Archivo cargado</b></a>
              @endif
           </td>
           <td class="centrado">

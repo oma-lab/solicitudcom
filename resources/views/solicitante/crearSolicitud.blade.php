@@ -2,7 +2,7 @@
 @section('contenido')
 <h3 class="centrado" style="text-transform: uppercase;">SOLICITUD</h3>
 <div class="container-sm">
-<form method="POST" action="{{ route('registrar.solicitud') }}" enctype="multipart/form-data">
+<form method="POST" action="{{ route('registrar.solicitud') }}" enctype="multipart/form-data" onsubmit="formdisable()">
 {{ csrf_field()}}
  <div class="form-row">
    <div class="form-group col-md-4">
@@ -80,7 +80,7 @@
  </div>
  
  <label><b>Evidencias obligatorias:</b></label><br>
- <b style="color:blue">Sube tus evidencias en formato de imagen(.png ,.jpeg, .jpg)</b><br>
+ <b style="color:blue">Sube tus evidencias en formato de imagen(.png , .jpeg, .jpg)</b><br>
  <b style="color:blue">Asegúrate que tus evidencias sean claras, que no tengan un fondo muy obscuro y tu hoja debe estar de manera vertical, cualquier omisión de estas indicaciones anulará tu solicitud.</b><br>
  
  <div class="row" id="camposo">
@@ -102,7 +102,7 @@
  
  <div class="row">
      <div class="col centrado">
-       <button type="submit" class="btn btn-primary">Generar</button>
+       <button type="submit" class="btn btn-primary" id="btnsg">Generar</button>
      </div> 
      <div class="col centrado"> 
        <a href="{{route('home')}}"><button class="btn btn-danger" type="button"> Cancelar </button></a>

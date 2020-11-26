@@ -8,7 +8,7 @@
  </div>
  <form method="GET" action="{{route('listaasistencia.index')}}" class="form-inline">
  Fecha:
- <input class="form-control mr-sm-2" type="date" id="date" name="fecha" value="{{hoy()}}">
+ <input class="form-control mr-sm-2" type="date" name="fechareunion" value="{{request('fechareunion')}}">
  <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search"></i> Buscar</button>
  </form>
 </nav>

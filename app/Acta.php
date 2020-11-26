@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Acta extends Model{
 
     protected $fillable = [
-        'titulo', 'contenido', 'calendario_id'
+        'titulo', 'contenido', 'calendario_id', 'acta_file'
     ];
     //
     public function calendario(){

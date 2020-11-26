@@ -25,13 +25,18 @@ class CitatorioController extends Controller{
     //acceso a la funcion solo para el administrador, validado en el constructor
     /*funcion que retorna la vista donde se muestran los citatorios registrados y un formulario
     para crear un citatorio*/
-    public function index(){
+    public function index(Request $request){
         //citatorios registrados, ordenandolos del mas reciente al mas antiguo
+        $reunion = $request->get('fechareunion');//filtrado por fecha
         $citatorios = Citatorio::join('actas',function($join){
                                 $join->on('actas.calendario_id', '=', 'citatorios.calendario_id')
                                 ->where('actas.titulo', '=', 'ordendia');
                                 })
+                                ->join('calendarios','citatorios.calendario_id','calendarios.id')
                                 ->select('citatorios.*','actas.acta_file')
+                                ->when($reunion,function($query) use ($reunion){
+                                    $query->whereDate('calendarios.start',$reunion);
+                                })
                                 ->orderBy('citatorios.id','desc')->paginate(5);
         //jefes de departamento a los cuales se envio el citatorio
         $usuarios = User::whereIn('role_id',[5,8])->get();
@@ -186,7 +191,7 @@ class CitatorioController extends Controller{
         }else{
             return back()->with('Error','No se subio ningun archivo, vuelva a intentar');
         }
-        return back()->with('Mensaje','Citatorio subido correctamente,ahora puede enviar');
+        return back()->with('Mensaje','Orden del dia subido correctamente,ahora puede enviar');
     }
 
     

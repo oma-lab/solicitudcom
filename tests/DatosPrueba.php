@@ -119,8 +119,23 @@ trait DatosPrueba{
         'calendario_id' => 1,
         'file' => ['asfas.jpg']
     ];
-    
-    
+
+    private $solicitud_por_secretario= [
+        'asunto' => 'prorroga para cursar semestre 14',
+        'motivos_academicos' => '',
+        'motivos_personales' => '',
+        'otros_motivos' => '', 
+        'evidencias' => '',
+        'solicitud_firmada' => '',
+        'observaciones' => '',
+        'fecha' => '2020-06-17',
+        'identificador' => '14161234',
+        'semestre' => '13',
+        'enviado' => true,
+        'enviadocoor' => true,
+        'carrera_profesor' => '',
+        'calendario_id' => 1,
+    ];  
     
 
     //RecomendacionTest --CoordinadorSolicitudTest -JefeSolicitudTest --SecretarioSolicitudTest --DirectorDictamenTest --CoordinadorDictamenTest --JefeDictamenTest
@@ -162,6 +177,22 @@ trait DatosPrueba{
         'role_id' => 5,
         'adscripcion_id' => 1,
         'email' => 'elena@gmail.com',
+        'password' => 'password',
+        'password_confirmation' => 'password',
+    ];
+
+    private $jefe_division = [
+        'identificador' => 'jefedivision',
+        'nombre' => 'Marcos',
+        'apellido_paterno' => 'Rodriguez',
+        'apellido_materno' => 'Sanchez',
+        'sexo' => 'H',
+        'celular' => '951 811 99 17',
+        'telefono' => '',
+        'grado' => 'Ing.',
+        'role_id' => 5,
+        'adscripcion_id' => 11,
+        'email' => 'marcos_division@gmail.com',
         'password' => 'password',
         'password_confirmation' => 'password',
     ];
@@ -269,15 +300,15 @@ trait DatosPrueba{
     //CoordinadorDictamenTest  --JefeDictamenTest
     private $dictamen_enviado = [
         'recomendacion_id' => 1,
-        'num_oficio' => 'DIR-00-100/2020',
-        'num_dictamen' => '100/2020',
+        'num_oficio' => 'DIR-00-101/2020',
+        'num_dictamen' => '101/2020',
         'respuesta' => 'SI',
         'anotaciones' => '',
         'fecha' => '15/enero/2020',
         'dictamen_firmado' => 'subidas/dictamen.pdf',
         'enviado' => true,
         'entregado'=> false,
-        'entregadodepto' => false,
+        'entregadodepto' => true,
     ];
 
     //--ListaAsistenciaTest
@@ -341,6 +372,33 @@ trait DatosPrueba{
         'titulo' => 'PRIMERA REUNIÓN DE COMITÉ ACADÉMICO',
         'contenido' => 'CONTENIDO ACTA',
         'calendario_id' => 1
+    ];
+
+    private $carrera = [
+        'nombre' => 'Ingenieria en agronomia',
+    ];
+
+    private $adscripcion = [
+        'nombre_adscripcion' => 'Departamento del campo',
+        'tipo' => 'carrera',
+    ];
+
+    private $asunto = [
+        'asunto' => 'prorroga para cursar el semestre 14',
+        'descripcion' => 'indique el periodo del semestre el cual cursara',
+    ];
+
+    private $orden = [
+        'titulo' => 'ordendia',
+        'contenido' => 'puntouno--puntodos--puntotres',
+        'calendario_id' => 3,
+    ];
+
+    private $orden_dia = [
+        'titulo' => 'ordendia',
+        'contenido' => 'puntouno--puntodos--puntotres',
+        'acta_file' => 'subidas/actaorden.pdf',
+        'calendario_id' => 1,
     ];
 
 

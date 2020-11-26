@@ -21,11 +21,19 @@ class ActaController extends Controller{
     
 
     //acceso a la funcion solo para el administrador, validado en el constructor
-    public function index(){
+    public function index(Request $request){
+        $fecha_reunion = $request->get('fechareunion');//filtrado por fecha de reunión
         //ultimas 3 reuniones pasadas 
         $reunion=Calendario::whereDate('start','<=',hoy())->orderBy('start','desc')->take(5)->get();
         //actas registradas que podra ver el administrador
-        $actas = Acta::where('titulo','!=','ordendia')->orderBy('created_at','desc')->paginate(5);
+        $actas = Acta::join('calendarios','actas.calendario_id','calendarios.id')
+                     ->select('actas.*')
+                     ->where('titulo','!=','ordendia')
+                     ->when($fecha_reunion,function($query) use ($fecha_reunion){
+                        $query->whereDate('calendarios.start',$fecha_reunion);
+                     })
+                     ->orderBy('created_at','desc')
+                     ->paginate(5);
         return view('Administrador.acta',compact('reunion','actas'));
     }
 

@@ -13,6 +13,7 @@ use App\Citatorio;
 use App\User;
 use App\UsersDictamenes;
 use App\Acta;
+use App\Dictamen;
 use iio\libmergepdf\Merger;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -38,9 +39,7 @@ class UsuariosController extends Controller{
         }else{
           Notificacion::where([['tipo','citatorio'],['citatorio_id',$id],['identificador',usuario()->identificador]])->update(['num' => 2]);
         }
-        //notificaciones para mostrar al usuario quien ha visto el citatorio
-        $citrec= Notificacion::where([['tipo','citatorio'],['citatorio_id',$id]])->get();
-        return view('jefe.vercitatorio',compact('citatorio','citrec'));
+        return view('jefe.vercitatorio',compact('citatorio'));
     }
 
     public function mostrarOrden($id){
@@ -48,7 +47,7 @@ class UsuariosController extends Controller{
         $acta = Acta::where([['titulo','=','ordendia'],['calendario_id','=',$citatorio->calendario_id]])->first();
         $reunion = Calendario::find($citatorio->calendario_id);
         if($reunion->start < hoy()){
-          //al momento de que los integrantes vean la orden del dia se elimina solo cuando la reunion ya paso
+          //al momento de que los integrantes vean el orden del dia se elimina solo cuando la reunion ya paso
           Notificacion::where([['tipo','ordendia'],['citatorio_id',$id],['identificador',usuario()->identificador]])->delete();
         }
         return view('jefe.verorden',compact('acta'));
@@ -62,8 +61,13 @@ class UsuariosController extends Controller{
             $identificador =$request->identificador;
             //solicitud actual que se omite
             $sol =$request->sol;
-            //obtiene las solicitudes que ha hecho el solicitante en reuniones pasadas
-            $solicitudes = Solicitud::where([['identificador','=',$identificador],['enviado','=',true],['id','!=',$sol]])->get();
+            //obtiene las solicitudes que tienen dictamenes que ha hecho el solicitante
+            $solicitudes = Dictamen::join('recomendacions','dictamens.recomendacion_id','=','recomendacions.id')
+                                   ->join('solicituds','recomendacions.id_solicitud','=','solicituds.id')
+                                   ->select('dictamens.dictamen_firmado','solicituds.asunto as asunto')
+                                   ->where('solicituds.identificador','=',$identificador)
+                                   ->where('solicituds.id','!=',$sol)
+                                   ->get();
             return response()->json($solicitudes);
         }
     }

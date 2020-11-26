@@ -3,7 +3,7 @@
 
 <h3 class="centrado" style="text-transform: uppercase;">REGISTRAR</h3>
 <div class="container-sm">
-<form method="POST" action="{{ route('generar.documento') }}" enctype="multipart/form-data">
+<form method="POST" action="{{ route('generar.documento') }}" enctype="multipart/form-data" onsubmit="esSolicitud()">
 {{ csrf_field()}}
 
  <div class="form-row"> 
@@ -213,12 +213,21 @@
 
  </div>
 
- <div class="row">
+ <b id="notasolicitud" style="color:red"></b>
+ <div id="botonesaccion" class="row" style="visibility: visible;">
      <div class="col centrado">
-       <button type="submit" class="btn btn-primary">Generar</button>
+       <button id="botongenerar" type="submit" class="btn btn-primary">Generar</button>
      </div> 
      <div class="col centrado"> 
        <a href="{{route('home')}}"><button class="btn btn-danger" type="button"> Cancelar </button></a>
+     </div>
+ </div>
+ <div id="botoneshecho" class="row" style="visibility: hidden;">
+     <div class="col centrado">
+       <a href="{{route('registrar.documento')}}"><button class="btn btn-success" type="button">Generar Nuevo</button></a>
+     </div> 
+     <div class="col centrado"> 
+       <a href="{{route('home')}}"><button class="btn btn-primary" type="button">Ver solicitudes</button></a>
      </div>
  </div>
 

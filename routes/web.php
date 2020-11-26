@@ -78,10 +78,10 @@ Route::post('/save_observaciones','UsuariosController@guardarObservacion')->name
 Route::get('/historial','UsuariosController@getHistorial')->name('getHistorial');
 Route::get('/observaciones','UsuariosController@getObservaciones');
 Route::get('/reunion','UsuariosController@mostrarReuniones');
-Route::get('/mostrar/citatorio/{id}','UsuariosController@mostrarCitatorio');
-Route::get('/mostrar/ordendia/{id}','UsuariosController@mostrarOrden');
+Route::get('/mostrar/citatorio/{id}','UsuariosController@mostrarCitatorio')->name('mostrar.citatorio');
+Route::get('/mostrar/ordendia/{id}','UsuariosController@mostrarOrden')->name('mostrar.orden');
 Route::get('/notificaciones','UsuariosController@getNotificaciones');
-Route::get('/notificacion/{id}','UsuariosController@verNotificacion');
+Route::get('/notificacion/{id}','UsuariosController@verNotificacion')->name('ver.notificacion');
 Route::patch('/usuarios/{id}','UsuariosController@actualizarUsuario')->name('usuario.actualizar');
 
 
@@ -115,6 +115,10 @@ Route::get('/posponer','AdminController@vistaPosponer')->name('vista.posponer');
 Route::post('/posponer','AdminController@posponer')->name('posponer');
 Route::get('/subir_solicitud/{id}','AdminController@subirSolicitud')->name('subir.solicitud');
 Route::post('/guardar_solicitud','AdminController@solicitudGuardar')->name('solicitud.guardar');
+Route::get('/asuntos','AdminController@asuntos')->name('asuntos');
+Route::post('/asunto','AdminController@guardarAsunto')->name('guardar.asunto');
+Route::patch('/asunto/{id}','AdminController@actualizarAsunto')->name('actualizar.asunto');
+Route::delete('/asunto/{id}','AdminController@eliminarAsunto')->name('eliminar.asunto');
 
 
 Route::resource('citatorio','CitatorioController',['except' => ['edit','create','show']]);

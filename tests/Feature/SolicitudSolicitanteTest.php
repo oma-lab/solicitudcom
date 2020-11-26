@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use App\User;
 use App\Solicitud;
 use App\Calendario;
+use App\Notificacion;
 use Tests\DatosPrueba;
 
 
@@ -133,7 +134,32 @@ class SolicitudSolicitanteTest extends TestCase{
         ]);
     }
 
-    public function test_ver_solicitud(){
-        
+    public function test_ver_solicitudpdf(){
+        $subdirector = User::create($this->subdirector);
+        $jefedivision = User::create($this->jefe_division);
+        $solicitud = Solicitud::create($this->solicitud);
+        $response = $this->actingAs($this->solicitante)
+                         ->from(route('solicitante.home'))
+                         ->get(route('ver.solicitud',$solicitud['id']));
+        $response->assertSuccessful();
+    }
+
+    public function test_ver_notificacion(){
+        $solicitud = Solicitud::create($this->solicitud);
+        $notificacion = ['identificador' => $this->solicitante['identificador'], 
+                         'tipo' => 'cancelado',
+                         'solicitud_id' => $solicitud['id'], 
+                         'mensaje' => 'Solicitud cancelada',
+                         'descripcion' => 'Tu solicitud no pudo continuar',
+                         'observacion' => 'Falta especificar los motivos de tu solicitud',
+                         'num' => 1];
+        $notificacion = Notificacion::create($notificacion);
+        $this->assertDatabaseHas('notificacions', [
+            'identificador' => $this->solicitante['identificador'],
+            'id' => $solicitud['id'],
+        ]);
+        $response = $this->actingAs($this->solicitante)
+                         ->get(route('ver.notificacion',$notificacion['id']));
+        $response->assertSeeText('OBSERVACIONES');
     }
 }

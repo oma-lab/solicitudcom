@@ -7,7 +7,7 @@
   <div class="col-md-6">
    <div class="card">        
     <div class="card-header">GENERAR CITATORIO</div>
-    <form method="POST" action="{{url('citatorio')}}"enctype="multipart/form-data">
+    <form method="POST" action="{{url('citatorio')}}" enctype="multipart/form-data" onsubmit="formdisable()">
     {{ csrf_field()}}
     <div class="card-body">
       <div class="form-group row">
@@ -58,7 +58,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button type="submit" class="btn btn-success">Generar</button>
+      <button type="submit" class="btn btn-success" id="btncg">Generar</button>
     </div>
     </form>
    </div>
@@ -68,7 +68,14 @@
   <div class="col-md-6">
    <div class="card">
     @include('layouts.filtrado.mensaje')
-    <div class="card-header">CITATORIOS</div>
+    <div class="card-header">
+    <form id="form" method="GET" action="{{ route('citatorio.index') }}" class="form-inline">
+    <label>CITATORIOS</label>
+    <ul class="navbar-nav mr-auto"></ul>
+    <input id="filtroreunion" class="form-control mr-sm-2" type="date" name="fechareunion" value="{{request('fechareunion')}}" style="width:150px">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
+    </form>
+    </div>
     <div class="card-body">
      <div class="table-responsive">
       <table class="table table-sm">

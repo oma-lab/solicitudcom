@@ -52,12 +52,15 @@
          @if($sol->enviado)
          <div class="tab-pane fade {{($sol->enviado && !$sol->recomendacion) ? 'in active' : ''}}" id="enviado{{$sol->id}}">
             <h3 class="head text-center">Se ha enviado tu solicitud</h3>
-            <p class="narrow text-center">            
-            Tu solicitud se ha enviado a:<br>
-            {{usuario()->esEstudiante() ? 'Coordinador de Carrera' : ''}}<br>
+            <p class="narrow text-center">
+            @if(!$sol->enviadocoor && usuario()->esEstudiante())
+            Tu solicitud se ha enviado al coordinador de carrera para su validación.
+            @else
+            {{usuario()->esEstudiante() ? 'Tu solicitud ha sido recibida por el coordinador de carrera y se ha enviado a:' : 'Tu solicitud se ha enviado a:'}}<br>
             Jefe de Departamento<br>
-            Subdirector Académico<br>
+            Subdirección Académica<br>
             Servicios Escolares<br>
+            @endif
             </p>
          </div>
          @endif

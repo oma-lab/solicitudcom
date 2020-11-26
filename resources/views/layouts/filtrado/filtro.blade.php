@@ -14,8 +14,13 @@
     <option value="">SOLICITUDES NO VISTAS</option>
     <option value="true" {{request('visto') == 'true' ? 'selected' : ''}}>SOLICITUDES VISTAS</option>
   </select>
+  <select id="filtrodictamen" class="filtro form-control mr-sm-2" name="dic_recibido" style="width:250px;display:none;">
+    <option value="">DICTAMENES NO RECIBIDOS</option>
+    <option value="recibidos" {{request('dic_recibido') == 'recibidos' ? 'selected' : ''}}>DICTAMENES RECIBIDOS</option>
+  </select>
 
   <ul class="navbar-nav mr-auto"></ul>
+   <input id="filtroreunion" class="form-control mr-sm-2" type="date" name="fechareunion" value="{{request('fechareunion')}}" style="width:150px;display:none">
    @if(request('role_id') != 4)
     <select class="filtro form-control mr-sm-2" id="carreraid" name="carrera_id" style="width:225px">
       <option value="">TODAS LAS CARRERAS</option>

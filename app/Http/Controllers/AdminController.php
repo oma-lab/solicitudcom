@@ -61,7 +61,7 @@ class AdminController extends Controller{
                                     $query->where('users.carrera_id','LIKE',"%$filtrocarrera%")
                                           ->orWhereNull('users.carrera_id');
                                 })
-                                ->select('solicituds.*','recomendacions.observaciones')
+                                ->select('solicituds.*')
                                 ->paginate(5);
        $carreras = Carrera::all();
        //actualiza notificacion con el numero de solicitudes pendientes
@@ -266,10 +266,11 @@ class AdminController extends Controller{
         if($solicitud->calendario->start > hoy()){
             return back()->with('Error','No puedes generar recomendación antes de reunión');
         }
+        Solicitud::where('id',$id)->update(['observaciones' => $request->observaciones]);
         if($request->respuesta){
         Recomendacion::updateOrCreate(
             ['id_solicitud' => $id],
-            ['respuesta' => $request->respuesta, 'observaciones' => $request->observaciones]
+            ['respuesta' => $request->respuesta, 'observaciones' => $solicitud->asunto]
         );
         //si la solicitud obtiene respuesta se notifica al usuario
         notificarSolicitante([

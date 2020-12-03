@@ -101,7 +101,7 @@ class DirectorController extends Controller{
     //acceso a la funcion para el director y administrador, validado en el constructor
     //funcion para guardar el dictamen
     public function guardarDictamen(Request $request, $id){
-        $datosDic=request()->except(['_token','_method','doc_firmado']);
+        $datosDic=request()->except(['_token','_method','doc_firmado','observaciones']);
         if($request->hasFile('doc_firmado')){
             //si se sube el archivo firmado se guarda
             $datosDic['dictamen_firmado']=$request->file('doc_firmado')->store('subidas','public');
@@ -112,7 +112,9 @@ class DirectorController extends Controller{
             $request->validate(['num_oficio' => 'nullable|unique:dictamens,num_oficio,'.$id,
                            'num_dictamen' => 'nullable|unique:dictamens,num_dictamen,'.$id]);
             //se actualiza dictamen
+            $dictamen = Dictamen::find($id);
             Dictamen::where('id','=',$id)->update($datosDic);
+            Recomendacion::where('id',$dictamen->recomendacion_id)->update(['observaciones' => $request->observaciones]);
             return redirect()->route('director.dictamenes','pendientes')->with('Mensaje','Cambios realizados correctamente');
         }
     }

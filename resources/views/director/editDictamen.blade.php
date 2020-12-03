@@ -70,6 +70,15 @@
      </select>
    </div> 
  </div>
+
+ <div class="form-row">
+   <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <button class="btn btn-outline-danger" type="button" onclick="document.getElementById('observaciones').value = '';"><i class="fa fa-trash"></i></button>
+    </div>
+    <input id="observaciones" type="text" name="observaciones" value="{{old('observaciones') ? old('observaciones') : $dictamen->recomendacion->observaciones}}" placeholder="Asunto" class="form-control" aria-label="" aria-describedby="basic-addon1">
+   </div>
+ </div>
  
  <div class="form-row">            
    <div class="form-group col-md-12">

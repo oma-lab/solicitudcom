@@ -85,11 +85,20 @@
     </select>
   </div> 
  </div>
+
+ <div class="form-row">
+   <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <button class="btn btn-outline-danger" type="button" onclick="document.getElementById('observaciones').value = '';"><i class="fa fa-trash"></i></button>
+    </div>
+    <input id="observaciones" type="text" name="observaciones" value="{{old('observaciones') ? old('observaciones') : $recomendacion->observaciones}}" placeholder="Asunto" class="form-control" aria-label="" aria-describedby="basic-addon1">
+   </div>
+ </div>
  
  <button type="button" class="btn btn-default" onclick="verobs({{$recomendacion->id_solicitud}})">
    <span class="fa fa-question-circle"  aria-hidden="true"></span>ver observaciones/votos
  </button><br>
- <b>Observaciones hechas en reunión:</b> @if($recomendacion->observaciones){{$recomendacion->observaciones}} @else Ninguna @endif
+ <b>Observaciones hechas en reunión:</b> @if($recomendacion->solicitud->observaciones){{$recomendacion->solicitud->observaciones}} @else Ninguna @endif
           
  <div class="form-row">
    <label for="condicion">Anotaciones:</label>

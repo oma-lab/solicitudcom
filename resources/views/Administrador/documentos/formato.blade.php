@@ -28,6 +28,7 @@
 
  <form method="POST" action="{{route('vistaprevia')}}" enctype="multipart/form-data">
  {{ csrf_field()}}
+ {{method_field('PATCH')}}
  <div class="row">
   <div class="form-group col-md-10">
     <input id="leyenda" type="text" class="form-control form-control-sm centrado" name="headtext" value="{{$datospdf->headtext}}">

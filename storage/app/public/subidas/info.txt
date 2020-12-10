@@ -1,1 +1,1 @@
-carpeta donde se guardan solicitudes,recomendaciones,dictamenes subidos
+carpeta donde se guardan recomendaciones,dictamenes, citatorios,actas subidos

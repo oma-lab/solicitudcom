@@ -47,7 +47,7 @@
             <p style="text-align:justify; text-transform: lowercase;">{{$dic->asunto()}}</p> 
           </td>
           <td class="centrado">
-            <a class="navbar-brand" href="{{ url('versolicitudEvidencia/'.$dic->solicitud()->id)}}" target= "_blank">
+            <a class="navbar-brand" href="{{ route('solicitudEvidencia',$dic->solicitud()->id)}}" target= "_blank">
             <img src="{{ asset('imagenes/ver.png') }}" style="width:35px;"></a>
           </td>
           <td class="centrado">
@@ -71,7 +71,7 @@
             <img src="{{ asset('imagenes/ver.png') }}" style="width:35px;"></a>               
           </td>
           <td class="centrado">
-            <input type="image" data-toggle="modal" data-target="#modalsubir" src="{{ asset('imagenes/subir.png')}}" style="width:35px;" onclick="document.getElementById('formsubir').action = '/dictamen/{{$dic->id}}'; document.getElementById('subirfile').value = '';document.getElementById('labelpdf').innerHTML = 'Elegir Archivo PDF';"><br>
+            <input type="image" src="{{ asset('imagenes/subir.png')}}" style="width:35px;" onclick="subirfile('/dictamen/{{$dic->id}}');"><br>
              @if(!$dic->dictamen_firmado)
              <a style="color:black;"><b>Archivo no cargado</b></a>
              @else
@@ -105,4 +105,9 @@
 </section>
 
 @include('layouts.modals.file')
+@endsection
+
+
+@section('script')
+<script src="{{ asset('js/file.js') }}"></script>
 @endsection

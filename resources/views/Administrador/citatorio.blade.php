@@ -116,10 +116,10 @@
               </form>
             </td>
             <td>
-              <input type="image" data-toggle="modal" data-target="#modalsubir" src="{{ asset('imagenes/subir.png')}}" style="width:25px;" onclick="document.getElementById('formsubir').action = '/citatorio/{{$citatorio->id}}'; document.getElementById('subirfile').value = ''; document.getElementById('labelpdf').innerHTML = 'Elegir Archivo PDF';">
+              <input type="image" src="{{ asset('imagenes/subir.png')}}" style="width:25px;" onclick="subirfile('/citatorio/{{$citatorio->id}}');">
             </td>
             <td>
-              <input type="image" data-toggle="modal" data-target="#modalsubir" src="{{ asset('imagenes/subir.png')}}" style="width:25px;" onclick="document.getElementById('formsubir').action = '/updateorden/{{$citatorio->calendario_id}}'; document.getElementById('subirfile').value = ''; document.getElementById('labelpdf').innerHTML = 'Elegir Archivo PDF';">
+              <input type="image" src="{{ asset('imagenes/subir.png')}}" style="width:25px;" onclick="subirfile('/updateorden/{{$citatorio->calendario_id}}');">
             </td>
             <td>
               <a href="{{url('storage/'.$citatorio->archivo)}}" target= "_blank">
@@ -192,4 +192,5 @@
 
 @section('script')
 <script src="{{ asset('js/citatorio.js') }}"></script>
+<script src="{{ asset('js/file.js') }}"></script>
 @endsection

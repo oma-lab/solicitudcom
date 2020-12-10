@@ -11,6 +11,8 @@ use App\ListaUsuario;
 use App\Invitado;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\Storage;
+
 
 class ActaController extends Controller{
     
@@ -104,10 +106,14 @@ class ActaController extends Controller{
         $datosActa=request()->except('_token','_method','doc_firmado');
         if($request->hasFile('doc_firmado')){
             //si se sube el archivo se guarda
-            $datosActa['acta_file']=$request->file('doc_firmado')->store('subidas','public');
+            $acta = Acta::findOrFail($id);
+            Storage::delete('public/'.$acta->acta_file);
+            $acta->acta_file = $request->file('doc_firmado')->store('subidas','public');
+            $acta->save();
+        }else{
+             //actualiza el acta con los datos recibidos
+             Acta::where('id',$id)->update($datosActa);  
         }
-        //actualiza el acta con los datos recibidos
-        Acta::where('id',$id)->update($datosActa);  
         return redirect()->route('acta.index')->with('Mensaje','Cambios hechos correctamente');        
     }
 
@@ -115,7 +121,9 @@ class ActaController extends Controller{
     //acceso a la funcion solo para el administrador, validado en el constructor
     public function destroy($id){
         //eliminar acta
-        Acta::destroy($id);
+        $acta = Acta::findOrFail($id);
+        $acta->delete();
+        Storage::delete('public/'.$acta->acta_file);
         return back()->with('Mensaje','Acta eliminada correctamente');
     }
 

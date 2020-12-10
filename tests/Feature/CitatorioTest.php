@@ -113,7 +113,7 @@ class CitatorioTest extends TestCase{
 
     public function test_subir_orden(){
         Storage::fake('public');
-        $archivo = UploadedFile::fake()->create('orden.pdf', 1000);
+        $archivo = UploadedFile::fake()->create('orden.pdf', 3000);
         $response = $this->actingAs($this->secretario)
                          ->from(route('citatorio.index'))
                          ->patch(route('update.orden',$this->orden['id']),['doc_firmado' => $archivo]);

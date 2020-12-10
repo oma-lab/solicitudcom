@@ -88,6 +88,7 @@
                        <div class="invalid-feedback">Archivo invalido</div>
                       </div>
                      </div>
+                     <div id="infosize1"></div>
                     </div>
                  </div>
                  <div class="modal-footer">

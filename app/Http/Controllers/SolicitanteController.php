@@ -74,17 +74,17 @@ class SolicitanteController extends Controller{
         if($request->file){
         $imgs= $request->file;
         $nombres=[];
+        $index = 1;
+        $prefi = 'E'.Auth::user()->id.Carbon::now()->format('dm');
         foreach($imgs as $img){
-            $nombre=$img->store('subidas','public');
+            $nombre = ''.$prefi.$index.'.'.$img->extension();
+            $img->storeAs('public/solicitudes',$nombre);
             array_push($nombres,$nombre);
+            $index++;
         }
-        $pdf = PDF::loadView('solicitante.pdf',compact('nombres'))->setPaper('carta','portrait');
-        $nombrearchivo='subidas/evidencia'.Auth::user()->id.Carbon::now()->format('Y-m-d').'.pdf';
-        $pdf->save(storage_path('app/public/'.$nombrearchivo));
-        $datosSolicitud['evidencias']=$nombrearchivo;
-        foreach($nombres as $nom){
-            Storage::delete('public/'.$nom);
-        }
+        $evidencias = implode("-", $nombres);
+        //return $evidencias;
+        $datosSolicitud['evidencias'] = $evidencias;
         }
         //se crea la solicitud con los datos recibidos
         $datosSolicitud['identificador']=usuario()->identificador;
@@ -114,44 +114,33 @@ class SolicitanteController extends Controller{
     //funcion que guarda los cambios que se realizan a una solicitud
     public function updateSolicitud(Request $request, Solicitud $solicitud){
         $datosSol=request()->except(['_token','_method','filesol','file']);
-        if($request->filesol){
-            //si se sube la solicitud firmada se convierte en formato pdf
-            Storage::delete('public/'.$solicitud->solicitud_firmada);
-            $imgs= $request->filesol;
+        $solicitud = Solicitud::findOrFail($solicitud->id);
+        if($request->filesol || $request->file){
+            $del = $request->filesol ? $solicitud->solicitud_firmada : $solicitud->evidencias;
+            $dels = explode("-", $del);
+            foreach($dels as $de){
+                Storage::delete('public/solicitudes/'.$de);
+            }
             $nombres=[];
+            $index = 1;
+            $imgs = ($request->filesol) ? $request->filesol : $request->file;
+            $nom = ($request->filesol) ? 'S'.Auth::user()->id.Carbon::now()->format('dm') : 'E'.Auth::user()->id.Carbon::now()->format('dm');
             foreach($imgs as $img){
-                $nombre=$img->store('subidas','public');
+                $nombre = ''.$nom.$index.'.'.$img->extension();
+                $img->storeAs('public/solicitudes',$nombre);
                 array_push($nombres,$nombre);
+                $index++;
             }
-            $pdf = PDF::loadView('solicitante.pdf',compact('nombres'))->setPaper('carta','portrait');
-            $nombrearchivo='subidas/solicitud'.Auth::user()->id.Carbon::now()->format('Y-m-d').'.pdf';
-            $pdf->save(storage_path('app/public/'.$nombrearchivo));
-            $datosSol['solicitud_firmada'] = $nombrearchivo;
-            foreach($nombres as $nom){
-                Storage::delete('public/'.$nom);
-            }
-        }
-        if($request->file){
-            //si el usuario cambia sus evidencias, entonces elimina las anteriores y guarda las nuevas
-            Storage::delete('public/'.$solicitud->evidencias);
-            $imgs= $request->file;
-            $nombres=[];
-            foreach($imgs as $img){
-                $nombre=$img->store('subidas','public');
-                array_push($nombres,$nombre);
-            }
-            $pdf = PDF::loadView('solicitante.pdf',compact('nombres'))->setPaper('carta','portrait');
-            $nombreevidencia='subidas/evidencia'.Auth::user()->id.Carbon::now()->format('Y-m-d').'.pdf';
-            $pdf->save(storage_path('app/public/'.$nombreevidencia));
-            $datosSol['evidencias'] = $nombreevidencia;
-            foreach($nombres as $nom){
-                Storage::delete('public/'.$nom);
+            $sol_evi = implode("-", $nombres);
+            if($request->filesol){
+                $datosSol['solicitud_firmada'] = $sol_evi;
+            }else{
+                $datosSol['evidencias'] = $sol_evi;
             }
         }
         //se actualiza la solicitud con los datos recibidos
-        Solicitud::where('id','=',$solicitud->id)->update($datosSol);
+        $solicitud->update($datosSol);
         return redirect()->route('solicitante.home')->with('Mensaje','Formato modificado con exito');
-        
     }
 
 
@@ -174,6 +163,14 @@ class SolicitanteController extends Controller{
         }else{
         return back()->with('Mensaje','La solicitud no se puede realizar debido a que no se tiene un jefe de división registrado.');
         }
+    }
+
+    public function verEvidencia($id){
+        $solicitud = Solicitud::where([['id','=',$id],['identificador','=',Auth::user()->identificador]])->firstOrFail();
+        $nombres = explode("-", $solicitud->evidencias);
+        $titulo = "EVIDENCIAS";
+        $pdf = PDF::loadView('solicitante.pdf', compact('nombres','titulo'))->setPaper('carta','portrait');
+        return $pdf->stream('evidencias.pdf');
     }
 
 
@@ -254,9 +251,14 @@ class SolicitanteController extends Controller{
         //valida que no se haya enviado
         if($solicitud->enviado && usuario()->esSolicitante()){
             return back()->with('Mensaje','No es posible Eliminar');
-        }else{ 
-        Solicitud::destroy($id);
-        return back()->with('Mensaje','Formato eliminado con éxito');
+        }else{
+            $del = ''.$solicitud->solicitud_firmada.'-'.$solicitud->evidencias;
+            $dels = explode("-", $del);
+            foreach($dels as $de){
+                Storage::delete('public/solicitudes/'.$de);
+            }
+            Solicitud::destroy($id);
+            return back()->with('Mensaje','Formato eliminado con éxito');
         }
     }
 

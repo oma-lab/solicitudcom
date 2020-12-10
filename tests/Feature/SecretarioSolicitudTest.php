@@ -90,9 +90,7 @@ class SecretarioSolicitudTest extends TestCase{
         $imagen = UploadedFile::fake()->create('imagen.png', 1000);
         $response = $this->actingAs($this->secretario)
                          ->from(route('subir.solicitud',$this->solicitud_por_secretario['id']))
-                         ->post(route('solicitud.guardar'),['solicitud_id' => $this->solicitud_por_secretario['id'],
-                                                            'file' => [$imagen],
-                                                            ]);
+                         ->post(route('solicitud.guardar',$this->solicitud_por_secretario['id']),['file' => [$imagen],]);
 
         $this->assertDatabaseMissing('solicituds', [
             'solicitud_id' => $this->solicitud_por_secretario['id'], 

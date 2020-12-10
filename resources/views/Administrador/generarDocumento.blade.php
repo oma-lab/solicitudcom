@@ -3,7 +3,7 @@
 
 <h3 class="centrado" style="text-transform: uppercase;">REGISTRAR</h3>
 <div class="container-sm">
-<form method="POST" action="{{ route('generar.documento') }}" enctype="multipart/form-data" onsubmit="esSolicitud()">
+<form method="POST" action="{{ route('generar.documento') }}" enctype="multipart/form-data" onsubmit="return esSolicitud()">
 {{ csrf_field()}}
 
  <div class="form-row"> 
@@ -66,7 +66,7 @@
  <div class="form-row">
    <div class="form-group col-md-6">              
      <label for="carrera_id">Carrera:</label>
-     <select class="form-control form-control-sm" name="carrera_id">
+     <select class="form-control form-control-sm" id="carrera_id" name="carrera_id">
        <option value="">ELIGE CARRERA</option>
        @foreach($carreras as $carrera)
        <option value="{{$carrera->id}}">{{$carrera->nombre}}</option>
@@ -75,7 +75,7 @@
    </div>
    <div class="form-group col-md-2">
      <label for="semestre">Semestre</label>
-     <input type="text" class="form-control form-control-sm" id="semestre" name="semestre" placeholder="Semestre">
+     <input type="number" min="1" class="form-control form-control-sm" id="semestre" name="semestre" placeholder="Semestre">
    </div>
  </div>
  </div>
@@ -84,7 +84,7 @@
  <div class="form-row">
    <div class="form-group col-md-6">              
      <label for="adscripcion_id">Adscripcion:</label>
-     <select class="form-control form-control-sm" name="adscripcion_id">
+     <select class="form-control form-control-sm" id="adscripcion_id" name="adscripcion_id">
        <option value="">ELIGE ADSCRIPCIÓN</option>
        @foreach($adscripciones as $adscripcion)
        <option value="{{$adscripcion->id}}">{{$adscripcion->nombre_adscripcion}}</option>
@@ -93,7 +93,7 @@
    </div>
    <div class="form-group col-md-6">              
      <label for="carrera_profesor">Profesor de la carrera de:</label>
-     <select class="form-control form-control-sm" name="carrera_profesor">
+     <select class="form-control form-control-sm" id="carrera_profesor" name="carrera_profesor">
        <option value="">ELIGE CARRERA</option>
        @foreach($carreras as $carrera)
        <option>{{$carrera->nombre}}</option>

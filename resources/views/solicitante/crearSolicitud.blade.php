@@ -96,6 +96,7 @@
          <div class="invalid-feedback">Archivo invalido</div>
        </div>
      </div>
+     <div id="infosize1"></div>
    </div>
  </div>
  <br><br>

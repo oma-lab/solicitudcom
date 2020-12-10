@@ -11,6 +11,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Formato;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\Storage;
+
 
 class ListaAsistenciaController extends Controller{
     public function __construct(){
@@ -95,8 +97,10 @@ class ListaAsistenciaController extends Controller{
     public function update(Request $request,$id){
         //valida si el secretario sube la lista firmada para guardarla
         if($request->hasFile('doc_firmado')){
-            $archivolista = $request->file('doc_firmado')->store('listas','public');
-            ListaAsistencia::where('id',$id)->update(['lista_archivo' => $archivolista]);
+            $lista = ListaAsistencia::findOrFail($id);
+            Storage::delete('public/'.$lista->lista_archivo);
+            $lista->lista_archivo = $request->file('doc_firmado')->store('listas','public');
+            $lista->save();
             return back()->with('Mensaje','Lista subida correctamente');
         } 
         //modifica los nombres de los invitados si se requiere
@@ -123,7 +127,8 @@ class ListaAsistenciaController extends Controller{
     //funcion para eliminar una lista
     public function destroy($id){
         $lista=ListaAsistencia::find($id);
-        ListaAsistencia::where('id','=',$id)->delete();
+        $lista->delete();
+        Storage::delete('public/'.$lista->lista_archivo);
         return redirect()->route('listaasistencia.index',$id)->with('Mensaje','Lista eliminada');        
     }
 

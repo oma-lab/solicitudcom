@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Formato;
 use App\Acta;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\Storage;
 
 class CitatorioController extends Controller{
     public function __construct(){
@@ -94,8 +95,10 @@ class CitatorioController extends Controller{
     public function update(Request $request,$id){
         //si guarda el archivo del citatorio en caso que lo suban
         if($request->hasFile('doc_firmado')){
-            $cita=$request->file('doc_firmado')->store('subidas','public');
-            Citatorio::where('id','=',$id)->update(['archivo' => $cita]);
+            $citatorio = Citatorio::findOrFail($id);
+            Storage::delete('public/'.$citatorio->archivo);
+            $citatorio->archivo = $request->file('doc_firmado')->store('subidas','public');
+            $citatorio->save();
         }else{
             $datosCitatorio = request()->except(['_token','_method','doc_firmado']);
             //se actualiza el citatorio con los datos recibidos
@@ -109,8 +112,12 @@ class CitatorioController extends Controller{
     /** metodo para que el administrador pueda eliminar un citatorio*/
     public function destroy($id){
         $cita = Citatorio::find($id);
-        Acta::where([['titulo','=','ordendia'],['calendario_id','=',$cita->calendario_id]])->delete();
+        $acta = Acta::where([['titulo','=','ordendia'],['calendario_id','=',$cita->calendario_id]])->first();
+        $acta->delete();
         $cita->delete();
+        Storage::delete('public/subidas/orden'.$cita->id.'.pdf');
+        Storage::delete('public/'.$cita->archivo);
+        Storage::delete('public/'.$acta->acta_file);
         return back()->with('Mensaje','Citatorio y Orden del dia eliminado');
     }
 
@@ -119,7 +126,7 @@ class CitatorioController extends Controller{
     //acceso a la funcion solo para el administrador, validado en el constructor
     /**funcion que notifica a los integrantes sobre un nuevo citatorio*/
     public function enviar($id){
-        $citatorio = Citatorio::find($id);
+        $citatorio = Citatorio::findOrFail($id);
         //se valida que el citatorio no ha sido enviado y que ya se ha subido el citatorio firmado
         if(!$citatorio->archivo){return back()->with('Error','No es posible enviar,Falta citatorio firmado');}
         if($citatorio->enviado){return back()->with('Error','No es posible enviar de nuevo');}
@@ -139,7 +146,7 @@ class CitatorioController extends Controller{
     }
 
     public function enviarOrden($id){
-        $orden = Acta::where([['titulo','=','ordendia'],['calendario_id','=',$id]])->first();
+        $orden = Acta::where([['titulo','=','ordendia'],['calendario_id','=',$id]])->firstOrFail();
         //se valida que el citatorio no ha sido enviado y que ya se ha subido el citatorio firmado
         if(!$orden->acta_file){return back()->with('Error','No es posible enviar,Falta Orden del dia firmada');}
         //se eliminan las notificaciones de la ultima orden del dia enviada
@@ -165,6 +172,8 @@ class CitatorioController extends Controller{
         if($request->ajax()){
             $vistos=Notificacion::where([['tipo','=','citatorio'],['citatorio_id','=',$request->id]])->get();
             return response()->json($vistos);
+        }else{
+            return redirect('/');
         }
     }
 

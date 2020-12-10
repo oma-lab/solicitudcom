@@ -31,7 +31,7 @@ class AdminFormatoTest extends TestCase{
 
     public function test_vista_previa(){
         $response = $this->actingAs($this->secretario)
-                         ->post(route('vistaprevia'),['headtext' => 'encabezado de la hoja membretada']);
+                         ->patch(route('vistaprevia'),['headtext' => 'encabezado de la hoja membretada']);
         $response->assertSuccessful();
     }
 

@@ -1,6 +1,6 @@
 <html>
  <head>
-  <title>EVIDENCIAS</title>
+  <title>{{$titulo}}</title>
   <style>  
   @page {
     margin: 0cm 0cm;
@@ -44,7 +44,7 @@
 <main>
 @foreach($nombres as $nombre)
 <div style="page-break-after:never;">
-<img  style="height:999px;"  src="{{public_path('storage/'.$nombre)}}" >
+<img  style="height:999px;"  src="{{public_path('storage/solicitudes/'.$nombre)}}" >
 </div>
 @endforeach
 </main>

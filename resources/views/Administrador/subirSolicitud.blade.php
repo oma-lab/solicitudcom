@@ -24,9 +24,8 @@
    </div>
  </div>
  
- <form method="POST" action="{{ route('solicitud.guardar') }}" enctype="multipart/form-data">
+ <form method="POST" action="{{ route('solicitud.guardar',$solicitud->id) }}" enctype="multipart/form-data">
  {{ csrf_field()}}
-  <input name="solicitud_id" type="hidden" value="{{$solicitud->id}}">
   <div class="row">
    <div class="col-md-12">
      <b>Subir Solicitud y Evidencias en formato de imagen(.png , .jpeg, .jpg)</b><br><br>
@@ -43,6 +42,7 @@
                <div class="invalid-feedback">Archivo invalido</div>
              </div>
            </div>
+           <div id="infosize1"></div>
          </div>
        </div>
    </div>

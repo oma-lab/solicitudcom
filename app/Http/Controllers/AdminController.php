@@ -17,6 +17,7 @@ use App\User;
 use App\Role;
 use App\Dictamen;
 use App\Asunto;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Route;
@@ -338,6 +339,8 @@ class AdminController extends Controller{
             //adscripciones de las cuales recibe solicitudes
             $adscripciones = UserAdscripcion::where('identificador',$usu->identificador)->get();            
             return response()->json(['carreras' => $carreras, 'adscripciones' => $adscripciones, 'usuario' => $usu]);
+        }else{
+            return redirect('/');
         }
     }
 
@@ -477,24 +480,21 @@ class AdminController extends Controller{
         return view('Administrador.subirSolicitud',compact('solicitud'));
     }
 
-    public function solicitudGuardar(Request $request){
+    public function solicitudGuardar(Request $request,$id){
         //buscar la solicitud
-        $solicitud = Solicitud::findOrFail($request->solicitud_id);
-        //las imagenenes que se suben se transforman en pdf
-        Storage::delete('public/'.$solicitud->solicitud_firmada);
+        $solicitud = Solicitud::findOrFail($id);
         $imgs= $request->file;
         $nombres=[];
+        $index = 1;
+        $prefi = 'SE'.Auth::user()->id.Carbon::now()->format('dm');
         foreach($imgs as $img){
-            $nombre=$img->store('subidas','public');
+            $nombre = $prefi.$index.'.'.$img->extension();
+            $img->storeAs('public/solicitudes',$nombre);
             array_push($nombres,$nombre);
+            $index++;
         }
-        $pdf = PDF::loadView('solicitante.pdf',compact('nombres'))->setPaper('carta','portrait');
-        $nombrearchivo='subidas/solicitud'.$solicitud->user->id.Carbon::now()->format('Y-m-d').'.pdf';
-        $pdf->save(storage_path('app/public/'.$nombrearchivo));
-        foreach($nombres as $nom){
-            Storage::delete('public/'.$nom);
-        }
-        Solicitud::where('id',$request->solicitud_id)->update(['solicitud_firmada' => $nombrearchivo]);
+        $sol_evi = implode("-", $nombres);    
+        Solicitud::where('id',$id)->update(['solicitud_firmada' => $sol_evi]);
         return redirect()->route('solicitudes')->with('Mensaje','Solicitud subida correctamente');
     }
 

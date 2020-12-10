@@ -18,6 +18,7 @@ use iio\libmergepdf\Merger;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\NuevaSolicitud;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class UsuariosController extends Controller{
 
@@ -75,29 +76,16 @@ class UsuariosController extends Controller{
     //acceso a la funcion para coordinador,jefes,subdirector,secretario y director, validado en el constructor
     //funcion que muestra al usuario la solicitud junto con las evidencias en pdf
     public function verSolicitudEvidencia($id){
-        $usuario=Auth::user();
         $solicitud=Solicitud::find($id);//se buscan los datos de la solicitud
         if(!$solicitud->solicitud_firmada){
             return back()->with('Error','Solicitud subida por el usuario no encontrada');
         }
-        //La solicitud firmada y las evidencias se unen en un solo documento
-        $documento = new Merger;
-        //primero se toma la solicitud firmada
-        $solicitud_firmada='storage/'.$solicitud->solicitud_firmada;
-        $documento->addFile($solicitud_firmada);
-        //si la solicitud tiene evidencias se cargan
-        if($solicitud->evidencias){
-            $evidencias='storage/'.$solicitud->evidencias;
-            $documento->addFile($evidencias);
-        }
-        $salida = $documento->merge();
-        //muestra el pdf
-        $nombreArchivo ="solicitud.pdf";
-        header("Content-type:application/pdf");
-        header("Content-disposition: inline; filename=$nombreArchivo");
-        header("content-Transfer-Encoding:binary");
-        header("Accept-Ranges:bytes");
-        echo $salida;
+        $nom = $solicitud->evidencias ? ''.$solicitud->solicitud_firmada.'-'.$solicitud->evidencias : $solicitud->solicitud_firmada;
+        $nombres = explode("-", $nom);
+        $titulo = "SOLICITUD-EVIDENCIAS";
+        $pdf = PDF::loadView('solicitante.pdf', compact('nombres','titulo'))->setPaper('carta','portrait');
+        return $pdf->stream('archivo.pdf');
+
     }
 
 
@@ -130,6 +118,8 @@ class UsuariosController extends Controller{
             $si = Observaciones::where('voto',"SI")->where('solicitud_id','=',$solicitud)->count();
             $no = Observaciones::where('voto','=',"NO")->where('solicitud_id','=',$solicitud)->count();
             return response()->json(['observaciones' => $observaciones, 'si' => $si, 'no' => $no]);
+        }else{
+            return redirect('/');
         }
     }
 

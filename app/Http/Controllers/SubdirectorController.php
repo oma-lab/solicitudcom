@@ -13,7 +13,7 @@ use App\Dictamen;
 use App\Calendario;
 use App\Temporal;
 use App\User;
-
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use App\Formato;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -142,14 +142,15 @@ class SubdirectorController extends Controller{
     public function guardarRecomendacion(Request $request,$id){
         $datosRec=request()->except(['_token','_method','calendario_id','doc_firmado']);
         //si el usuario sube la recomendacion firmada entonces se guarda
+        $rec = Recomendacion::findOrFail($id);
         if($request->hasFile('doc_firmado')){
+            Storage::delete('public/'.$rec->archivo);
             $datosRec['archivo']=$request->file('doc_firmado')->store('subidas','public');
             Recomendacion::where('id',$id)->update($datosRec);
             return back()->with('Mensaje','Recomendación subida correctamente');
         }else{
             $request->validate(['num_oficio' => 'nullable|unique:recomendacions,num_oficio,'.$id,
                                 'num_recomendacion' => 'nullable|unique:recomendacions,num_recomendacion,'.$id]);
-            $rec = Recomendacion::find($id);
             Solicitud::where('id',$rec->id_solicitud)->update(['calendario_id' => $request['calendario_id']]);
             Recomendacion::where('id',$id)->update($datosRec);
             return redirect()->route('recomendaciones')->with('Mensaje','Cambios realizados correctamente');
@@ -162,7 +163,13 @@ class SubdirectorController extends Controller{
     //funcion para eliminar una recomendacion
     public function eliminarRecomendacion($id){
         $rec = Recomendacion::find($id);
+        Storage::delete('public/'.$rec->archivo);
         Recomendacion::destroy($id);
+        $del = ''.$rec->solicitud->solicitud_firmada.'-'.$rec->solicitud->evidencias;
+        $dels = explode("-", $del);
+        foreach($dels as $de){
+            Storage::delete('public/solicitudes/'.$de);
+        }
         Solicitud::destroy($rec->id_solicitud);
         return back()->with('Mensaje','Recomendación eliminado con exito');
     }

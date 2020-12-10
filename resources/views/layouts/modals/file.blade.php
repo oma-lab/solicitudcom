@@ -19,6 +19,7 @@
       <input type="file" class="custom-file-input" id="subirfile" name="doc_firmado" accept="application/pdf" required>
       <label id="labelpdf" class="custom-file-label" for="subirfile">Elegir Archivo PDF</label>
       <div class="invalid-feedback">Archivo invalido</div>
+      <b id="infpdf" style="color:red"></b>
      </div>
     </div>
    </div>

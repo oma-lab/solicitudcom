@@ -65,7 +65,7 @@
     <textarea class="form-control" id="otros_motivos" rows="2" name="otros_motivos" placeholder="Otros motivos">{{$solicitud->otros_motivos}}</textarea>
   </div>
   
-  <a href="{{url('storage/'.$solicitud->evidencias)}}" target= "_blank">Ver evidencias actuales</a><br>            
+  <a href="{{route('ver.evidencia',$solicitud->id)}}" target= "_blank">Ver evidencias actuales</a><br>            
   <label><b>Evidencias:</b>Al subir nuevas se eliminaran las actuales</label><br>
   <label>Sube tus evidencias en formato de imagen(.png ,.jpeg, .jpg)</label><br>
   <label>Asegúrate que tus evidencias sean claras que no tengan un fondo muy obscuro y tu hoja debe estar de manera vertical, cualquier omisión de estas indicaciones anulará tu solicitud.</label><br>

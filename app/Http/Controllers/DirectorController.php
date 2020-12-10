@@ -92,7 +92,7 @@ class DirectorController extends Controller{
     //funcion que retorna la vista para modificar/completar los datos del dictamen
     public function editarDictamen($id){
         //Se busca el dictamen que va ser actualizado
-        $dictamen = Dictamen::find($id);
+        $dictamen = Dictamen::findOrFail($id);
         return view('director.editDictamen',compact('dictamen'));
     }
 
@@ -102,17 +102,18 @@ class DirectorController extends Controller{
     //funcion para guardar el dictamen
     public function guardarDictamen(Request $request, $id){
         $datosDic=request()->except(['_token','_method','doc_firmado','observaciones']);
+        $dictamen = Dictamen::findOrFail($id);
         if($request->hasFile('doc_firmado')){
+            Storage::delete('public/'.$dictamen->dictamen_firmado);
             //si se sube el archivo firmado se guarda
-            $datosDic['dictamen_firmado']=$request->file('doc_firmado')->store('subidas','public');
-            Dictamen::where('id','=',$id)->update($datosDic);
+            $dictamen->dictamen_firmado = $request->file('doc_firmado')->store('subidas','public');
+            $dictamen->save();
             return back()->with('Mensaje','Dictamen subido correctamente');
         }else{
             //valida que el numero de oficio y el numero de dictamen no se repita
             $request->validate(['num_oficio' => 'nullable|unique:dictamens,num_oficio,'.$id,
                            'num_dictamen' => 'nullable|unique:dictamens,num_dictamen,'.$id]);
             //se actualiza dictamen
-            $dictamen = Dictamen::find($id);
             Dictamen::where('id','=',$id)->update($datosDic);
             Recomendacion::where('id',$dictamen->recomendacion_id)->update(['observaciones' => $request->observaciones]);
             return redirect()->route('director.dictamenes','pendientes')->with('Mensaje','Cambios realizados correctamente');
@@ -122,11 +123,18 @@ class DirectorController extends Controller{
     //acceso a la funcion para el director y administrador, validado en el constructor
     //funcion para eliminar un dictamen
     public function eliminarDictamen($id){
-        $dic = Dictamen::find($id);
+        $dic = Dictamen::findOrFail($id);
         //Se elimina el dictamen
-        Dictamen::destroy($id);
+        Storage::delete('public/'.$dic->dictamen_firmado);
+        Storage::delete('public/'.$dic->recomendacion->archivo);
+        $dic->delete();
         //al eliminarlo se elimina tambien la solicitud y la recomendacion
         Solicitud::destroy($dic->solicitud()->id);
+        $del = ''.$dic->solicitud()->solicitud_firmada.'-'.$dic->solicitud()->evidencias;
+        $dels = explode("-", $del);
+        foreach($dels as $de){
+            Storage::delete('public/solicitudes/'.$de);
+        }
         return back()->with('Mensaje','Dictamen eliminado con exito');
     }
 

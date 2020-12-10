@@ -14,12 +14,30 @@ function documento(tipo){
 }
 
 function esSolicitud(){
-  $('#botongenerar').prop('disabled',true);
-  if($('#check3').prop('checked')){
-    $('#botonesaccion').css('visibility', 'hidden');
-    $('#botoneshecho').css('visibility', 'visible');
-    $('#notasolicitud').text('Espere un momento, la solicitud se descargará automáticamente, una vez descargado puede continuar con el proceso en la sección de solicitudes');
-    
+  var avanzar = false;
+  if($('#check1').prop('checked')){
+    if(($('#carrera_id').val() != "") && ($("#semestre").val().length > 0)){
+      avanzar = true;
+    }else{
+      $('#notasolicitud').text('Faltan datos por completar, verifique carrera y semestre');
+    }
+  }
+  if($('#check2').prop('checked')){
+    if(($('#adscripcion_id').val() != "") && ($('#carrera_profesor').val() != "")){
+      avanzar = true;
+    }else{
+      $('#notasolicitud').text('Faltan datos por completar, verifique adscripcion y carrera de profesor');
+    }
+  }
+  if(avanzar){
+    $('#botongenerar').prop('disabled',true);
+    if($('#check3').prop('checked')){
+      $('#botonesaccion').css('visibility', 'hidden');
+      $('#botoneshecho').css('visibility', 'visible');
+      $('#notasolicitud').text('Espere un momento, la solicitud se descargará automáticamente, una vez descargado puede continuar con el proceso en la sección de solicitudes');
+    }
+  }else{
+    return false;
   }
 }
 

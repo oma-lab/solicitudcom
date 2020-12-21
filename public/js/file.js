@@ -3,9 +3,9 @@ $('#subirfile').on("change", function(){
   var ext = $(this).val().split('.').pop();
   if ($(this).val() != ''){
     if(ext == "pdf"){
-      if($(this)[0].files[0].size > 1048576){
+      if($(this)[0].files[0].size > 10485760){
         $(this).val('');
-        $('#infpdf').text("Se solicita un archivo no mayor a 1MB. Por favor verifique.");
+        $('#infpdf').text("Se solicita un archivo no mayor a 10MB. Por favor verifique.");
       }
     }else{
       $(this).val('');

@@ -29,6 +29,22 @@ function esSolicitud(){
       $('#notasolicitud').text('Faltan datos por completar, verifique adscripcion y carrera de profesor');
     }
   }
+  if($('#check4').prop('checked')){
+    if($('#respuesta_rec').val() != ""){
+      avanzar = true;
+    }else{
+      avanzar = false;
+      $('#notasolicitud').text('Por favor ingrese la respuesta(SI|NO)');
+    }
+  }
+  if($('#check5').prop('checked')){
+    if($('#respuesta_dic').val() != ""){
+      avanzar = true;
+    }else{
+      avanzar = false;
+      $('#notasolicitud').text('Por favor ingrese la respuesta(SI|NO)');
+    }
+  }
   if(avanzar){
     $('#botongenerar').prop('disabled',true);
     if($('#check3').prop('checked')){

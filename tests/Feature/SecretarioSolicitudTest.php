@@ -12,10 +12,13 @@ use App\Observaciones;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\DatosPrueba;
+use Tests\MocksFileUploads;
+use Illuminate\Http\File;
 
 class SecretarioSolicitudTest extends TestCase{
     use RefreshDatabase;
     use DatosPrueba;
+    use MocksFileUploads;
 
     
     public function setUp() : void{
@@ -87,7 +90,7 @@ class SecretarioSolicitudTest extends TestCase{
     
     public function test_guardar_solicitudpdf(){
         Storage::fake('public');
-        $imagen = UploadedFile::fake()->create('imagen.png', 1000);
+        $imagen = UploadedFile::fake()->create('imagen.png')->size(10000);
         $response = $this->actingAs($this->secretario)
                          ->from(route('subir.solicitud',$this->solicitud_por_secretario['id']))
                          ->post(route('solicitud.guardar',$this->solicitud_por_secretario['id']),['file' => [$imagen],]);

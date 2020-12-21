@@ -20,7 +20,7 @@ function editarfile(input,num){
   if (input.files && input.files[0] ){
     var uploadFile = input.files[0];
     $('#infosize'+num).empty();
-    if(uploadFile.size < 1048576){
+    if(uploadFile.size < 10485760){
     if (!(/\.(jpg|png|jpeg)$/i).test(uploadFile.name)) {
       alert('El archivo debe ser una imagen en formato jpg,png o jpeg');
       input.value = "";
@@ -53,7 +53,7 @@ function editarfile(input,num){
     }
     }else{
       //alert('El tamaño maximo del archivo debe de ser de 1MB');
-      $('#info'+num).text("El tamaño máximo del archivo debe de ser de 1MB");
+      $('#info'+num).text("El tamaño máximo del archivo debe de ser de 10MB");
       campo = "<b style='color:green'>Tienes problemas con el tamaño de tus archivos?<br>Prueba bajando el tamaño en el siguiente link:</b>"+
               "<br><a href='https://compressjpeg.com/es/'  target='_blank'><b>Ir a la pagina</b></a>";
       $('#infosize'+num).append(campo);

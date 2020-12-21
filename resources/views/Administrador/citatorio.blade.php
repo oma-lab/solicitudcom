@@ -172,7 +172,7 @@
       <div class="modal-body">                
         <div class="col-12">
         @foreach($usuarios as $usuario)
-        <label><input class="case" type="checkbox" id="check{{$usuario->identificador}}" name="multipled[]"> {{$usuario->nombre_completo()}}</label><br>
+        <label><input class="case dis" type="checkbox" id="check{{$usuario->identificador}}" name="multipled[]"> {{$usuario->nombre_completo()}}</label><br>
         @endforeach
         </div>            
       </div>

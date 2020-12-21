@@ -57,7 +57,7 @@ class SubdirectorController extends Controller{
         $roleid = $request->get('role_id');
         $id_carrera = $request->get('carrera_id');
         //recomendaciones pendientes de completar
-        $recomendaciones = Recomendacion::where([['recomendacions.enviado',false],['recomendacions.respuesta','!=',null]])
+        $recomendaciones = Recomendacion::where('recomendacions.enviado',false)
                                         ->whereHas('solicitud.user', function($query) use ($nombre,$numc,$roleid,$id_carrera) {
                                               $query->nombre($nombre)
                                               ->identificador($numc)

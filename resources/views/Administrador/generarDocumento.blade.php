@@ -162,7 +162,7 @@
 
   <div class="form-group col-md-3">
     <label for="respuesta_rec">{{ __('¿Se recomienda?') }}</label>                    
-    <select class="form-control form-control-sm" name="respuesta_rec" value="">
+    <select class="form-control form-control-sm" id="respuesta_rec" name="respuesta_rec" value="">
       <option value="">ELIGE</option>
       <option value="SI">SI</option>
       <option value="NO">NO</option> 
@@ -196,7 +196,7 @@
    </div>
    <div class="form-group col-md-3">
      <label for="respuesta_dic">{{ __('¿Se recomienda?') }}</label>                    
-     <select class="form-control form-control-sm" name="respuesta_dic" value="">
+     <select class="form-control form-control-sm" id="respuesta_dic" name="respuesta_dic" value="">
        <option value="">ELIGE</option>
        <option value="SI">SI</option>
        <option value="NO">NO</option>

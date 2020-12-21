@@ -267,7 +267,7 @@ class AdminController extends Controller{
         if($solicitud->calendario->start > hoy()){
             return back()->with('Error','No puedes generar recomendación antes de reunión');
         }
-        Solicitud::where('id',$id)->update(['observaciones' => $request->observaciones]);
+        Solicitud::where('id',$id)->update(['observaciones' => $request->observaciones, 'enviadocoor' => true]);
         if($request->respuesta){
         Recomendacion::updateOrCreate(
             ['id_solicitud' => $id],

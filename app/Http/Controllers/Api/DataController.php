@@ -93,16 +93,12 @@ class DataController extends Controller{
 
 
     public function verSolicitud($id){
-        $solicitud=Solicitud::find($id);
-        $documento = new Merger;
-        $solicitud_firmada='storage/'.$solicitud->solicitud_firmada;
-        $documento->addFile($solicitud_firmada);
-        if($solicitud->evidencias){
-            $evidencias='storage/'.$solicitud->evidencias;
-            $documento->addFile($evidencias);
-        }
-        $salida = $documento->merge();
-        echo $salida;
+        $solicitud=Solicitud::find($id);//se buscan los datos de la solicitud
+        $nom = $solicitud->evidencias ? ''.$solicitud->solicitud_firmada.'-'.$solicitud->evidencias : $solicitud->solicitud_firmada;
+        $nombres = explode("-", $nom);
+        $titulo = "SOLICITUD-EVIDENCIAS";
+        $pdf = PDF::loadView('solicitante.pdf', compact('nombres','titulo'))->setPaper('carta','portrait');
+        return $pdf->stream('archivo.pdf');
     }
 
     

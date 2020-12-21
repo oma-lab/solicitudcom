@@ -118,13 +118,18 @@
   $.get(url_global+"/acuse",{id: id}, function(vistos){
     $.each(vistos,function(index,value){
       let status = (value.status) ? 'checked' : '';
-      campo += '<label><input type="checkbox" '+status+'>'+value.usuario+'</label><br>';
+      campo += '<label><input onclick="dis(this)" type="checkbox" '+status+'> '+value.usuario+'</label><br>';
     });
-    campo += '<label><input type="checkbox" checked>Comité Académico</label><br>';
-    campo += '<label><input type="checkbox" checked>Archivo</label><br>';
+    campo += '<label><input onclick="dis(this)" type="checkbox" checked> Comité Académico</label><br>';
+    campo += '<label><input onclick="dis(this)" type="checkbox" checked> Archivo</label><br>';
     $("#acuse").append(campo);
   });
   $("#modalacuse").modal("show");
+ }
+
+ function dis(checkb){
+   var chk= !checkb.checked;
+   $(checkb).prop("checked",chk);
  }
 </script>
 @endsection

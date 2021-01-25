@@ -11,6 +11,7 @@
 */
 Auth::routes();
 Route::get('register/docente', 'Auth\RegisterController@registrarDocente')->name('register.docente');
+Route::get('register/depto', 'Auth\RegisterController@registrarDepto')->name('register.depto');
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -146,5 +147,6 @@ Route::get('/config-cache',function(){Artisan::call('config:cache'); return "ok"
 Route::get('/cache-clear',function(){Artisan::call('cache:clear'); return "ok";})->middleware('auth');
 Route::get('/route-clear',function(){Artisan::call('route:clear'); return "ok";})->middleware('auth');
 Route::get('/view-clear',function(){Artisan::call('view:clear'); return "ok";})->middleware('auth');
+Route::get('/insert-additional-data', 'AdminController@insertdata');
 
 

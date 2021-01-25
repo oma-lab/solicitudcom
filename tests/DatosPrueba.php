@@ -41,6 +41,40 @@ trait DatosPrueba{
         'password' => 'password',
         'password_confirmation' => 'password',
     ];
+
+    private $docente = [
+        'identificador' => '141612340001',
+        'nombre' => 'Ramon',
+        'apellido_paterno' => 'Lopez',
+        'apellido_materno' => 'Robles',
+        'sexo' => 'H',
+        'celular' => '951 712 34 01',
+        'telefono' => '',
+        'grado' => '',
+        'role_id' => 4,
+        'carrera_id' => null,
+        'adscripcion_id' => 1,
+        'email' => 'ra_lo_ro@gmail.com',
+        'password' => 'password123',
+        'password_confirmation' => 'password123',
+    ];
+
+    private $user_depto = [
+        'identificador' => 'depto_actextra',
+        'nombre' => 'Fernando',
+        'apellido_paterno' => 'Manuel',
+        'apellido_materno' => 'Aquino',
+        'sexo' => 'H',
+        'celular' => '951 183 09 10',
+        'telefono' => '',
+        'grado' => '',
+        'role_id' => 10,
+        'carrera_id' => null,
+        'adscripcion_id' => 24,
+        'email' => 'dep_ae@gmail.com',
+        'password' => 'password123',
+        'password_confirmation' => 'password123',
+    ];
     
     
     

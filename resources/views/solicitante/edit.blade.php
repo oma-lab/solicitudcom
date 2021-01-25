@@ -30,11 +30,12 @@
         @endforeach             
       </select>
     </div>
-    @else
+    @elseif(usuario()->esEstudiante())
     <label for="semestre" class="col-sm-1 col-form-label col-form-label-sm">Semestre</label>
     <div class="col-sm-2">
       <input id="semestre" name="semestre" type="text" class="form-control form-control-sm" value="{{$solicitud->semestre}}" autofocus required>
     </div>
+    @else
     @endif
     <label for="fecha" class="col-sm-1 col-form-label col-form-label-sm">Fecha:</label>
     <div class="col-sm-2">

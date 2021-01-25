@@ -40,6 +40,34 @@ class RegistroTest extends TestCase{
         $this->assertAuthenticated();
     }
 
+    //registrar docente
+    public function test_registrar_docente(){
+        //se registra el usuario con los datos de prueba
+        $response = $this->post(route('register'), $this->docente);
+        //comprueba que el usaurio se ha creado
+        $this->assertDatabaseHas('users', [
+            'identificador' => $this->docente['identificador']
+        ]);
+        //comprueba que se rediriga a la ruta correcta que es home
+        $response->assertRedirect('/home');
+        //corrobora que el usuario registrado se autentique
+        $this->assertAuthenticated();
+    }
+
+    //registrar depto
+    public function test_registrar_user_depto(){
+        //se registra el usuario con los datos de prueba
+        $response = $this->post(route('register'), $this->user_depto);
+        //comprueba que el usaurio se ha creado
+        $this->assertDatabaseHas('users', [
+            'identificador' => $this->user_depto['identificador']
+        ]);
+        //comprueba que se rediriga a la ruta correcta que es home
+        $response->assertRedirect('/home');
+        //corrobora que el usuario registrado se autentique
+        $this->assertAuthenticated();
+    }
+
 
     //registrar usuario con datos incorrectos
     public function test_registrar_usuario_incorrecto(){

@@ -36,6 +36,7 @@
         <textarea class="form-control" id="asunto" rows="2" name="asunto" disabled required>{{$solicitud->asunto}}</textarea>
       </div>
     </div>
+    @if(!$solicitud->user->esDepto())
     Recibido por:<br>
     @foreach($obs as $ob)
     <div class="form-check form-check-inline">
@@ -44,6 +45,7 @@
     </div> 
     @endforeach
     <br><br>
+    @endif
 
     <div class="row">
       <div class="col centrado">

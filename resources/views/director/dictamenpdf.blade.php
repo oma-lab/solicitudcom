@@ -16,15 +16,19 @@ PRESENTE
 </p>
 <p class="cuerpo">
 Por este conducto y atendiendo la recomendación del Comité Académico comunico a usted, que 
-@if($dictamen->perteneceDocente())
-<b><span class="mayuscula">{{$dictamen->respuesta}} se autoriza</span></b> la solicitud {{$dictamen->usuario()->del_interesado()}} <b><span class="mayuscula">{{$dictamen->usuario()->nombre_completo()}}</span></b>
-con referencia a <span class="mayuscula">{{$dictamen->asunto()}}@if($dictamen->anotaciones) ,{{$dictamen->anotaciones}}@endif</span>.                 
-</p> 
-@else 
+@if($dictamen->perteneceEstudiante())
 con base al análisis realizado a la solicitud presentada por {{$dictamen->usuario()->el_interesado()}} <b><span class="mayuscula">{{$dictamen->usuario()->nombre_completo()}}</span></b>,
 con número de control <b>{{$dictamen->usuario()->identificador}}</b> de la carrera de <b><span class="mayuscula">{{$dictamen->usuario()->carrera_adscripcion()}}</span></b>, en la cual solicita
 <span class="mayuscula">{{$dictamen->asunto()}},<b> {{$dictamen->respuesta}} se autoriza</b>@if($dictamen->recomendacion->observaciones), {{$dictamen->recomendacion->observaciones}}@endif @if($dictamen->anotaciones),{{$dictamen->anotaciones}}@endif</span>.
+</p>
+@elseif($dictamen->perteneceDocente())
+<b><span class="mayuscula">{{$dictamen->respuesta}} se autoriza</span></b> la solicitud {{$dictamen->usuario()->del_interesado()}} <b><span class="mayuscula">{{$dictamen->usuario()->nombre_completo()}}</span></b>
+con referencia a <span class="mayuscula">{{$dictamen->asunto()}}@if($dictamen->anotaciones) ,{{$dictamen->anotaciones}}@endif</span>.                 
 </p> 
+@else
+<b><span class="mayuscula">{{$dictamen->respuesta}} se autoriza</span></b> la solicitud del <b><span class="mayuscula">{{$dictamen->usuario()->carrera_adscripcion()}}</span></b>
+con referencia a <span class="mayuscula">{{$dictamen->asunto()}}@if($dictamen->anotaciones) ,{{$dictamen->anotaciones}}@endif</span>.                 
+</p>
 @endif
 <p class="cuerpo">Sin otro asunto que tratar reciba un cordial saludo.</p>
 <br> 	 
@@ -45,7 +49,9 @@ Excelencia en Educación Tecnológica®<br>
 <br><br>
 <p id="ccp">
 C.c.p. Departamento de servicios escolares. Psc. Efectos.<br>
+@if(!$dictamen->usuario()->esDepto())
 C.c.p. {{$dictamen->usuario()->departamento()}}<br>
+@endif
 C.c.p. Comité académico<br>
 C.c.p. División de estudios profesionales<br>
 @if($dictamen->usuario()->esEstudiante())

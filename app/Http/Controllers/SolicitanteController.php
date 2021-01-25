@@ -202,9 +202,11 @@ class SolicitanteController extends Controller{
         $usuario = Auth::user();
         if($usuario->esEstudiante()){
             $ads_carreras = Carrera::all();
-         }else{
+        }elseif($usuario->esDocente()){
             $ads_carreras = Adscripcion::where('tipo','carrera')->get();
-         }
+        }else{
+            $ads_carreras = Adscripcion::where('id',$usuario->adscripcion_id)->get();
+        }
         return view('auth.edit_usuario',compact('usuario','ads_carreras'))->with('encabezado','layouts.encabezadoSolicitante');
     }
 
@@ -226,17 +228,17 @@ class SolicitanteController extends Controller{
         Observaciones::where('solicitud_id',$id)->delete();
         //se guarda notificacion que notificara a los coordinadores y jefes sobre una nueva solicitud 
         //si el usuario es estudiante se envia al coordinador y secretario, en caso contrario se envia a jefes de departamento, subdirector y secretario
-        $roles = usuario()->esEstudiante() ? [6,1] : [8,5,1];
-        notificar([
-            'carrera_id' => $usuario->carrera_id,
-            'adscripcion_id' => $usuario->adscripcion_id,
-            'roles' => $roles,
-            'tipo' => 'solicitud',
-            'mensaje' => 'Nuevas Solicitudes',
-            'descripcion' => 'Nuevas solicitudes registradas'
-        ]);
-
-
+        if(!usuario()->esDepto()){
+            $roles = usuario()->esEstudiante() ? [6,1] : [8,5,1];
+            notificar([
+                'carrera_id' => $usuario->carrera_id,
+                'adscripcion_id' => $usuario->adscripcion_id,
+                'roles' => $roles,
+                'tipo' => 'solicitud',
+                'mensaje' => 'Nuevas Solicitudes',
+                'descripcion' => 'Nuevas solicitudes registradas'
+            ]);
+        }
         return back()->with('Mensaje','Tu solicitud se ha enviado, mantente pendiente en esta página , es posible que tu solicitud requiera cambios y tendrás que volver a enviar, te notificaremos cuando tu dictamen tenga una respuesta');
     }
 

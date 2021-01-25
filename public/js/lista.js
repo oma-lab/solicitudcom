@@ -1,8 +1,16 @@
 function rol(rol,ide){
   document.getElementById('ident').innerHTML = ide;
   document.getElementById('estudiante').style.display = 'none';
+  document.getElementById('profesorcarrera').style.display = 'none';
   document.getElementById('docente').style.display = 'none';
-  document.getElementById(rol).style.display = 'block';  
+  if(rol == 'estudiante'){
+    document.getElementById('estudiante').style.display = 'block'; 
+  }else if(rol == 'docente'){
+    document.getElementById('profesorcarrera').style.display = 'block'; 
+    document.getElementById('docente').style.display = 'block';
+  }else{
+    document.getElementById('docente').style.display = 'block';
+  } 
 }
 
 function documento(tipo){
@@ -19,6 +27,7 @@ function esSolicitud(){
     if(($('#carrera_id').val() != "") && ($("#semestre").val().length > 0)){
       avanzar = true;
     }else{
+      avanzar = false;
       $('#notasolicitud').text('Faltan datos por completar, verifique carrera y semestre');
     }
   }
@@ -26,23 +35,34 @@ function esSolicitud(){
     if(($('#adscripcion_id').val() != "") && ($('#carrera_profesor').val() != "")){
       avanzar = true;
     }else{
+      avanzar = false;
       $('#notasolicitud').text('Faltan datos por completar, verifique adscripcion y carrera de profesor');
     }
   }
-  if($('#check4').prop('checked')){
-    if($('#respuesta_rec').val() != ""){
+  if($('#check6').prop('checked')){
+    if($('#adscripcion_id').val() != ""){
       avanzar = true;
     }else{
       avanzar = false;
-      $('#notasolicitud').text('Por favor ingrese la respuesta(SI|NO)');
+      $('#notasolicitud').text('Faltan datos por completar, verifique adscripcion');
     }
   }
-  if($('#check5').prop('checked')){
-    if($('#respuesta_dic').val() != ""){
-      avanzar = true;
-    }else{
-      avanzar = false;
-      $('#notasolicitud').text('Por favor ingrese la respuesta(SI|NO)');
+  if(avanzar){
+    if($('#check4').prop('checked')){
+      if($('#respuesta_rec').val() != ""){
+        avanzar = true;
+      }else{
+        avanzar = false;
+        $('#notasolicitud').text('Por favor ingrese la respuesta(SI|NO)');
+      }
+    }
+    if($('#check5').prop('checked')){
+      if($('#respuesta_dic').val() != ""){
+        avanzar = true;
+      }else{
+        avanzar = false;
+        $('#notasolicitud').text('Por favor ingrese la respuesta(SI|NO)');
+      }
     }
   }
   if(avanzar){

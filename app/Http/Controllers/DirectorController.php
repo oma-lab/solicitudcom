@@ -161,11 +161,12 @@ class DirectorController extends Controller{
         ]);
 
         //se crean las notificaciones para indicar al usuario que pueden recoger su dictamen
+        $descripcion = $dic->usuario()->esEstudiante() ? 'Tu dictamen se ha realizado, Para obtener una copia lo puedes hacer en la opción dictamen. O si deseas una copia física pasa con tu coordinador de carrera' : 'Tu dictamen se ha realizado, Para obtener una copia lo puedes hacer en la opción dictamen.';
         notificarSolicitante([
            'id_sol' => $dic->solicitud()->id,
            'tipo' => 'dictamen_enviado',
            'mensaje' => 'Dictamen finalizado',
-           'descripcion' => 'Tu dictamen se ha realizado, Para obtener una copia lo puedes hacer en la opción dictamen. O si deseas una copia física pasa con tu coordinador de carrera',
+           'descripcion' => $descripcion,
            'obs_coor' => ''
         ]);
         UsersDictamenes::updateOrCreate(['identificador' => $dic->usuario()->identificador,'dictamen_id' => $id]);

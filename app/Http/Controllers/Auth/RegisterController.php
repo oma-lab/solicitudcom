@@ -128,4 +128,11 @@ class RegisterController extends Controller{
         return view('auth.register',compact('adscripciones','rol'));
     }
 
+    //Registro de usuario depto
+    public function registrarDepto(){
+        $rol = 10;
+        $adscripciones = Adscripcion::where('tipo','!=','carrera')->get();
+        return view('auth.register',compact('adscripciones','rol'));
+    }
+
 }

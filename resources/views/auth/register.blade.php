@@ -8,6 +8,7 @@
     <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
      <a class="nav-item nav-link {{$rol == 3 ? 'active' : ''}}" href="{{route('register')}}">ESTUDIANTE</a>
 	   <a class="nav-item nav-link {{$rol == 4 ? 'active' : ''}}" href="{{route('register.docente')}}">DOCENTE</a>
+     <a class="nav-item nav-link {{$rol == 10 ? 'active' : ''}}" href="{{route('register.depto')}}">DEPARTAMENTO</a>
     </div>
    </nav>
   </div>
@@ -21,8 +22,13 @@
      <div class="input-group-prepend">
      <span class="input-group-text"><i class="fa fa-id-card-o prefix grey-text"></i></span>
      </div>
+     @if($rol == 10)
+     <input id="identificador" name="identificador" type="text" class="form-control @error('identificador') is-invalid @enderror" 
+     value="{{ old('identificador') }}" required autofocus placeholder="*Un nombre para su usuario">
+     @else
      <input id="identificador" name="identificador" type="text" class="form-control @error('identificador') is-invalid @enderror" 
      value="{{ old('identificador') }}" required onkeyup="this.value=this.value.toUpperCase()" autofocus placeholder="{{$rol == 3 ? '*Número de control' : '*RFC'}}">
+     @endif
      @error('identificador')
      <span class="invalid-feedback" role="alert">
      <strong>{{ $message }}</strong>
@@ -132,7 +138,7 @@
      <div class="input-group-prepend">
       <span class="input-group-text"><i class="fa fa-university prefix grey-text"></i></span>
      </div>
-     @if($rol == 4)
+     @if($rol != 3)
      <select id="adscripcion_id" class="form-control @error('adscripcion_id') is-invalid @enderror" name="adscripcion_id" required>
        <option value="">ADSCRIPCION</option>
        @foreach($adscripciones as $adscripcion)

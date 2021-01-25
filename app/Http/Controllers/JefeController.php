@@ -50,6 +50,7 @@ public function solicitudesRecibidas(Request $request,$filtro){
     }
     $respuesta = ($filtro == 'pendientes') ? '=' : '!='; 
     $permisod = UserAdscripcion::where('identificador','=',usuario()->identificador)->pluck('adscripcion_id');
+    $permisod = Adscripcion::whereIn('id',$permisod)->orWhere('tipo','administrativo')->pluck('id');
 
 
      //solicitudes de estudiantes y docentes que no han sido revisadas

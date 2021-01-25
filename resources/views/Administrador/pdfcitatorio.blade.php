@@ -46,7 +46,7 @@
      </td>
 	 <td>
 	  <p id="firma"><span class="mayuscula">{{secretario()->nombre_completo()}}<br> 
-	   {{secretario()->puesto()}}</span></p>
+      {{secretario()->puesto_secretario_comite()}}</span></p>
 	 </td>
 	</tr>
    </table><br>

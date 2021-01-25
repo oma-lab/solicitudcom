@@ -23,7 +23,7 @@
       @csrf
       <span id="reauth-email" class="reauth-email"></span>
 
-      <input id="identificador" type="text" class="form-control @error('identificador') is-invalid @enderror" name="identificador" value="{{ old('identificador') }}" placeholder="Num.Control/RFC" required autofocus>
+      <input id="identificador" type="text" class="form-control @error('identificador') is-invalid @enderror" name="identificador" value="{{ old('identificador') }}" placeholder="Num.Control/RFC/Usuario" required autofocus>
       @error('identificador')
       <span class="invalid-feedback" role="alert">
         <strong>{{ $message }}</strong>

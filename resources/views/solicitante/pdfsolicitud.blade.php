@@ -17,11 +17,14 @@ P R E S E N TE
 
 <p id="asunto"><b>Asunto:</b>Solicitud al Comité Académico<br></p>
   
-<p class="cuerpo" style="line-height: 9pt;">El que suscribe <b><span class="mayuscula">C. {{$usuario->nombre_completo()}}</span></b>
 @if($usuario->esEstudiante())
+<p class="cuerpo" style="line-height: 9pt;">El que suscribe <b><span class="mayuscula">C. {{$usuario->nombre_completo()}}</span></b>
 estudiante del <b>{{$solicitud->semestre}}</b> semestre, de la carrera de <b><span class="minuscula">{{ $solicitud->carrera()}}</span></b> con número de control <b>{{$usuario->identificador }}</b>, 
-@else
+@elseif($usuario->esDocente())
+<p class="cuerpo" style="line-height: 9pt;">El que suscribe <b><span class="mayuscula">C. {{$usuario->nombre_completo()}}</span></b>
 {{$usuario->solicitante()}} de la carrera de <b><span class="minuscula">{{$solicitud->carrera()}}</span></b>, 
+@else
+<p class="cuerpo" style="line-height: 9pt;">El que suscribe <b><span class="mayuscula">{{$usuario->nombre_adscripcion()}}</span></b>,
 @endif
 solicito de la manera más atenta <b><span class="mayuscula">{{$solicitud->asunto}}</span></b>.
 </p>
@@ -37,7 +40,7 @@ Por los siguientes motivos:<br><br>
 @endif
 <p id="firma">
 Atentamente<br><br><br>
-<span class="mayuscula">{{$usuario->nombre_completo()}}</span><br>
+<span class="mayuscula">@if($usuario->esDepto()) {{$usuario->carrera_adscripcion()}} @else {{$usuario->nombre_completo()}} @endif</span><br>
 Nombre y firma {{$usuario->delSolicitante()}}
 </p><br>
 

@@ -10,11 +10,11 @@
      <input type="text"  class="form-control form-control-sm" id="nombre" placeholder="{{ usuario()->nombre_completo() }}" disabled>
    </div>
    <div class="form-group col-md-2">
-     <label for="identificador">N°Control/RFC</label>
+     <label for="identificador">{{usuario()->tipo_id()}}</label>
      <input type="text" class="form-control form-control-sm" id="identificador" placeholder="{{ usuario()->identificador }}" disabled>
    </div>
    <div class="form-group col-md-4">
-     <label for="carrera_ads">Carrera/Adscripción</label>
+     <label for="carrera_ads">{{usuario()->tipo_carrera_adscripcion()}}</label>
      <input type="text" class="form-control form-control-sm" id="carrera_ads" placeholder="{{ usuario()->carrera_adscripcion() }}" disabled>
    </div>
  </div>
@@ -25,7 +25,7 @@
    <div class="col-sm-2">
      <input id="semestre" name="semestre" type="text" class="form-control form-control-sm" value="{{semestre()}}" autofocus required>
    </div>
-   @else
+   @elseif(usuario()->esDocente())
    <label for="carrera_profesor" class="col-sm-2 col-form-label col-form-label-sm">Profesor de la carrera de:</label>
    <div class="col-sm-4">
      <select  class="form-control form-control-sm" name="carrera_profesor">
@@ -34,6 +34,7 @@
       @endforeach             
      </select>
    </div>
+   @else
    @endif  
    <label for="fecha" class="col-sm-1 col-form-label col-form-label-sm">Fecha:</label>
    <div class="col-sm-2">

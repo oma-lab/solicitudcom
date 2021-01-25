@@ -22,6 +22,7 @@ class RoleSeeder extends Seeder
         Role::create(['id' => 7, 'nombre_rol' => 'integrante']); //id => 7
         Role::create(['id' => 8, 'nombre_rol' => 'subdirector']); //id => 8
         Role::create(['id' => 9, 'nombre_rol' => 'superusuario']); //id => 9
+        Role::create(['id' => 10, 'nombre_rol' => 'depto']); //id => 10
         //
     }
 }

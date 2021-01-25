@@ -38,6 +38,10 @@
    <input class="form-check-input" type="radio" name="role_id" id="check2" value="4" onclick="rol('docente','RFC:')">
    <label class="form-check-label" for="check2">Docente</label>
  </div>
+ <div class="form-check col-sm-2">
+   <input class="form-check-input" type="radio" name="role_id" id="check6" value="10" onclick="rol('depto','Usuario:')">
+   <label class="form-check-label" for="check6">Departamento</label>
+ </div>
  </div>
 
  <div class="form-group row">
@@ -91,7 +95,7 @@
        @endforeach            
      </select>
    </div>
-   <div class="form-group col-md-6">              
+   <div id="profesorcarrera" class="form-group col-md-6" style="display:none">              
      <label for="carrera_profesor">Profesor de la carrera de:</label>
      <select class="form-control form-control-sm" id="carrera_profesor" name="carrera_profesor">
        <option value="">ELIGE CARRERA</option>

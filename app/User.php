@@ -67,7 +67,7 @@ class User extends Authenticatable
         return false;
     }
     public function esSolicitante(){
-        if($this->role->nombre_rol == 'estudiante' || $this->role->nombre_rol == 'docente'){
+        if($this->role->nombre_rol == 'estudiante' || $this->role->nombre_rol == 'docente' || $this->role->nombre_rol == 'depto'){
             return true;
         }
         return false;
@@ -120,6 +120,12 @@ class User extends Authenticatable
         }
         return false;
     }
+    public function esDepto(){
+        if($this->role->nombre_rol == 'depto'){
+            return true;
+        }
+        return false;
+    }
     //-------------------------------------------------
 
 
@@ -141,7 +147,7 @@ class User extends Authenticatable
             return ($this->sexo == 'H') ? "director" : "directora";
         }
         if($this->esAdmin()){
-            return ($this->sexo == 'H') ? "secretario técnico" : "secretaria técnica";
+            return $this->puesto_secretario_comite();
         }
         if($this->esJefe()){
             if($this->sexo == 'H'){
@@ -198,8 +204,10 @@ class User extends Authenticatable
     public function solicitante(){
         if($this->esEstudiante()){
             return "Estudiante";
-        }else{
+        }elseif($this->esDocente()){
             return ($this->sexo == "H") ? "profesor" : "profesora";
+        }else{
+            return "Departamento";
         }
     }
     public function solicitantes(){
@@ -212,8 +220,10 @@ class User extends Authenticatable
     public function delSolicitante(){
         if($this->esEstudiante()){
             return "del estudiante";
-        }else{
+        }elseif($this->esDocente()){
             return ($this->sexo == 'H') ? "del profesor" : "de la profesora";
+        }else{
+            return "";
         }
     }
     public function nombre_adscripcion(){

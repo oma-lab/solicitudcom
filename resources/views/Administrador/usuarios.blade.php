@@ -10,6 +10,9 @@
     <a class="nav-link {{$rol == 'docente' ? 'active' : ''}}" href="{{route('usuarios','docente')}}">Docentes</a>
   </li>
   <li class="nav-item">
+    <a class="nav-link {{$rol == 'depto' ? 'active' : ''}}" href="{{route('usuarios','depto')}}">Deptos</a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link {{$rol == 'coordinador' ? 'active' : ''}}" href="{{route('usuarios','coordinador')}}">Coordinadores</a>
   </li>
   <li class="nav-item">
@@ -21,7 +24,7 @@
   </li>  
   @endif
   <li class="nav-item">
-    <a href="{{route('crear.usuario')}}"><button class="btn btn-outline-success my-2 my-sm-0" type="button">+Agregar</button></a>
+    <a href="{{route('crear.usuario')}}"><button class="btn btn-outline-success my-2 my-sm-0 ml-3" type="button">+Agregar</button></a>
   </li>
 </ul>
 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

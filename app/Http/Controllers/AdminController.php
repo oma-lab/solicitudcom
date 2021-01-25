@@ -273,6 +273,7 @@ class AdminController extends Controller{
             ['id_solicitud' => $id],
             ['respuesta' => $request->respuesta, 'observaciones' => $solicitud->asunto]
         );
+        if(!$solicitud->user->esDepto()){
         //si la solicitud obtiene respuesta se notifica al usuario
         notificarSolicitante([
             'id_sol' => $id,'tipo' => 'respuesta_solicitud',
@@ -285,6 +286,7 @@ class AdminController extends Controller{
             'mensaje' => 'Recomendaciones pendientes',
             'descripcion' => 'Tienes recomendaciones pendientes que realizar'
         ]);
+        }
         return back()->with('Mensaje','Nueva recomendación generada');
         }
         return back();
@@ -399,7 +401,7 @@ class AdminController extends Controller{
     //funcion que retorna la vista para registrar una solicitud,recomendacion o dictamen sin un registro previo de un usuario
     public function registrarDocumento(){
         $carreras = Carrera::all();
-        $adscripciones = Adscripcion::where('tipo','carrera')->get();
+        $adscripciones = Adscripcion::all();
         //se toman las ultimas dos reuniones pasadas y las dos mas proximas
         $pasadas = Calendario::whereDate('start','<',hoy())->orderBy('start','desc')->take(2)->get();
         $proximas = Calendario::whereDate('start','>=',hoy())->orderBy('start','asc')->take(2)->get()->reverse();
@@ -486,7 +488,7 @@ class AdminController extends Controller{
         $imgs= $request->file;
         $nombres=[];
         $index = 1;
-        $prefi = 'SE'.Auth::user()->id.Carbon::now()->format('dm');
+        $prefi = 'SE'.$solicitud->user->id.Carbon::now()->format('dm');
         foreach($imgs as $img){
             $nombre = $prefi.$index.'.'.$img->extension();
             $img->storeAs('public/solicitudes',$nombre);
@@ -522,5 +524,10 @@ class AdminController extends Controller{
     public function eliminarAsunto($id){
         Asunto::destroy($id);
         return back()->with('Mensaje','Asunto eliminado correctamente');
+    }
+
+    public function insertdata(){
+        Role::create(['id' => 10, 'nombre_rol' => 'depto']);
+        return "Ok";
     }
 }

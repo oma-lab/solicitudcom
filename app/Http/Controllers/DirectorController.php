@@ -127,14 +127,10 @@ class DirectorController extends Controller{
         //Se elimina el dictamen
         Storage::delete('public/'.$dic->dictamen_firmado);
         Storage::delete('public/'.$dic->recomendacion->archivo);
+        Storage::delete('public/'.$dic->solicitud()->solicitud_firmada);
         $dic->delete();
         //al eliminarlo se elimina tambien la solicitud y la recomendacion
         Solicitud::destroy($dic->solicitud()->id);
-        $del = ''.$dic->solicitud()->solicitud_firmada.'-'.$dic->solicitud()->evidencias;
-        $dels = explode("-", $del);
-        foreach($dels as $de){
-            Storage::delete('public/solicitudes/'.$de);
-        }
         return back()->with('Mensaje','Dictamen eliminado con exito');
     }
 

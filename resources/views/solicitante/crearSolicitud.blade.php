@@ -80,27 +80,7 @@
    <textarea class="form-control" id="otros_motivos" rows="2" name="otros_motivos" placeholder="Otros Motivos"></textarea>
  </div>
  
- <label><b>Evidencias obligatorias:</b></label><br>
- <b style="color:blue">Sube tus evidencias en formato de imagen(.png , .jpeg, .jpg)</b><br>
- <b style="color:blue">Asegúrate que tus evidencias sean claras, que no tengan un fondo muy obscuro y tu hoja debe estar de manera vertical, cualquier omisión de estas indicaciones anulará tu solicitud.</b><br>
- 
- <div class="row" id="camposo">
-   <div id="div1" >
-   <b id="info1" style="color:red"></b>
-     <div id="imagen1" class="input-group">
-       <div class="input-group-prepend">
-         <button class="btn btn-outline-danger" type="button" onclick="borrarimg(1)"><i class="fa fa-trash"></i></button>
-       </div>
-       <div class="custom-file mr-sm-2">
-         <input id="files" type="file" class="file custom-file-input" name="file[]" required accept=".jpg, .jpeg, .png" onchange="editarfile(this,1)"/>
-         <label id="labelfileo1" class="custom-file-label">Elegir imagen</label>
-         <div class="invalid-feedback">Archivo invalido</div>
-       </div>
-     </div>
-     <div id="infosize1"></div>
-   </div>
- </div>
- <br><br>
+ <br>
  
  <div class="row">
      <div class="col centrado">

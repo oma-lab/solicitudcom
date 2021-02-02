@@ -47,7 +47,7 @@
                 <p style="text-align:justify;text-transform: lowercase;">{{$reco->asunto()}}</p>
                </td>
                <td class="centrado">
-                <a class="navbar-brand" href="{{ route('solicitudEvidencia',$reco->solicitud->id)}}" target= "_blank">
+                <a class="navbar-brand" href="{{url('storage/'.$reco->solicitud->solicitud_firmada)}}" target= "_blank">
                 <img src="{{ asset('imagenes/ver.png') }}" style="width:35px;"></a>
                </td>
                <td class="centrado">

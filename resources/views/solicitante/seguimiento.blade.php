@@ -44,7 +44,7 @@
             <p class="narrow text-center">
             {{$sol->solicitud_firmada ? 'Ya has subido tu solicitud firmada' : 'No has subido tu solicitud firmada'}}<br>
             {{$sol->enviado ? 'Ya has enviado tu solicitud' : 'Aún no has enviado tu solicitud'}}<br>
-            {{$sol->evidencias ? 'Tu solicitud tiene evidencias' : 'Tu solicitud no tiene evidencias'}}<br>
+            <br>
             </p>
          </div>
          

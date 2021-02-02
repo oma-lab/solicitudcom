@@ -69,23 +69,7 @@ class SolicitanteController extends Controller{
     //acceso a la funcion solo para el solicitante, validado en el constructor
     //funcion que registra una solicitud
     public function guardarSolicitud(Request $request){
-        //las evidencias se suben en formato de imagen, las imagenes se unen en un archivo pdf
         $datosSolicitud=request()->except('_token');
-        if($request->file){
-        $imgs= $request->file;
-        $nombres=[];
-        $index = 1;
-        $prefi = 'E'.Auth::user()->id.Carbon::now()->format('dm');
-        foreach($imgs as $img){
-            $nombre = ''.$prefi.$index.'.'.$img->extension();
-            $img->storeAs('public/solicitudes',$nombre);
-            array_push($nombres,$nombre);
-            $index++;
-        }
-        $evidencias = implode("-", $nombres);
-        //return $evidencias;
-        $datosSolicitud['evidencias'] = $evidencias;
-        }
         //se crea la solicitud con los datos recibidos
         $datosSolicitud['identificador']=usuario()->identificador;
         $datosSolicitud['calendario_id']=proximaReunion()->id;  
@@ -113,30 +97,11 @@ class SolicitanteController extends Controller{
     //acceso a la funcion solo para el solicitante, validado en el constructor
     //funcion que guarda los cambios que se realizan a una solicitud
     public function updateSolicitud(Request $request, Solicitud $solicitud){
-        $datosSol=request()->except(['_token','_method','filesol','file']);
+        $datosSol=request()->except(['_token','_method','doc_firmado']);
         $solicitud = Solicitud::findOrFail($solicitud->id);
-        if($request->filesol || $request->file){
-            $del = $request->filesol ? $solicitud->solicitud_firmada : $solicitud->evidencias;
-            $dels = explode("-", $del);
-            foreach($dels as $de){
-                Storage::delete('public/solicitudes/'.$de);
-            }
-            $nombres=[];
-            $index = 1;
-            $imgs = ($request->filesol) ? $request->filesol : $request->file;
-            $nom = ($request->filesol) ? 'S'.Auth::user()->id.Carbon::now()->format('dm') : 'E'.Auth::user()->id.Carbon::now()->format('dm');
-            foreach($imgs as $img){
-                $nombre = ''.$nom.$index.'.'.$img->extension();
-                $img->storeAs('public/solicitudes',$nombre);
-                array_push($nombres,$nombre);
-                $index++;
-            }
-            $sol_evi = implode("-", $nombres);
-            if($request->filesol){
-                $datosSol['solicitud_firmada'] = $sol_evi;
-            }else{
-                $datosSol['evidencias'] = $sol_evi;
-            }
+        if($request->hasFile('doc_firmado')){
+            Storage::delete('public/'.$solicitud->solicitud_firmada);
+            $datosSol['solicitud_firmada']=$request->file('doc_firmado')->store('solicitudes','public');
         }
         //se actualiza la solicitud con los datos recibidos
         $solicitud->update($datosSol);
@@ -218,8 +183,7 @@ class SolicitanteController extends Controller{
         $usuario=Auth::user();
         $sld = Solicitud::find($id);
         //valida que se suba la solicitud, tenga evidencias y que no hay sido enviado
-        if(!$sld->solicitud_firmada){return back()->with('Error','No es posible Enviar, falta subir formato firmado');}
-        if(!$sld->evidencias){return back()->with('Error','No es posible enviar, faltan evidencias');}
+        if(!$sld->solicitud_firmada){return back()->with('Error','No es posible Enviar, falta subir formato firmado con tus evidencias');}
         if($sld->enviado){return back()->with('Error','Enviado, solo es posible enviar una vez');}
         //actualiza la solicitud como enviado
         Solicitud::where('id',$id)->update(['enviado' => true]);
@@ -254,11 +218,7 @@ class SolicitanteController extends Controller{
         if($solicitud->enviado && usuario()->esSolicitante()){
             return back()->with('Mensaje','No es posible Eliminar');
         }else{
-            $del = ''.$solicitud->solicitud_firmada.'-'.$solicitud->evidencias;
-            $dels = explode("-", $del);
-            foreach($dels as $de){
-                Storage::delete('public/solicitudes/'.$de);
-            }
+            Storage::delete('public/'.$solicitud->solicitud_firmada);
             Solicitud::destroy($id);
             return back()->with('Mensaje','Formato eliminado con éxito');
         }

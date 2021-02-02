@@ -164,12 +164,8 @@ class SubdirectorController extends Controller{
     public function eliminarRecomendacion($id){
         $rec = Recomendacion::find($id);
         Storage::delete('public/'.$rec->archivo);
+        Storage::delete('public/'.$rec->solicitud->solicitud_firmada);
         Recomendacion::destroy($id);
-        $del = ''.$rec->solicitud->solicitud_firmada.'-'.$rec->solicitud->evidencias;
-        $dels = explode("-", $del);
-        foreach($dels as $de){
-            Storage::delete('public/solicitudes/'.$de);
-        }
         Solicitud::destroy($rec->id_solicitud);
         return back()->with('Mensaje','Recomendación eliminado con exito');
     }

@@ -11,10 +11,14 @@
      <span aria-hidden="true">&times;</span>
    </button>
   </div>
-  <div class="modal-body">                                     
+  <div class="modal-body">   
+   @if(usuario()->esSolicitante())    
+   <b style="color:blue">Asegúrate que tu solicitud y evidencias sean claras, que no tengan un fondo muy obscuro y tu hoja debe estar de manera vertical, cualquier omisión de estas indicaciones anulará tu solicitud.</b><br> 
+   <b style="color:green">*No olvides tus evidencias, recuerda que son las que sustentan tu solicitud.</b>                     
+   @endif
    <div class="form-row">               
     <div class="form-group col-md-12">
-     <label for="archivo"><b>Formato Firmado(Solo se admiten archivos PDF)</b></label>
+     <label for="archivo"><b>{{(usuario()->esSolicitante()) ? 'Formato firmado y evidencias' : 'Formato firmado'}} (Solo se admiten archivos PDF)</b></label>
      <div class="custom-file">
       <input type="file" class="custom-file-input" id="subirfile" name="doc_firmado" accept="application/pdf" required>
       <label id="labelpdf" class="custom-file-label" for="subirfile">Elegir Archivo PDF</label>

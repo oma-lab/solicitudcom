@@ -78,7 +78,7 @@
                     </th>
                     <td class="centrado">
                        @if($sol->solicitud_firmada)
-                       <a class="navbar-brand" href="{{ route('solicitudEvidencia',$sol->id)}}" target= "_blank">
+                       <a class="navbar-brand" href="{{url('storage/'.$sol->solicitud_firmada)}}" target= "_blank">
                        <img src="{{ asset('imagenes/ver.png') }}" style="width:35px;"></a>
                        @else
                        <a href="{{route('subir.solicitud',$sol->id)}}">Subir solicitud</a>

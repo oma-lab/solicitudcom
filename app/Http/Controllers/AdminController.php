@@ -485,19 +485,13 @@ class AdminController extends Controller{
     public function solicitudGuardar(Request $request,$id){
         //buscar la solicitud
         $solicitud = Solicitud::findOrFail($id);
-        $imgs= $request->file;
-        $nombres=[];
-        $index = 1;
-        $prefi = 'SE'.$solicitud->user->id.Carbon::now()->format('dm');
-        foreach($imgs as $img){
-            $nombre = $prefi.$index.'.'.$img->extension();
-            $img->storeAs('public/solicitudes',$nombre);
-            array_push($nombres,$nombre);
-            $index++;
-        }
-        $sol_evi = implode("-", $nombres);    
-        Solicitud::where('id',$id)->update(['solicitud_firmada' => $sol_evi]);
-        return redirect()->route('solicitudes')->with('Mensaje','Solicitud subida correctamente');
+        if($request->hasFile('doc_solicitud')){
+            Storage::delete('public/'.$solicitud->solicitud_firmada);            
+            $sol_evi=$request->file('doc_solicitud')->store('solicitudes','public');
+            Solicitud::where('id',$id)->update(['solicitud_firmada' => $sol_evi]);
+            return redirect()->route('solicitudes')->with('Mensaje','Solicitud subida correctamente');
+        } 
+        return redirect()->route('solicitudes')->with('Mensaje','No selecciono ninguna solicitud');
     }
 
     public function asuntos(){

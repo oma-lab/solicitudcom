@@ -13,8 +13,8 @@
     <b id="info" style="color:red"></b>
     <div class="alert alert-success" id="pasos">Solicitud pendiente de enviar, para enviar tu solicitud sigue los siguientes pasos:<br>
     1.-Descarga tu solicitud dando click en el icono <img src="{{ asset('imagenes/ver.png') }}" style="width:20px;"> de abajo<br>
-    2.-Imprime tu solicitud, firmala y escanea en formato de imagen(.png, .jpeg, .jpg)<br>
-    3.-Sube tu solicitud firmada dando click en el icono <img src="{{ asset('imagenes/subir.png')}}" style="width:20px;"> de abajo<br>
+    2.-Imprime tu solicitud, firma y escanea junto con tus evidencias en formato PDF<br>
+    3.-Sube tu solicitud firmada con tus evidencias dando click en el icono <img src="{{ asset('imagenes/subir.png')}}" style="width:20px;"> de abajo<br>
     4.-Para terminar con el proceso de envío da click en el boton enviar<br>
     5.-Mantente pendiente en esta página para recibir informacion sobre tu solicitud, te notificaremos cuando puedas recoger tu dictamen.                    
     </div>
@@ -31,6 +31,7 @@
            <th scope="col">Ver/Descargar Formato</th>
            <th scope="col">Modificar Formato</th>      
            <th scope="col">Subir Formato Firmado</th>
+           <th scope="col">Ver archivo subido</th>
            <th scope="col">Eliminar</th>
            <th scope="col">Enviar</th>
            <th scope="col">Seguimiento de Solicitud</th>
@@ -39,7 +40,7 @@
         <tbody>
          @foreach($soli as $sol)
         <tr>
-         <th width="40%" scope="row"><p style="text-align:justify;text-transform: lowercase;">{{$sol->asunto}}</p></th>
+         <th width="30%" scope="row"><p style="text-align:justify;text-transform: lowercase;">{{$sol->asunto}}</p></th>
          <td class="centrado">
            <a class="navbar-brand" href="{{route('ver.solicitud',$sol->id)}}" target= "_blank">
            <img src="{{ asset('imagenes/ver.png') }}" style="width:35px;">
@@ -53,54 +54,20 @@
            @endif         
          </td>
          <td class="centrado">
-           @if(!$sol->enviado)
-           <input type="image" data-toggle="modal" data-target="#staticBackdrop{{$sol->id}}" src="{{ asset('imagenes/subir.png')}}" style="width:35px;"><br>
-           @if(!$sol->solicitud_firmada)
-           <a style="color:black;"><b>Archivo no cargado</b></a>
-           @else
-           <a style="color:red;"><b>Archivo cargado</b></a>
-           @endif
-           <!-- Modal -->
-           <form method="POST" action="{{route('update.solicitud',$sol->id)}}" enctype="multipart/form-data">
-           {{ csrf_field()}}
-           {{method_field('PATCH')}}  
-           <div class="modal fade" id="staticBackdrop{{$sol->id}}" data-backdrop="static">
-             <div class="modal-dialog modal-dialog-centered" role="document">
-               <div class="modal-content">
-                 <div class="modal-header">
-                   <h5>Eligue tu archivo</h5>
-                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                     <span aria-hidden="true">&times;</span>
-                   </button>
-                 </div>
-                 <div class="modal-body">
-                 <input name="solicitud_firmada" type="hidden" value="">
-                 <div id="camposo">
-                    <div id="div1">
-                    <b id="info1" style="color:red"></b>
-                     <div id="imagen1" class="input-group">
-                      <div class="input-group-prepend">
-                       <button class="btn btn-outline-danger" type="button" onclick="borrarimg(1)"><i class="fa fa-trash"></i></button>
-                      </div>
-                      <div class="custom-file mr-sm-2">
-                       <input id="files" type="file" class="file custom-file-input" name="filesol[]" required accept=".jpg, .jpeg, .png" onchange="editarfile(this,1)"/>
-                       <label id="labelfileo1" class="custom-file-label">Elegir imagen</label>
-                       <div class="invalid-feedback">Archivo invalido</div>
-                      </div>
-                     </div>
-                     <div id="infosize1"></div>
-                    </div>
-                 </div>
-                 <div class="modal-footer">
-                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                   <button type="submit" class="btn btn-primary">Guardar</button>        
-                 </div>
-               </div>
-             </div>
-           </div>
-           </form>
-           <!-- Fin Modal -->
-           @endif
+            @if(!$sol->enviado)
+            <input type="image" src="{{ asset('imagenes/subir.png')}}" style="width:35px;" onclick="subirfile('/solicitud/{{$sol->id}}');"><br>
+            <a style="color:{{($sol->solicitud_firmada) ? 'green' : 'red'}};"><b>{{($sol->solicitud_firmada) ? '' : 'Sube aqui tu archivo'}}</b></a>
+            @endif
+         </td>
+         <td class="centrado">
+            @if($sol->solicitud_firmada)
+            <a class="navbar-brand" href="{{ url('storage/'.$sol->solicitud_firmada)}}" target= "_blank">
+              <img src="{{ asset('imagenes/ver.png') }}" style="width:35px;">
+            </a><br>
+            <b style="color:green;">Tienes un archivo subido</b>
+            @else
+            <b style="color:red;">No tienes archivos subidos</b>
+            @endif
          </td>
          <td class="centrado">     
            @if(!$sol->enviado)       
@@ -154,9 +121,10 @@
  </div>
 </div>
                                  
-
+@include('layouts.modals.file')
 @endsection
 @section('script')
 <script src="{{ asset('js/solicitud.js') }}"></script>
 <script src="{{ asset('js/seguimiento.js')}}" defer></script>
+<script src="{{ asset('js/file.js') }}"></script>
 @endsection

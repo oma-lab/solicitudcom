@@ -66,25 +66,7 @@
     <textarea class="form-control" id="otros_motivos" rows="2" name="otros_motivos" placeholder="Otros motivos">{{$solicitud->otros_motivos}}</textarea>
   </div>
   
-  <a href="{{route('ver.evidencia',$solicitud->id)}}" target= "_blank">Ver evidencias actuales</a><br>            
-  <label><b>Evidencias:</b>Al subir nuevas se eliminaran las actuales</label><br>
-  <label>Sube tus evidencias en formato de imagen(.png ,.jpeg, .jpg)</label><br>
-  <label>Asegúrate que tus evidencias sean claras que no tengan un fondo muy obscuro y tu hoja debe estar de manera vertical, cualquier omisión de estas indicaciones anulará tu solicitud.</label><br>
-  <div class="row" id="camposo">
-    <div id="div1">
-    <b id="info1" style="color:red"></b>
-      <div id="imagen1" class="input-group">
-        <div class="input-group-prepend">
-          <button class="btn btn-outline-danger" type="button" onclick="borrarimg(1)"><i class="fa fa-trash"></i></button>
-        </div>
-        <div class="custom-file mr-sm-2">
-          <input id="files" type="file" class="file custom-file-input" name="file[]" accept=".jpg, .jpeg, .png" onchange="editarfile(this,1)"/>
-          <label id="labelfileo1" class="custom-file-label">Elegir imagen</label>
-          <div class="invalid-feedback">Archivo invalido</div>
-        </div>
-      </div>
-    </div>
-  </div><br>
+  <br>
 
   <div class="row">
      <div class="col centrado">

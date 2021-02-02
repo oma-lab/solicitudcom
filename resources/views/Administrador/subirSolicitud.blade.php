@@ -23,31 +23,21 @@
      <input class="form-control form-control-sm" type="text" id="asunto" value="{{$solicitud->asunto}}" disabled>
    </div>
  </div>
- 
- <form method="POST" action="{{ route('solicitud.guardar',$solicitud->id) }}" enctype="multipart/form-data">
- {{ csrf_field()}}
-  <div class="row">
-   <div class="col-md-12">
-     <b>Subir Solicitud y Evidencias en formato de imagen(.png , .jpeg, .jpg)</b><br><br>
-       <div class="row" id="camposo">
-         <div id="div1" >
-         <b id="info1" style="color:red"></b>
-           <div id="imagen1" class="input-group">
-             <div class="input-group-prepend">
-               <button class="btn btn-outline-danger" type="button" onclick="borrarimg(1)"><i class="fa fa-trash"></i></button>
-             </div>
-             <div class="custom-file mr-sm-2">
-               <input id="files" type="file" class="file custom-file-input" name="file[]" required accept=".jpg, .jpeg, .png" onchange="editarfile(this,1)"/>
-               <label id="labelfileo1" class="custom-file-label">Elegir imagen</label>
-               <div class="invalid-feedback">Archivo invalido</div>
-             </div>
-           </div>
-           <div id="infosize1"></div>
-         </div>
-       </div>
+
+  <form method="POST" action="{{route('solicitud.guardar',$solicitud->id)}}" enctype="multipart/form-data">
+  {{csrf_field()}}
+   <div class="form-row">               
+    <div class="form-group col-md-4">
+     <label for="archivo"><b>Formato firmado y evidencias(Solo se admiten archivos PDF)</b></label>
+     <div class="custom-file">
+      <input type="file" class="custom-file-input" id="subirfile" name="doc_solicitud" accept="application/pdf" required>
+      <label class="custom-file-label" for="subirfile">Elegir Archivo PDF</label>
+      <div class="invalid-feedback">Archivo invalido</div>
+      <b id="infpdf" style="color:red"></b>
+     </div>
+    </div>
    </div>
-  </div>
-  <br><br>
+   <br><br>
 
   <div class="row">
      <div class="col centrado">
@@ -57,7 +47,7 @@
        <a href="{{route('home')}}"><button class="btn btn-danger" type="button"> Cancelar </button></a>
      </div>
   </div>
- </form>
+  </form>
 
 
  </div>
@@ -66,5 +56,5 @@
 
 @endsection
 @section('script')
-<script src="{{ asset('js/solicitud.js') }}"></script>
+<script src="{{ asset('js/file.js') }}"></script>
 @endsection

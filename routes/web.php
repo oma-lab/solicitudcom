@@ -147,6 +147,6 @@ Route::get('/config-cache',function(){Artisan::call('config:cache'); return "ok"
 Route::get('/cache-clear',function(){Artisan::call('cache:clear'); return "ok";})->middleware('auth');
 Route::get('/route-clear',function(){Artisan::call('route:clear'); return "ok";})->middleware('auth');
 Route::get('/view-clear',function(){Artisan::call('view:clear'); return "ok";})->middleware('auth');
-Route::get('/insert-additional-data', 'AdminController@insertdata');
+Route::get('/migration-update-recomendacions-table',function(){Artisan::call('migrate'); return "ok";})->middleware('auth');
 
 

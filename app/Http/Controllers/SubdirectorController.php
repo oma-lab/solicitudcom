@@ -117,7 +117,8 @@ class SubdirectorController extends Controller{
                              })
                              ->paginate(10);
         $carreras = Carrera::all();
-        return view('subdirector.dictamenes',compact('dictamenes','carreras'));
+        $reuniones = Calendario::whereDate('start','<=',hoy())->orderBy('start','desc')->pluck('start'); 
+        return view('subdirector.dictamenes',compact('dictamenes','carreras','reuniones'));
     }
 
 

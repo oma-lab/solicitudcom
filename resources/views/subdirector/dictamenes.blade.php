@@ -29,7 +29,7 @@
            {{$dic->usuario()->carrera_adscripcion()}}
          </th>                  
          <td>
-           {{$dic->asunto()}}
+           {{limitar($dic->asunto())}}
          </td>               
          <td class="centrado">
            <a class="navbar-brand" href="{{url('storage/'.$dic->solicitud()->solicitud_firmada)}}" target= "_blank">

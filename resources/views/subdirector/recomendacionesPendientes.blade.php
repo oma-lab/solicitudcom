@@ -44,7 +44,7 @@
                <td width="40%">
                 <b>{{$reco->usuario()->identificador}} -- {{$reco->usuario()->nombre_completo()}}</b><br>
                 <b>{{$reco->usuario()->carrera_adscripcion()}}</b><br>
-                <p style="text-align:justify;text-transform: lowercase;">{{$reco->asunto()}}</p>
+                <p style="text-align:justify;text-transform: lowercase;">{{limitar($reco->asunto())}}</p>
                </td>
                <td class="centrado">
                 <a class="navbar-brand" href="{{url('storage/'.$reco->solicitud->solicitud_firmada)}}" target= "_blank">

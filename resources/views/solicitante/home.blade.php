@@ -64,7 +64,11 @@
             <a class="navbar-brand" href="{{ url('storage/'.$sol->solicitud_firmada)}}" target= "_blank">
               <img src="{{ asset('imagenes/ver.png') }}" style="width:35px;">
             </a><br>
+            @if(!$sol->enviado)
             <b style="color:green;">Tienes un archivo cargado, ya puedes enviar</b>
+            @else
+            <b style="color:green;">Archivo enviado</b>
+            @endif
             @else
             <b style="color:red;">No tienes archivos cargados</b>
             @endif

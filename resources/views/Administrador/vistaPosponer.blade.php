@@ -45,7 +45,7 @@
         <tbody>
         @foreach($solicitudes as $solicitud)
          <tr>
-          <td><b>{{$solicitud->user->nombre_completo()}}</b>-- {{$solicitud->asunto}}</td>
+          <td><b>{{$solicitud->user->nombre_completo()}}</b>-- {{limitar($solicitud->asunto)}}</td>
           <td><input class="solicitudes" type="checkbox" name="solicitudes[]" value="{{$solicitud->id}}"></td>
          </tr>
         @endforeach

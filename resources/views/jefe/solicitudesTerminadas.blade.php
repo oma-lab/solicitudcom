@@ -43,7 +43,7 @@
                 <b>{{$solt->user->identificador}} ,</b>
                 {{$solt->user->nombre_completo()}}<br>
                 {{$solt->user->carrera_adscripcion()}}<br>
-                <p style="text-align:justify"><b>{{$solt->asunto}}</b></p>
+                <p style="text-align:justify"><b>{{limitar($solt->asunto)}}</b></p>
              </td>           
              <td class="centrado">
                <a class="navbar-brand" href="{{url('storage/'.$solt->solicitud_firmada)}}" target= "_blank">

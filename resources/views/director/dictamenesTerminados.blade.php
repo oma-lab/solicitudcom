@@ -44,7 +44,7 @@
              <b>{{$dic->num_dictamen}}</b><br>
              <b>{{$dic->usuario()->nombre_completo()}}</b><br>
              <b>{{$dic->usuario()->carrera_adscripcion()}}</b><br>
-             <p style="text-align:justify;text-transform: lowercase;">{{$dic->asunto()}}</p>
+             <p style="text-align:justify;text-transform: lowercase;">{{limitar($dic->asunto())}}</p>
             </td>
             <td class="centrado">
              <a class="navbar-brand" href="{{url('storage/'.$dic->solicitud()->solicitud_firmada)}}" target= "_blank">

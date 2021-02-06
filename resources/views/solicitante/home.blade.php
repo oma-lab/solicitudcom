@@ -40,7 +40,7 @@
         <tbody>
          @foreach($soli as $sol)
         <tr>
-         <th width="30%" scope="row"><p style="text-align:justify;text-transform: lowercase;">{{$sol->asunto}}</p></th>
+         <th width="30%" scope="row"><p style="text-align:justify;text-transform: lowercase;">{{limitar($sol->asunto)}}</p></th>
          <td class="centrado">
            <a class="navbar-brand" href="{{route('ver.solicitud',$sol->id)}}" target= "_blank">
            <img src="{{ asset('imagenes/ver.png') }}" style="width:35px;">
@@ -64,9 +64,9 @@
             <a class="navbar-brand" href="{{ url('storage/'.$sol->solicitud_firmada)}}" target= "_blank">
               <img src="{{ asset('imagenes/ver.png') }}" style="width:35px;">
             </a><br>
-            <b style="color:green;">Tienes un archivo subido</b>
+            <b style="color:green;">Tienes un archivo cargado, ya puedes enviar</b>
             @else
-            <b style="color:red;">No tienes archivos subidos</b>
+            <b style="color:red;">No tienes archivos cargados</b>
             @endif
          </td>
          <td class="centrado">     

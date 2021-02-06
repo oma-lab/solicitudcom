@@ -36,7 +36,8 @@ class ActaController extends Controller{
                      })
                      ->orderBy('created_at','desc')
                      ->paginate(5);
-        return view('Administrador.acta',compact('reunion','actas'));
+        $reuniones = Calendario::whereDate('start','<=',hoy())->orderBy('start','desc')->pluck('start');
+        return view('Administrador.acta',compact('reunion','actas','reuniones'));
     }
 
 

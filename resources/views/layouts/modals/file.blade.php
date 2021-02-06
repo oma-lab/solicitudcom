@@ -2,7 +2,7 @@
 <div class="modal fade" id="modalsubir" data-backdrop="static">
  <div class="modal-dialog modal-dialog-centered" role="document">
   <div class="modal-content">
-  <form id="formsubir" method="POST" action="#" enctype="multipart/form-data">
+  <form id="formsubir" method="POST" action="#" enctype="multipart/form-data" onsubmit="formFileDisabled()">
   {{csrf_field()}}
   {{method_field('PATCH')}}
   <div class="modal-header">
@@ -29,8 +29,9 @@
    </div>
   </div>
   <div class="modal-footer">
-   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-   <button type="submit" class="btn btn-primary">Guardar</button>
+   <div class="loader"></div>
+   <button id="btnclose" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+   <button id="btnfd" type="submit" class="btn btn-primary">Guardar</button>
   </div>
   </form>
   </div>

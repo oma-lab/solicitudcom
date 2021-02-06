@@ -37,7 +37,7 @@
             <td scope="row" width="40%" style="text-align:left">
              {{$sol->user->nombre_completo()}}<br>
              {{$sol->user->carrera->nombre}}<br>
-             <p style="text-align:justify"><b>{{$sol->asunto}}</b></p>
+             <p style="text-align:justify"><b>{{limitar($sol->asunto)}}</b></p>
             </td>               
             <td class="centrado">
              <a class="navbar-brand" href="{{url('storage/'.$sol->solicitud_firmada)}}" target= "_blank">

@@ -36,9 +36,10 @@ class ListaAsistenciaController extends Controller{
         //integrantes de comite academico los cuales deben aparecer en la lista de asistencia
         // 1=> secretario , 5=> jefes , 8=> subdirector
         $integrantes=User::whereIn('role_id',[1,5,8])->get();
+        $reunionesfiltro = Calendario::whereDate('start','<=',hoy())->orderBy('start','desc')->pluck('start');
         //se toman las ultimas tres reuniones pasadas
         $reuniones=Calendario::whereDate('start','<=',hoy())->orderBy('start','desc')->take(3)->get();
-        return view('Administrador.verlistas',compact('listas','integrantes','reuniones'));        
+        return view('Administrador.verlistas',compact('listas','integrantes','reuniones','reunionesfiltro'));        
     }
 
    

@@ -27,25 +27,27 @@ PRESENTE
 @if($datoss->usuario()->esEstudiante())
 <p class="cuerpo">
 Por este conducto le informo, que en reunión del Comité Académico, celebrada el {{$fechare}},
-y en virtud de haber sido analizada la situación {{$datoss->usuario()->del()}} <b><span class="mayuscula">C. {{$datoss->usuario()->nombre_completo()}}</span></b>,
-que cursa la carrera de <b><span class="mayuscula">{{$datoss->usuario()->carrera_adscripcion()}}</span></b>, con número de control <b>{{$datoss->usuario()->identificador}}</b> y quien solicita
-<span class="mayuscula">{{$datoss->asunto()}}, <b>{{$datoss->respuesta}} se recomienda</b>@if($datoss->observaciones), {{$datoss->observaciones}}@endif @if($datoss->condicion), {{$datoss->condicion}}@endif.</span>
+y en virtud de haber sido analizada la situación {{$datoss->usuario()->del()}} <span class="mayuscula-negrita">C. {{$datoss->usuario()->nombre_completo()}}</span>,
+que cursa la carrera de <span class="mayuscula-negrita">{{$datoss->usuario()->carrera_adscripcion()}}</span>, con número de control <b>{{$datoss->usuario()->identificador}}</b> y quien solicita
+<span class="mayuscula"><?=nl2br($datoss->asunto())?>, <b>{{$datoss->respuesta}} se recomienda</b>@if($datoss->observaciones), {{$datoss->observaciones}}@endif @if($datoss->condicion), {{$datoss->condicion}}@endif.</span>
 </p>
 @elseif($datoss->usuario()->esDocente())
 <p class="cuerpo">
 Por este conducto le informo, que en reunión del Comité Académico, celebrada el {{$fechare}},
-y en virtud de haber sido analizada la situación {{$datoss->usuario()->delSolicitante()}} <b><span class="mayuscula">{{$datoss->usuario()->nombre_completo()}}</span></b>,
-{{$datoss->usuario()->adscrito()}} al <b><span class="mayuscula">{{$datoss->usuario()->carrera_adscripcion()}}</span></b>, y quien solicita
-<span class="mayuscula">{{$datoss->asunto()}}, <b>{{$datoss->respuesta}} se recomienda</b>@if($datoss->observaciones), {{$datoss->observaciones}}@endif @if($datoss->condicion), {{$datoss->condicion}}@endif.</span>
+y en virtud de haber sido analizada la situación {{$datoss->usuario()->delSolicitante()}} <span class="mayuscula-negrita">{{$datoss->usuario()->nombre_completo()}}</span>,
+{{$datoss->usuario()->adscrito()}} al <span class="mayuscula-negrita">{{$datoss->usuario()->carrera_adscripcion()}}</span>, y quien solicita
+<span class="mayuscula"><?=nl2br($datoss->asunto())?>, <b>{{$datoss->respuesta}} se recomienda</b>@if($datoss->observaciones), {{$datoss->observaciones}}@endif @if($datoss->condicion), {{$datoss->condicion}}@endif.</span>
 </p> 
 @else
 <p class="cuerpo">
 Por este conducto le informo, que en reunión del Comité Académico, celebrada el {{$fechare}},
-y en virtud de haber sido analizada la situación del <b><span class="mayuscula">{{$datoss->usuario()->carrera_adscripcion()}}</span></b>, y quien solicita
-<span class="mayuscula">{{$datoss->asunto()}}, <b>{{$datoss->respuesta}} se recomienda</b>@if($datoss->observaciones), {{$datoss->observaciones}}@endif @if($datoss->condicion), {{$datoss->condicion}}@endif.</span>
+y en virtud de haber sido analizada la situación del <span class="mayuscula-negrita">{{$datoss->usuario()->carrera_adscripcion()}}</span>, y quien solicita
+<span class="mayuscula"><?=nl2br($datoss->asunto())?>, <b>{{$datoss->respuesta}} se recomienda</b>@if($datoss->observaciones), {{$datoss->observaciones}}@endif @if($datoss->condicion), {{$datoss->condicion}}@endif.</span>
 </p> 
 @endif
-
+<table>
+<tr>
+<td>
 @if($datoss->motivos)
 <p class="cuerpo">Por los siguientes motivos: {{$datoss->motivos}}.</p> 
 @endif
@@ -69,5 +71,7 @@ C.c.p. Dirección<br>
 C.c.p. Archivo<br><br>
 {{presidente()->iniciales()}}/{{secretario()->iniciales()}}
 </p>
-
+</td>
+</tr>
+</table>
 @endsection

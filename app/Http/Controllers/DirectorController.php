@@ -12,6 +12,7 @@ use App\CarreraDepartamento;
 use App\Adscripcion;
 use App\User;
 use App\Formato;
+use App\Calendario;
 use App\UsersDictamenes;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Auth;
@@ -77,12 +78,13 @@ class DirectorController extends Controller{
                                 ->paginate(5);
                               
         $carreras = Carrera::all();
+        $reuniones = Calendario::whereDate('start','<=',hoy())->orderBy('start','desc')->pluck('start');
 
         if($filtro == 'pendientes'){
             Notificacion::where('tipo','dictamen_pendiente')->update(['num' => $dictamenes->total()]);
-            return view('director.dictamenesPendientes',compact('dictamenes','carreras'));
+            return view('director.dictamenesPendientes',compact('dictamenes','carreras','reuniones'));
         }else{
-            return view('director.dictamenesTerminados',compact('dictamenes','carreras'));
+            return view('director.dictamenesTerminados',compact('dictamenes','carreras','reuniones'));
         }
     }
 

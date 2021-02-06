@@ -53,7 +53,7 @@
              </button>
              <br>
              {{$sol->user->carrera_adscripcion()}}<br>
-             <p style="text-align:justify"><b>{{$sol->asunto}}</b></p>
+             <p style="text-align:justify"><b>{{limitar($sol->asunto)}}</b></p>
              <input type="hidden" name="solicitud_id" value="{{$sol->id}}">
           </td>            
           <td class="centrado">

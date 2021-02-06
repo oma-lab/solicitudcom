@@ -64,6 +64,12 @@ function proximaReunion(){
     return Calendario::whereDate('start','>=',Carbon::now()->format('Y-m-d'))->orderBy('start','asc')->first();
 }
 
+function limitar($cadena){
+    if(strlen($cadena) > 400){
+		return substr($cadena, 0, 400) . " ...";
+	}
+    return $cadena;
+}
 
 
 

@@ -39,12 +39,13 @@ class CitatorioController extends Controller{
                                     $query->whereDate('calendarios.start',$reunion);
                                 })
                                 ->orderBy('citatorios.id','desc')->paginate(5);
+        $reuniones = Calendario::whereDate('start','<=',hoy())->orderBy('start','desc')->pluck('start');
         //jefes de departamento a los cuales se envio el citatorio
         $usuarios = User::whereIn('role_id',[5,8])->get();
         //se toman las ultimas 4 reuniones pasadas y la mas proxima
         $pasadas = Calendario::whereDate('start','<',hoy())->orderBy('start','desc')->take(4)->get();
         $proxima = Calendario::whereDate('start','>=',hoy())->orderBy('start','asc')->first();
-        return view('Administrador.citatorio',compact('citatorios','usuarios','pasadas','proxima'));
+        return view('Administrador.citatorio',compact('citatorios','usuarios','pasadas','proxima','reuniones'));
     }
 
 

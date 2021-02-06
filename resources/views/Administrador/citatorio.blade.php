@@ -72,7 +72,12 @@
     <form id="form" method="GET" action="{{ route('citatorio.index') }}" class="form-inline">
     <label>CITATORIOS</label>
     <ul class="navbar-nav mr-auto"></ul>
-    <input id="filtroreunion" class="form-control mr-sm-2" type="date" name="fechareunion" value="{{request('fechareunion')}}" style="width:150px">
+    <select id="filtroreunion" class="form-control mr-sm-2" name="fechareunion" style="width:217px">
+      <option value="">TODAS LAS REUNIONES</option>
+      @foreach($reuniones as $reun)
+      <option value="{{$reun}}" {{request('fechareunion') == $reun ? 'selected' : ''}}>{{fecha($reun)}}</option>
+      @endforeach
+    </select>
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
     </form>
     </div>

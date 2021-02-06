@@ -21,3 +21,10 @@ function subirfile(url){
   document.getElementById('infpdf').innerHTML=''
   $("#modalsubir").modal("show");
 }
+
+function formFileDisabled(){
+  $("#btnfd").text("Subiendo...");
+  $("#btnclose").css("display","none");
+  $("#btnfd").prop("disabled",true);
+  $(".loader").css("display","block");
+}

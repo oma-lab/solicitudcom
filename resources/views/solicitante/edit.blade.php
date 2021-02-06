@@ -2,6 +2,9 @@
 @section('contenido')
 <h3 class="centrado" style="color:#1B396A">MODIFICAR SOLICITUD</h3>
 <div class="container-sm">
+@if($solicitud->solicitud_firmada)
+<div class="alert alert-success">Ya has subido tu solicitud con tus evidencias, ya puedes enviar desde el apartado <a href="{{url('home')}}">inicio</a>.<a href="{{asset('storage/'.$solicitud->solicitud_firmada)}}" target= "_blank"><b>&nbsp;&nbsp;&nbsp;&nbsp;Ver mi solicitud subida</b></a></div>
+@endif
 <form method="POST" action="{{route('update.solicitud',$solicitud->id)}}" enctype="multipart/form-data">
 {{ csrf_field()}}
 {{method_field('PATCH')}}

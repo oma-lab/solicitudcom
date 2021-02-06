@@ -20,10 +20,10 @@
     z-index:  -1000;
   }
   body{
-    margin-top: 2.1cm;
+    margin-top: 3.8cm;
     margin-left: 70px;
     margin-right: 70px;
-    margin-bottom: 0.8cm;
+    margin-bottom: 3cm;
     background-color: white;
     font-family: "Nunito", sans-serif;
   }
@@ -32,7 +32,7 @@
     top: 25px;
     left: 70px;
     right:70px;
-    height: 2cm;
+    height: 3cm;
   }
   footer {
     position: fixed; 
@@ -46,6 +46,7 @@
     font-size: 8;
     color: #7D7C7C;
     font-weight: bold;
+    margin-top: -10px;
   }
   #encabezado{
     text-align: center;
@@ -136,6 +137,14 @@
   span.minuscula{
     text-transform: lowercase;
   }
+  span.mayuscula-negrita{
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  span.minuscula-negrita{
+    text-transform: lowercase;
+    font-weight: bold;
+  }
   #cel{
     text-align: left;
     font-size: 8;
@@ -145,6 +154,7 @@
     text-align: left;
     font-size: 8;
     line-height: 7pt;
+    margin-bottom: 0px;
   }
   #dir{
     text-align: center;
@@ -154,12 +164,11 @@
   table{
     width: 100%;
     table-layout: fixed;
+    padding-left: -3px;
+    margin-top: -3px;
   }
 </style>
 
-  <p id="dep">Instituto Tecnológico de Oaxaca<br>
-  @yield('departamento')</p>
-  <p id="encabezado">{{$datospdf->headtext}}</p>
   
  </head>
  <body>
@@ -169,6 +178,8 @@
    <header>
      <img style="float:left; height:63px;" src="{{public_path('storage/'.$datospdf->head1)}}">
 	   <img style="float:right; height:58px;" src="{{public_path('storage/'.$datospdf->head2)}}">
+     <p id="dep" style='clear: both'>Instituto Tecnológico de Oaxaca<br>@yield('departamento')</p>
+     <p id="encabezado">{{$datospdf->headtext}}</p>
    </header>
    <footer>
      @if( ($datospdf->pie1 || $datospdf->pie6) && ($datospdf->pie2 || $datospdf->pie5) && ($datospdf->pie3 || $datospdf->pie4) )

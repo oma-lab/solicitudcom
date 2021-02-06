@@ -28,7 +28,7 @@
          <td scope="row" width="50%" style="text-align:left">
           {{$dic->usuario()->nombre_completo()}}<br>
           {{$dic->usuario()->nombre_carrera()}}<br>
-          <p style="text-align:justify"><b>{{$dic->asunto()}}</b></p>
+          <p style="text-align:justify"><b>{{limitar($dic->asunto())}}</b></p>
          </td>           
          <td class="centrado">
           <a class="navbar-brand" href="{{url('storage/'.$dic->solicitud()->solicitud_firmada)}}" target= "_blank">

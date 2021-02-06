@@ -17,22 +17,24 @@ PRESENTE
 <p class="cuerpo">
 Por este conducto y atendiendo la recomendación del Comité Académico comunico a usted, que 
 @if($dictamen->perteneceEstudiante())
-con base al análisis realizado a la solicitud presentada por {{$dictamen->usuario()->el_interesado()}} <b><span class="mayuscula">{{$dictamen->usuario()->nombre_completo()}}</span></b>,
-con número de control <b>{{$dictamen->usuario()->identificador}}</b> de la carrera de <b><span class="mayuscula">{{$dictamen->usuario()->carrera_adscripcion()}}</span></b>, en la cual solicita
-<span class="mayuscula">{{$dictamen->asunto()}},<b> {{$dictamen->respuesta}} se autoriza</b>@if($dictamen->recomendacion->observaciones), {{$dictamen->recomendacion->observaciones}}@endif @if($dictamen->anotaciones),{{$dictamen->anotaciones}}@endif</span>.
+con base al análisis realizado a la solicitud presentada por {{$dictamen->usuario()->el_interesado()}} <span class="mayuscula-negrita">{{$dictamen->usuario()->nombre_completo()}}</span>,
+con número de control <b>{{$dictamen->usuario()->identificador}}</b> de la carrera de <span class="mayuscula-negrita">{{$dictamen->usuario()->carrera_adscripcion()}}</span>, en la cual solicita
+<span class="mayuscula"><?=nl2br($dictamen->asunto())?>,<b> {{$dictamen->respuesta}} se autoriza</b>@if($dictamen->recomendacion->observaciones), {{$dictamen->recomendacion->observaciones}}@endif @if($dictamen->anotaciones),{{$dictamen->anotaciones}}@endif</span>.
 </p>
 @elseif($dictamen->perteneceDocente())
-<b><span class="mayuscula">{{$dictamen->respuesta}} se autoriza</span></b> la solicitud {{$dictamen->usuario()->del_interesado()}} <b><span class="mayuscula">{{$dictamen->usuario()->nombre_completo()}}</span></b>
-con referencia a <span class="mayuscula">{{$dictamen->asunto()}}@if($dictamen->anotaciones) ,{{$dictamen->anotaciones}}@endif</span>.                 
+<span class="mayuscula-negrita">{{$dictamen->respuesta}} se autoriza</span> la solicitud {{$dictamen->usuario()->del_interesado()}} <span class="mayuscula-negrita">{{$dictamen->usuario()->nombre_completo()}}</span>
+con referencia a <span class="mayuscula"><?=nl2br($dictamen->asunto())?>@if($dictamen->anotaciones) ,{{$dictamen->anotaciones}}@endif</span>.                 
 </p> 
 @else
-<b><span class="mayuscula">{{$dictamen->respuesta}} se autoriza</span></b> la solicitud del <b><span class="mayuscula">{{$dictamen->usuario()->carrera_adscripcion()}}</span></b>
-con referencia a <span class="mayuscula">{{$dictamen->asunto()}}@if($dictamen->anotaciones) ,{{$dictamen->anotaciones}}@endif</span>.                 
+<span class="mayuscula-negrita">{{$dictamen->respuesta}} se autoriza</span> la solicitud del <span class="mayuscula-negrita">{{$dictamen->usuario()->carrera_adscripcion()}}</span>
+con referencia a <span class="mayuscula"><?=nl2br($dictamen->asunto())?>@if($dictamen->anotaciones) ,{{$dictamen->anotaciones}}@endif</span>.                 
 </p>
 @endif
-<p class="cuerpo">Sin otro asunto que tratar reciba un cordial saludo.</p>
 <br> 	 
-
+<table>
+<tr>
+<td>
+<p class="cuerpo">Sin otro asunto que tratar reciba un cordial saludo.</p><br>
 <p id="notasdic">
 <b>A T E N T A M E N T E</b><br>
 <span class="nota">
@@ -62,5 +64,7 @@ C.c.p. Archivo<br>
 <br>
 {{director()->iniciales()}}/{{presidente()->iniciales()}}/{{secretario()->iniciales()}}
 </p>
-
+</td>
+</tr>
+</table>
 @endsection

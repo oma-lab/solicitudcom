@@ -53,14 +53,14 @@ class CoordinadorController extends Controller{
                                     $query->where('solicituds.enviadocoor',$visto);
                                   })
                                 ->paginate(5);
-
+        $reuniones = Calendario::whereDate('start','<=',hoy())->orderBy('start','desc')->pluck('start');
         if($filtro == 'finalizadas'){
-            return view('coordinador.solicitudesFinalizadas',compact('solicitudes','carreras')); 
+            return view('coordinador.solicitudesFinalizadas',compact('solicitudes','carreras','reuniones')); 
         }else{
         if(!$request->get('visto')){
             Notificacion::where([['identificador','=',usuario()->identificador],['tipo','=','solicitud']])->update(['num' => $solicitudes->total()]);    
         }
-        return view('coordinador.solicitudesRecibidas',compact('solicitudes','carreras'));
+        return view('coordinador.solicitudesRecibidas',compact('solicitudes','carreras','reuniones'));
         }
     }
 
@@ -109,8 +109,9 @@ class CoordinadorController extends Controller{
                                 })
                               ->select('dictamens.*','users_dictamenes.recibido')
                               ->paginate(5);
+        $reuniones = Calendario::whereDate('start','<=',hoy())->orderBy('start','desc')->pluck('start');
         //Notificacion::where([['identificador','=',usuario()->identificador],['tipo','=','newdictamen']])->update(['num' => 0]);
-        return view('coordinador.dictamenes',compact('dictamenes','carreras'));
+        return view('coordinador.dictamenes',compact('dictamenes','carreras','reuniones'));
     }
 
 

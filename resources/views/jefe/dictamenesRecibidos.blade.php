@@ -39,7 +39,7 @@
              <td scope="row" width="50%" style="text-align:left">
                <b>{{$dic->usuario()->identificador}} -- {{$dic->usuario()->nombre_completo()}}</b><br>
                <b>{{$dic->usuario()->carrera_adscripcion()}}</b><br>
-               <p style="text-align:justify">{{$dic->asunto()}}</p>
+               <p style="text-align:justify">{{limitar($dic->asunto())}}</p>
              </td>              
              <td class="centrado">
                <a class="navbar-brand" href="{{url('storage/'.$dic->solicitud()->solicitud_firmada)}}" target= "_blank">

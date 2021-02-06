@@ -32,7 +32,7 @@
   <div class="col-md-4">
    <div class="card" style="width: 18rem;">  
     <div class="card-body">
-      <h5 class="card-title">{{$dictamen->asunto()}}</h5>
+      <h5 class="card-title">{{limitar($dictamen->asunto())}}</h5>
       <p class="card-text">Tu dictamen se ha realizado, Para obtener una copia pulsa el siguiente boton</p>
       <a  href="{{ url('storage/'.$dictamen->dictamen_firmado)}}" class="btn btn-primary" target= "_blank" onclick="marcarvisto({{$dictamen->id}},'{{usuario()->identificador}}')">Ver dictamen</a>
     </div>

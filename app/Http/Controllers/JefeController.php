@@ -14,6 +14,7 @@ use App\Notificacion;
 use App\Citatorio;
 use App\CarreraDepartamento;
 use App\Dictamen;
+use App\Calendario;
 
 class JefeController extends Controller{
 
@@ -76,17 +77,17 @@ public function solicitudesRecibidas(Request $request,$filtro){
                               $query->where('observaciones.visto',$visto);
                             })
                             ->paginate(5);
-                            
+      $reuniones = Calendario::whereDate('start','<=',hoy())->orderBy('start','desc')->pluck('start');   
       if($filtro == 'finalizadas'){
       //si se filtran las solicitudes por finalizadas(vistas en reunion) se retorna la vista
-      return view('jefe.solicitudesTerminadas',compact('solicitudes','carreras'));
+      return view('jefe.solicitudesTerminadas',compact('solicitudes','carreras','reuniones'));
       }else{
       if(!$request->get('visto')){
       //si las solicitudes se filtran por recibidas(nuevas solicitudes) y que no han sido vistas
       //se hace un conteo esas solicitudes pendientes para notificar al usuario por si quedan solicitudes pendientes por revisar
       Notificacion::where([['identificador','=',usuario()->identificador],['tipo','=','solicitud']])->update(['num' => $solicitudes->total()]);
       }
-      return view('jefe.solicitudesRecibidas',compact('solicitudes','carreras'));
+      return view('jefe.solicitudesRecibidas',compact('solicitudes','carreras','reuniones'));
       }
 }
 
@@ -149,12 +150,12 @@ public function solicitudesRecibidas(Request $request,$filtro){
                           $query->whereDate('calendarios.start',$reunion);
                         })
                         ->paginate(5);
-              
+      $reuniones = Calendario::whereDate('start','<=',hoy())->orderBy('start','desc')->pluck('start');
       Notificacion::where([['identificador','=',$user->identificador],['tipo','=','newdictamen']])->update(['num' => 0]);
       if(!$entregado){
-      return view('jefe.dictamenesRecibidos',compact('dictamenes','carreras'));
+      return view('jefe.dictamenesRecibidos',compact('dictamenes','carreras','reuniones'));
       }else{
-        return view('jefe.dictamenesEntregados',compact('dictamenes','carreras'));
+        return view('jefe.dictamenesEntregados',compact('dictamenes','carreras','reuniones'));
       }
   }
 

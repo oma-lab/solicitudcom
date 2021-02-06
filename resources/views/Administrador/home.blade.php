@@ -74,7 +74,7 @@
                       </form><br>
                       {{$sol->user->nombre_completo()}}<br>
                       {{$sol->user->carrera_adscripcion()}}<br>
-                      <p style="text-align:justify;text-transform: lowercase;">{{$sol->asunto}}</p>                    
+                      <p style="text-align:justify;text-transform: lowercase;">{{limitar($sol->asunto)}}</p>                    
                     </th>
                     <td class="centrado">
                        @if($sol->solicitud_firmada)

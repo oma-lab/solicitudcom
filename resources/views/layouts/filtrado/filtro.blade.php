@@ -20,7 +20,12 @@
   </select>
 
   <ul class="navbar-nav mr-auto"></ul>
-   <input id="filtroreunion" class="form-control mr-sm-2" type="date" name="fechareunion" value="{{request('fechareunion')}}" style="width:150px;display:none">
+   <select id="filtroreunion" class="form-control mr-sm-2" name="fechareunion" style="width:217px;display:none">
+      <option value="">TODAS LAS REUNIONES</option>
+      @foreach($reuniones as $reun)
+      <option value="{{$reun}}" {{request('fechareunion') == $reun ? 'selected' : ''}}>{{fecha($reun)}}</option>
+      @endforeach
+   </select>
    @if(request('role_id') != 4)
     <select class="filtro form-control mr-sm-2" id="carreraid" name="carrera_id" style="width:225px">
       <option value="">TODAS LAS CARRERAS</option>

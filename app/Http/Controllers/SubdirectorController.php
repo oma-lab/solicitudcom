@@ -65,9 +65,10 @@ class SubdirectorController extends Controller{
                                               ->carrera($id_carrera);})
                                         ->paginate(5);
         $carreras = Carrera::all();//carreras que serviran para el filtrado
+        $reuniones = Calendario::whereDate('start','<=',hoy())->orderBy('start','desc')->pluck('start');
         //notificacion que indica que quedan recomendaciones pendientes
         Notificacion::where('tipo','recomendacion')->update(['num' => $recomendaciones->total()]);
-        return view('subdirector.recomendacionesPendientes',compact('recomendaciones','carreras'));
+        return view('subdirector.recomendacionesPendientes',compact('recomendaciones','carreras','reuniones'));
     }
 
 
@@ -88,7 +89,8 @@ class SubdirectorController extends Controller{
                                     ->role($roleid)
                                     ->carrera($id_carrera);})
                                   ->paginate(5);
-            return view('subdirector.recomendacionesFinalizadas',compact('recom','carreras'));
+        $reuniones = Calendario::whereDate('start','<=',hoy())->orderBy('start','desc')->pluck('start');
+        return view('subdirector.recomendacionesFinalizadas',compact('recom','carreras','reuniones'));
     }
 
 
